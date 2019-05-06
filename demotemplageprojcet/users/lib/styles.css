@@ -1,0 +1,717 @@
+/* Shared */
+html, body{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+h2.titleMain{
+    color: #28a745;
+    font-weight: bold;
+    text-transform: capitalize;
+    margin: 0;
+    padding: 30px;
+}
+.inputFile label {
+    padding: 7px;
+    background: #fff;
+    display: table;
+    color: #6c757d;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid #ced4da;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.wrapperInfo .info:hover{
+    cursor: pointer;
+}
+
+.wrapperInfo .info {
+    padding-bottom: 30px;
+}
+
+.info:hover .numberInfo span::before {
+    color: #28a745;
+    transition: 0.4s;
+}
+.numberInfo span{
+    display: block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50px;
+    border: 1px solid #28a745;
+    color: #28a745;
+}
+
+.numberInfo span::before {
+    position: absolute;
+    content: "\2193";
+    top: 12px;
+    left: 39%;
+    font-size: 42px;
+    font-style: oblique;
+    color: #ced4da;
+    transition: 0.4s;
+}
+.titleDetailInfo{
+    margin: 0;
+}
+.info:hover .numberInfo span{
+    background: #28a745;
+    color: #fff;
+}
+.info:hover .titleDetailInfo{
+    color: #28a745;
+}
+
+.wrapperMain, .wrapperMain .ct-f-sideBar, .wrapperMain .ct-f-sideBar .r-sideBar{
+    position: relative!important;
+    /* width: 100%!important; */
+    /* height: 100%!important; */
+    margin: 0;
+    padding: 0;
+}
+.wrapper{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+/* Topbar  =========================================== */
+#topBar{
+    width: 100%;
+    height: 70px;
+    background: #28a745;
+    border-bottom: 4px solid #02713b;
+    position: relative;
+}
+
+#topBar .col-1 {
+    background: #fff;
+    z-index: 2;
+    border-radius: 1px 0px 5px 5px;
+    box-shadow: 1px 1px 3px 0px #004911;
+}
+#topBar a{
+    text-decoration: none;
+    color: #fff;
+    transition: 0.4s;
+}
+#topBar .wrapperLogo{
+    line-height: 70px;
+    margin: auto;
+}
+#topBar .titleLogo h3{
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 70px;
+}
+#topBar .menuChoosse ul{
+    display: block;
+    margin: 0;
+}
+#topBar .menuChoosse ul .menuChose{
+    display: inline-block;
+    font-size: 18px;
+    padding: 0 5px;
+    transition: 0.4s;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+#topBar .menuChoosse ul .menuChose:hover {
+    background: #00791c;
+    padding: 3px 20px;
+    border-radius: 5px;
+    color: #fff;
+    transition: 0.4s;
+}
+#topBar .menuChoosse{
+    height: 70px;
+}
+#topBar .menuChoosse ul .menuChose:hover a {
+    color: #fff;
+    transition: 0.4s;
+}
+#topBar .menuChoosse ul .slash{
+    display: inline-block;
+    font-size: 18px;
+    padding: 0 5px;
+    margin-top: 20px;
+    color: #fff;
+}
+#topBar #iconBar{
+    position: absolute;
+    right: 2%;
+    line-height: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    display: none;
+}
+#topBar #iconBar i{
+    padding: 5px 7px;
+    background: #004911;
+    color: #fff;
+    border-radius: 2px;
+}
+
+/* Slide  =========================================== */
+#slide .carousel-item{
+    background-position: center;
+}
+#slide .carousel-item h1{
+    font-weight: bold;
+    font-size: 4vw;
+}
+#slide .carousel-caption {
+    display: block!important;
+    text-align: left;
+    top: 50%;
+    transform: translateY(-50%);
+    height: auto;
+    padding-bottom: 0;
+}
+#slide .carousel-indicators li{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Salient Features  =========================================== */
+#salientFeatures .content .wrapperImgPhone{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#salientFeatures .wrapperImgPhone .imgPhone img{
+    position: absolute;
+    top: 12%;
+    right: 16%;
+    width: 34%;
+    z-index: -1;
+}
+#salientFeatures .wrapperInfo .info{
+    margin-bottom: 20px;
+}
+#salientFeatures .wrapperInfo .info:hover{
+    cursor: pointer;
+}
+#salientFeatures .wrapperInfo .numberInfo span{
+    display: block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50px;
+    border: 1px solid #28a745;
+    color: #28a745;
+}
+#salientFeatures .wrapperInfo .titleDetailInfo{
+    margin: 0;
+}
+#salientFeatures .wrapperInfo .info:hover .numberInfo span{
+    background: #28a745;
+    color: #fff;
+}
+#salientFeatures .wrapperInfo .info:hover .titleDetailInfo{
+    color: #28a745;
+}
+
+/* first H3  =========================================== */
+#firstH3{
+    width: 100%;
+    height: auto;
+    padding: 40px;
+    background: #28a745;
+}
+#firstH3 h1{
+    padding: 30px;
+    color: #fff;
+}
+/* download app  =========================================== */
+#downloadApp{   
+    height: 350px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 20px 0;
+}
+#downloadApp h1{
+    padding: 30px;
+    color: #fff;
+}
+#downloadApp .imgAppPhone{
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+}
+#downloadApp .line{
+    width: 3px;
+    height: 100%;
+    background: #fff;
+}
+/* footer  =========================================== */
+#footer{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background: #28a745;
+    color: #fff;
+    text-align: center;
+}
+
+/* useprocess  =========================================== */
+#useprocess .content .wrapperImgPhone{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#useprocess .wrapperImgPhone .imgPhone img{
+    position: absolute;
+    top: 12%;
+    right: 16%;
+    width: 34%;
+    z-index: -1;
+}
+
+
+/* register  =========================================== */
+#register{
+    width: 100%;
+    height: 700px;
+    background-image: url('../lib/images/driver_main_banner.jpg');
+    background-position: center;
+    position: relative;
+}
+#register .wrapperRegister{
+    position: absolute;
+    width: 40%;
+    height: auto;
+    background: #fff;
+    z-index: 2;
+    right: 2%;
+    transform: translateY(20%);
+    padding-bottom: 30px;
+}
+#register .titleMain{
+    padding-bottom: 0;
+}
+
+
+/* why  =========================================== */
+#why{
+    padding-bottom: 40px;
+    background: #fafafa;
+    padding-top: 10px;
+}
+#why .iconWhy{
+    font-size: 12vh;
+    color: rgb(68, 68, 68);
+}
+#why .titleWhy{
+    color: #28a745;
+    font-weight: bold;
+}
+#why .contentWhy p{
+    font-size: 18px;
+}
+
+/* book  =========================================== */
+#book{
+    padding: 20px;
+    padding-top: 58px;
+    background: #02713b;
+}
+#book .map{
+    padding: 0;
+    overflow: hidden;
+    padding-right: 20px;
+}
+#book .bookCustomer{
+    padding: 30px 10px;
+    background-image: url("../lib/images/bggrid.jpg");
+    border-radius: 5px;
+    width: 100%;
+    height: 420px;
+    margin: auto;
+}
+#book .titleBook{
+    color: #28a745;
+    text-align: center;
+}
+
+/* login  =========================================== */
+#wrapperLogin{
+    background-image: url("../lib/images/bggrid.jpg");
+    padding: 30px;
+    position: relative;
+    height: 100%;
+}
+#wrapperLogin .titleMain{
+    padding-bottom: 0;
+}
+#wrapperLogin .formLogin{
+    background: #28a745;
+    padding: 20px;
+    margin-bottom: 30px;
+    width: 50%;
+    border-radius: 5px;
+    color: #fff;
+}
+
+#wrapperLogin .formLogin .form-group:first-child{
+    padding-top: 30px;
+}
+#wrapperLogin .formLogin p{
+    margin: 0;
+}
+#wrapperLogin .formLogin a{
+    color: #fff;
+    text-decoration: none;
+}
+#wrapperLogin .formLogin a:hover{
+    color: yellow;
+}
+
+/* sidebar of driver  =========================================== */
+#sideBar{
+    width: 100%;
+    background-image: linear-gradient(to bottom, #004911 , #02713b);
+    padding: 0;
+    padding-top: 30px;
+}
+#sideBar p{
+    color: #fff;
+    margin: 0;
+}
+#sideBar ul {
+    
+list-style: none;
+    
+margin-bottom: 0;
+    
+margin-top: 20px;
+    
+padding: 0;
+}
+#sideBar ul li, #sideBarSub ul li{
+    padding: 10px 0;
+    background: #28a745;
+    text-indent: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 1s;
+}
+#sideBarSub ul{
+    padding: 0;
+}
+#sideBarSub ul li{
+    padding: 0;
+    text-align: center;
+    text-indent: 0;
+}
+#sideBar ul a, #sideBarSub ul a {
+    color: #fff;
+    text-decoration: none;
+}
+#sideBar ul li:hover, #sideBar ul li.active{
+    background: #003511;
+    transition: 1s;
+    border-right: 10px solid #28a745;
+}
+#sideBarSub ul li:hover, #sideBarSub ul li.active {
+    background: #003511;
+    transition: 1s;
+    border-bottom: 5px solid #28a745;
+}
+#sideBar .wrapperAvtSideBar{
+    width: 140px;
+    height: 140px;
+    margin: auto;
+    border-radius: 50%;
+    background: #fff;
+    overflow: hidden;
+    border: 2px solid #fff;
+}
+#sideBar .wrapperAvtSideBar img{
+    margin: auto;
+    height: 100%;
+    max-width: initial;
+}
+/* content of driver  =========================================== */
+#content .wrapperImgProfileContent{
+    margin: auto;
+    overflow: hidden;
+}
+#content .imgProfileContent{
+    margin: auto;
+}
+/* statistical of driver  =========================================== */
+.byDay, .byWeek, .byMonth{
+    padding: 20px 0;
+}
+.statistical .titleBy{
+    color: #02713b;
+    font-weight: bold;
+} 
+.statistical .wrapperBlock{
+    padding: 20px 0;
+    width: 50%;
+    margin: auto;
+    border-radius: 50%;
+}
+.statistical .wrapperRow{
+    background: #e4e4e4;
+    margin: 5px 0;
+}
+.statistical .wrapperBlock i {
+    font-size: 30px;
+    color: #02713b;
+}
+.statistical .wrapperBlock p{
+    margin: 0;
+}
+.statistical .wrapperBlock h3{
+    color: #dc3545;
+}
+/* menu sub  =========================================== */
+#menuSub{
+    width: 100%;
+	height: 100%;
+	background: #009345fd;
+	position: fixed;
+	z-index: 9999999999999;
+	left: -100%;
+	visibility: hidden;
+	transition: all 1s;
+	top: 0;
+}
+
+#menuSub .container-fluid {
+    height: 100%;
+}
+#menuSub.show{
+    visibility: visible;
+	transition: all 1s;
+    left: 0;
+    opacity: 1;
+}
+#menuSub .close {
+    text-align: center;
+    margin: auto;
+    padding: 10px 0;
+    color: #ffffff;
+    cursor: pointer;
+    opacity: 1;
+    right: 5%;
+    transition: 0.4s;
+    position: fixed;
+}
+
+#menuSub .close:hover {
+    color: #003511;
+    transition: 0.4s;
+}
+#menuSub .contentMenuSub{
+    
+height: 100%;
+    
+margin: auto;
+    
+display: flex;
+    
+justify-content: center;
+    
+align-items: center;
+}
+#menuSub .contentMenuSub ul li{
+    list-style: none;
+    padding: 10px 0;
+    text-align: center;
+}
+
+#menuSub .contentMenuSub ul li i {
+    font-size: 75px;
+}
+
+#menuSub .contentMenuSub ul li p {
+    font-size: 20px;
+}
+
+#menuSub .contentMenuSub ul {
+    padding: 0;
+    margin-top: 14px;
+}
+#menuSub .contentMenuSub a{
+    color: #fff;
+    text-decoration: none;
+    transition: 0.4s;
+}
+
+#menuSub .contentMenuSub a:hover {
+    color: #003511;
+    transition: 0.4s;
+}
+/* responsive  =========================================== */
+@media only screen and (max-width: 991px) {
+    #topBar .titleLogo h3{
+        font-size: 22px;
+    }
+    #topBar .menuChoosse ul .menuChose{
+        font-size: 15px;
+        margin: 0;
+    }
+
+#topBar .menuChoosse ul {
+    line-height: 70px;
+}
+    #topBar .menuChoosse ul .menuChose i{
+        display: none;
+    }
+    #topBar .col-1{
+        max-width: 70px;
+        padding: 0;
+    }
+    #topBar .wrapperLogo{
+        width: 50px;
+    }
+} 
+@media only screen and (max-width: 768px) {
+    #topBar .menuChoosse{
+        display: none;
+    }
+    #topBar .col-5 .titleLogo{
+        width: 400px;
+    }
+    #topBar .col-1{
+        max-width: 70px;
+        padding: 0;
+    }
+    #topBar .wrapperLogo {
+        width: 60px;
+    }
+    #topBar{
+        height: 50px;
+    }
+    #topBar .titleLogo h3{
+        line-height: 50px;
+    }
+    #topBar #iconBar{
+        display: block;
+        right: 10%;
+    }
+    #book{
+        padding-top: 25px;
+    }
+    #book .map{
+        padding: 0;
+    }
+    .numberInfo span::before, .wrapperImgPhone::after{
+        color: transparent;
+    }
+    .info:hover .numberInfo span::before{
+        content: "";
+        color: transparent;
+    }
+    .wrapperInfo .info{
+        padding: 0;
+    }
+    #sideBar .wrapperAvtSideBar{
+        width: 100px;
+        height: 100px;
+    }
+    #register .wrapperRegister{
+        width: 70%;
+    }
+}
+@media only screen and (min-width: 576px){
+    #sideBar ul li div{
+        display: none;
+    }
+}
+@media only screen and (max-width: 575px) {
+    #topBar .col-1{
+        max-width: 67px;
+        margin-left: 10px;
+        padding: 0 5px;
+    }
+    #topBar .wrapperLogo {
+        width: 50px;
+    }
+    #topBar .col-5 .titleLogo{
+        width: 250px;
+    }
+    #topBar .titleLogo h3{
+        font-size: 18px;
+    }
+    #topBar #iconBar{
+        right: 2%;
+    }
+    #book .map{
+        height: 100%;
+        margin-bottom: 10px;
+    }
+    .wrapperImgPhone .imgPhone img{
+        left: 36%;
+    }
+    .wrapperImgPhone{
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    #firstH3 h1{
+        font-size: 30px;
+    }
+    #wrapperLogin .formLogin{
+        width: 80%;
+    }
+    #sideBar ul li span{
+        display: none;
+    }
+    #sideBar ul li div{
+        display: block;
+    }
+    #sideBar ul li{
+        text-align: center;
+        text-indent: 0;
+    }
+    #sideBar p{
+        display: none;
+    }
+    #sideBar .wrapperAvtSideBar{
+        width: 70px;
+        height: 70px;
+    }
+}
+@media only screen and (max-width: 410px) {
+    #topBar .col-5{
+        display: none;
+    }
+    #sideBar .wrapperAvtSideBar{
+        width: 50px;
+        height: 50px;
+        border: 1px solid #fff;
+    }
+    #sideBar{
+        display: none;
+    }
+    .statistical{
+        width: 100%;
+    }
+    h2.titleMain{
+        font-size: 25px;
+    }
+    #downloadApp h1{
+        font-size: 25px;
+    }
+    #register .wrapperRegister{
+        width: 90%;
+    }
+}
