@@ -1,39 +1,147 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import MyMap from '../MyMap/MyMap';
+import axios from 'axios';
+
 
 class Blook extends Component {
-    render() {
-        return (
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            DiemDon: '',
+            DiemDen: '',
+            SDT: '',
+            latDon:10.773583, 
+            lngDon:106.694368,
+            latDen:10.762980, 
+            lngDen:106.682179
+        }
+    }
+    
+    handleSubmit=()=>{
+        
+        //console.log(event);
+        // var locationDon = ReactDOM.findDOMNode(this.refs.inputDon).value;
+        // var locationDen = ReactDOM.findDOMNode(this.refs.inputDen).value;
+        // this.setState({
+        //     DiemDon: ReactDOM.findDOMNode(this.refs.inputDon)
+        // })
+
+        var self = this;
+
+        axios({
+            method:'get',
+            url:'https://maps.googleapis.com/maps/api/geocode/json',
+            params:{
+                address:this.state.DiemDon,
+                key:'AIzaSyDeHi_HvoFXqnJT4eCBrlDnOLktJLMjU0s'
+              }
+          })
+        .then(function(response) {
+            //console.log(response);
+            self.setState({
+                //         DiemDon: response.data.results[0],
+                latDon: response.data.results[0].geometry.location.lat,
+                lngDon: response.data.results[0].geometry.location.lng
+                
+            })
+
+        }).catch(function (error) {
+            console.log(error);
+        });
+        
+        axios({
+            method:'get',
+            url:'https://maps.googleapis.com/maps/api/geocode/json',
+            params:{
+                address:this.state.DiemDen,
+                key:'AIzaSyDeHi_HvoFXqnJT4eCBrlDnOLktJLMjU0s'
+              }
+          })
+        .then(function(response) {
+            //console.log(response);
+            self.setState({
+                //         DiemDon: response.data.results[0],
+                latDen: response.data.results[0].geometry.location.lat,
+                lngDen: response.data.results[0].geometry.location.lng
+                
+            })
+
+        }).catch(function (error) {
+            console.log(error);
+        });
+        
+    }
+    
+    handleInputChange = (event) =>{
+        //event.preventDefault();
+         this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+    
+    shouldComponentUpdate(nextProps, nextState) {
+        
+        // return true;
+        //console.log("showldcomponentUpdate");
+        return true;
+    }
+    
+    componentWillUpdate(nextProps, nextState) {
+        var self = this;
+        //console.log(nextState)
+        
+
+    }
+     componentDidUpdate(prevProps, prevState) {
+        console.log(prevState)
+     }
+     
+
+    render() {       
+        return (            
             <div id="book">
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-xs-12 col-md-8 map">
-                            <iframe title="This title" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.6307732935516!2d106.67998301437004!3d10.7629129923307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1c06f4e1dd%3A0x43900f1d4539a3d!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaG9hIGjhu41jIFThu7Egbmhpw6puIFRwLiBIQ00!5e0!3m2!1svi!2s!4v1556522261696!5m2!1svi!2s" width="100%" height={450} frameBorder={0} style={{border: 0}} allowFullScreen />
+                            {/* <MyMap DiemDon={this.state.DiemDon} DiemDen={this.state.DiemDen}></MyMap> */}
+                            <MyMap
+                                latDon={this.state.latDon} lngDon={this.state.lngDon} latDen={this.state.latDen} lngDen={this.state.lngDen}
+                            >
+
+                            </MyMap>
+                                
+                                                       
                         </div>
                         {/* map */}
                         <div className=" col-xs-12 col-md-4 bookCustomer">
-                            <h4 className="titleBook">Thông tin khách hàng</h4>
-                            <div className="form-group">
-                                <input type="text" name="" id="" className="form-control" placeholder="Địa điểm đón" aria-describedby="helpId" />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" name="" id="" className="form-control" placeholder="Địa điểm đến" aria-describedby="helpId" />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" name="" id="" className="form-control" placeholder="Số điện thoại" aria-describedby="helpId" />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" name="" id="" className="form-control" placeholder="Số km dự tính : 15km" aria-describedby="helpId" readOnly />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" name="" id=""className="form-control" placeholder="Số tiền dự tính : 30.000đ" aria-describedby="helpId" readOnly />
-                            </div>
-                            <div className="form-group text-right">
-                                <button type="button" name="" id="" className="btn btn-success btnRegister btn-block">
-                                    Đặt Xe &nbsp;&nbsp;<i className="fas fa-motorcycle" />
-                                </button>
-                            </div>
-                        </div>
+                            
+                                <h4 className="titleBook">Thông tin khách hàng</h4>
+                                <div className="form-group">
+                                    <input onChange={this.handleInputChange} ref="inputDon" type="text" name="DiemDon" id="location-input-don" className="form-control" placeholder="Địa điểm đón" aria-describedby="helpId" />
+                                </div>
+                                <div className="form-group">
+                                    <input onChange={this.handleInputChange} ref="inputDen" type="text" name="DiemDen" id="location-input-den" className="form-control" placeholder="Địa điểm đến" aria-describedby="helpId" />
+                                </div>
+                                <div className="form-group">
+                                    <input onChange={this.handleInputChange} ref="inputSDT" type="text" name="SDT" id="" className="form-control" placeholder="Số điện thoại" aria-describedby="helpId" />
+                                </div>
+                                <div className="form-group">
+                                    <input type="text" name="" id="" className="form-control" placeholder="Số km dự tính : 15km" aria-describedby="helpId" readOnly />
+                                </div>
+                                <div className="form-group">
+                                    <input type="text" name="" id=""className="form-control" placeholder="Số tiền dự tính : 30.000đ" aria-describedby="helpId" readOnly />
+                                </div>
+                                <div className="form-group text-right">
+                                    <button onClick={this.handleSubmit} name="" className="btn btn-success btnRegister btn-block">
+                                        Đặt Xe &nbsp;&nbsp;<i className="fas fa-motorcycle" />
+                                    </button>
+                                </div>                        
+                           
+                            
                         {/* bookCustomer */}
+                        </div>
                     </div>
                 </div>
             </div>

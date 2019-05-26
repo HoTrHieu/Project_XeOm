@@ -6,8 +6,8 @@ import axios from 'axios';
 //import Index from '../UserPage/Index/Index';
 //import Profile from '../UserPage/Profile/Profile';
 //import RegisterPage from '../UserPage/RegisterPage/RegisterPage';
-import Statistical from '../UserPage/Statistical/Statistical';
-//import BookPage from '../UserPage/BookPage/BookPage';
+//import Statistical from '../UserPage/Statistical/Statistical';
+import BookPage from '../UserPage/BookPage/BookPage';
 //import Login from '../UserPage/Login/Login';
 
 class App extends Component {
@@ -18,12 +18,12 @@ class App extends Component {
   }
   render(){
     return (
-        //<BookPage></BookPage>
+        <BookPage></BookPage>
         //<Index></Index>
         //<Login></Login>
         //<Profile></Profile>
         //<RegisterPage></RegisterPage>
-        <Statistical></Statistical>
+        //<Statistical></Statistical>
     );
   }
   
