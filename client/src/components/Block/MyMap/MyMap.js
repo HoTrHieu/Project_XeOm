@@ -1,64 +1,43 @@
 import React, { Component } from 'react';
-
-const { compose, withProps, lifecycle } = require("recompose");
-const {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  DirectionsRenderer,
-} = require("react-google-maps");
+import { render } from 'react-dom';
+import axios from 'axios';
 
 
-  let MapWithADirectionsRenderer = compose(
-    withProps({
-      googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDeHi_HvoFXqnJT4eCBrlDnOLktJLMjU0s&v=3.exp&libraries=geometry,drawing,places",
-      loadingElement: <div style={{ height: `100%` }} />,
-      containerElement: <div style={{ height: `400px` }} />,
-      mapElement: <div style={{ height: `100%` }} />,
-      
-    }),
-    withScriptjs,
-    withGoogleMap,
-    lifecycle({
-      componentDidUpdate(){ 
-        let DirectionsService = new window.google.maps.DirectionsService();
-  
-        DirectionsService.route({
-          origin: new window.google.maps.LatLng(this.props.ltDon, this.props.lgDon),
-          destination: new window.google.maps.LatLng(this.props.ltDen, this.props.lgDen),
-          travelMode: window.google.maps.TravelMode.DRIVING,
-        }, (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            this.setState({
-              directions: result,
-            });
-          } else {
-            console.error(`error fetching directions ${result}`);
-          }
-        });
-      }
-    })
-  )(props =>
-    <GoogleMap
-      defaultZoom={14}
-      defaultCenter={new window.google.maps.LatLng(10.7735994,106.6944173)}
-    >
-      {props.directions && <DirectionsRenderer directions={props.directions} />}
-    </GoogleMap>
-  );
-  
+class MyMap extends Component {
+  constructor(props) {
+    super(props);
+    this.onScriptLoad = this.onScriptLoad.bind(this)
+  }
 
+  onScriptLoad() {
+    const map = new window.google.maps.Map(
+      document.getElementById(this.props.id),
+      this.props.options);
+    this.props.onMapLoad(map)
+  }
 
-
-  class MyMap extends Component {
-    
-    render() {
-      return (
-        <MapWithADirectionsRenderer 
-          ltDon={this.props.latDon} lgDon={this.props.lngDon} ltDen={this.props.latDen} lgDen={this.props.lngDen}
-        ></MapWithADirectionsRenderer>
-      );
+  componentDidMount() {
+    if (!window.google) {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyDeHi_HvoFXqnJT4eCBrlDnOLktJLMjU0s`;
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+      // Below is important. 
+      //We cannot access google.maps until it's finished loading
+      s.addEventListener('load', e => {
+        this.onScriptLoad()
+      })
+    } else {
+      this.onScriptLoad()
     }
   }
 
-  export default MyMap;
+    render() {
+        return (
+          <div style={{ width:"130vh" , height:"70vh" }} id={this.props.id} />
+        );
+    }
+}
+
+export default MyMap;
