@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class TopBar extends Component {
     render() {
@@ -8,7 +9,7 @@ class TopBar extends Component {
                     <div className="row">
                         <div className="col-1">
                             <div className="wrapperLogo">
-                                <a href="index.html"><img src="./templates/users/lib/images/logo-01.png" alt="" className="img-fluid" width="100%" /></a>
+                                <Link to="/"><img src="./templates/users/lib/images/logo-01.png" alt="" className="img-fluid" width="100%" /></Link>
                             </div>
                         </div>
                         <div className="col-5">
@@ -18,11 +19,11 @@ class TopBar extends Component {
                         </div>
                         <div className="col-6 menuChoosse text-right">
                             <ul>
-                                <li className="menuChose"><a href="book.html"><i className="fas fa-mobile-alt" />&nbsp;Đặt Xe</a></li>
+                                <li className="menuChose"><Link to="book"><i className="fas fa-mobile-alt" />&nbsp;Đặt Xe</Link></li>
                                 <li className="menuChose">
-                                    <a href="register.html"><i className="fas fa-motorcycle" />&nbsp;Trở Thành Tài Xế</a>
+                                    <Link to="register"><i className="fas fa-motorcycle" />&nbsp;Trở Thành Tài Xế</Link>
                                 </li>
-                                <li className="menuChose"><a href="login.html"><i className="fas fa-sign-in-alt" />&nbsp;Đăng Nhập</a></li>
+                                <li className="menuChose"><Link to="login"><i className="fas fa-sign-in-alt" />&nbsp;Đăng Nhập</Link></li>
                             </ul>
                         </div>
                         <div id="iconBar">

@@ -11,7 +11,7 @@ class Login extends Component {
                 <TopBar></TopBar>
                 <WrapperLogin></WrapperLogin>
                 <Footer></Footer>
-                <MenuSub></MenuSub>
+                
             </div>
         );
     }

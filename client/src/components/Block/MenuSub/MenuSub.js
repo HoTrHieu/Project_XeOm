@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class MenuSub extends Component {
     render() {
@@ -10,11 +11,11 @@ class MenuSub extends Component {
                     </div>
                     <div className="contentMenuSub">
                         <ul>
-                            <li className="menuChose"><a href="book.html"><i className="fas fa-mobile-alt" /><p>Đặt Xe</p></a></li>
-                            <li className="menuChose">
-                                <a href="register.html"><i className="fas fa-motorcycle" /><p>Trở Thành Tài Xế</p></a>
-                            </li>
-                            <li className="menuChose"><a href="login.html"><i className="fas fa-sign-in-alt" /><p>Đăng Nhập</p></a></li>
+                        <li className="menuChose"><Link to="book"><i className="fas fa-mobile-alt" />&nbsp;Đặt Xe</Link></li>
+                                <li className="menuChose">
+                                    <Link to="register"><i className="fas fa-motorcycle" />&nbsp;Trở Thành Tài Xế</Link>
+                                </li>
+                                <li className="menuChose"><Link to="login"><i className="fas fa-sign-in-alt" />&nbsp;Đăng Nhập</Link></li>
                         </ul>
                     </div> {/* contentMenuSub */}
                 </div>

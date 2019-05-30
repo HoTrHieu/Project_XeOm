@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Link} from "react-router-dom"
 
 class WrapperLogin extends Component {
   render() {
@@ -55,9 +56,9 @@ class WrapperLogin extends Component {
                         <a href>Quên mật khẩu</a>
                     </p>
                     <p>
-                        <a href="register.html">
+                        <Link to="/register">
                         Bác chưa có tài khoản. Nhấn vào để đăng ký?
-                        </a>
+                        </Link>
                     </p>
                     </div>
                 </div>

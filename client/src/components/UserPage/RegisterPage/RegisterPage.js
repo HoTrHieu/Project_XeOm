@@ -17,7 +17,6 @@ class RegisterPage extends Component {
                 <Useprocess></Useprocess>
                 <DownloadApp></DownloadApp>
                 <Footer></Footer>
-                <MenuSub></MenuSub>
             </div>
         );
     }

@@ -1,43 +1,77 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-import axios from 'axios';
+import moto from './Xe.jpg'
+const { compose, withProps, lifecycle } = require("recompose");
+const {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  DirectionsRenderer,
+  Marker,
+} = require("react-google-maps");
 
 
-class MyMap extends Component {
-  constructor(props) {
-    super(props);
-    this.onScriptLoad = this.onScriptLoad.bind(this)
-  }
+  let MapWithADirectionsRenderer = compose(
+    withProps({
+      googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDeHi_HvoFXqnJT4eCBrlDnOLktJLMjU0s&v=3.exp&libraries=geometry,drawing,places",
+      loadingElement: <div style={{ height: `100%` }} />,
+      containerElement: <div style={{ height: `400px` }} />,
+      mapElement: <div style={{ height: `100%` }} />,
+      
+    }),
+    withScriptjs,
+    withGoogleMap,
+    lifecycle({
+      componentDidUpdate(){ 
+        let DirectionsService = new window.google.maps.DirectionsService();
+  
+        DirectionsService.route({
+          origin: new window.google.maps.LatLng(this.props.ltDon, this.props.lgDon),
+          destination: new window.google.maps.LatLng(this.props.ltDen, this.props.lgDen),
+          travelMode: window.google.maps.TravelMode.DRIVING,
+        }, (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            this.setState({
+              directions: result,
+            });
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        });
+      }
+    })
+  )(props =>
+    <GoogleMap
+      defaultZoom={14}
+      defaultCenter={new window.google.maps.LatLng(10.7735994,106.6944173)}
+    >
+      <Marker
+        position={{ lat: props.ltDon, lng:  props.lgDon }}
+        onClick={props.onToggleOpen}
+        icon={{
+          url: moto,
+          //anchor: new window.google.maps.Point(50,50),
+          scaledSize: new window.google.maps.Size(32,32)
+        }}
+       
+    >
+    </Marker> 
 
-  onScriptLoad() {
-    const map = new window.google.maps.Map(
-      document.getElementById(this.props.id),
-      this.props.options);
-    this.props.onMapLoad(map)
-  }
+      {props.directions && <DirectionsRenderer directions={props.directions} />}
+    </GoogleMap>
+  );
+  
 
-  componentDidMount() {
-    if (!window.google) {
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.src = `https://maps.google.com/maps/api/js?key=AIzaSyDeHi_HvoFXqnJT4eCBrlDnOLktJLMjU0s`;
-      var x = document.getElementsByTagName('script')[0];
-      x.parentNode.insertBefore(s, x);
-      // Below is important. 
-      //We cannot access google.maps until it's finished loading
-      s.addEventListener('load', e => {
-        this.onScriptLoad()
-      })
-    } else {
-      this.onScriptLoad()
-    }
-  }
 
+
+  class MyMap extends Component {
+    
     render() {
-        return (
-          <div style={{ width:"130vh" , height:"70vh" }} id={this.props.id} />
-        );
+      return (
+        <MapWithADirectionsRenderer 
+          ltDon={this.props.latDon} lgDon={this.props.lngDon} ltDen={this.props.latDen} lgDen={this.props.lngDen}
+        ></MapWithADirectionsRenderer>
+      );
     }
-}
+  }
 
-export default MyMap;
+  export default MyMap;
