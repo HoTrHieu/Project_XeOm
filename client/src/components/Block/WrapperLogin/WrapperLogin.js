@@ -1,11 +1,52 @@
 import React, { Component } from "react";
-import {Link} from "react-router-dom"
+import { Link, withRouter } from "react-router-dom";
+import { login } from "../../../actions/UserFunctions";
 
 class WrapperLogin extends Component {
-  render() {
+constructor(props) {
+    super(props);
+    this.state = {
+    UserName: "",
+    PassWord: "",
+    Error:"",
+    };
+
+
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+}
+
+onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+}
+
+onSubmit(e) {
+    e.preventDefault();
+
+    const taikhoan = {
+    UserName: this.state.UserName,
+    PassWord: this.state.PassWord
+    };
+
+    login(taikhoan).then((res) => {
+        if(res.err){
+            if(res.err === 'incorrect'){
+                this.setState({ Error: "Số điện thoại hoặc mật khẩu chưa chính xác" });
+            } else if(res.err === 'notactivated'){
+                this.setState({ Error: "Số điện thoại chưa được kích hoạt hoặc đã bị khoá" });
+            } else if(res.err === 'ErrorUserName' || res.data.err === 'ErrorPassWord'){
+                this.setState({ Error: "Số điện thoại và mật khẩu không được trống" });
+            }
+            
+        } else if (res.user) {
+            this.props.history.push(`/profile`)  
+        }
+    });
+}
+render() {
     return (
-        <div id="wrapperLogin">
-            <div className="container-fluid">
+    <div id="wrapperLogin" history={this.props.history} >
+        <div className="container-fluid">
             <div className="row text-center">
                 <div className="col-12">
                 <h2 className="titleMain ">xin chào bác tài</h2>
@@ -14,61 +55,70 @@ class WrapperLogin extends Component {
                 </p>
                 </div>
             </div>
-            </div>
-            <div className="content">
+        </div>
+        <div className="content">
             <div className="container">
                 <div className="row justify-content-center">
-                <div className="col-auto formLogin">
-                    <div className="form-group">
-                    <label htmlFor>
-                        <i className="fas fa-mobile-alt" />
-                        &nbsp;&nbsp; Số Điện Thoại
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name
-                        id
-                        aria-describedby="helpId"
-                        placeholder
-                    />
-                    </div>
-                    <div className="form-group">
-                    <label htmlFor>
-                        <i className="fas fa-key" />
-                        &nbsp;&nbsp;Mật Khẩu
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name
-                        id
-                        aria-describedby="helpId"
-                        placeholder
-                    />
-                    </div>
-                    <div className="form-group" />
-                    <div className="form-group text-center">
-                    <button className="btn btn-light btnLogin">Đăng Nhập</button>
-                    </div>
-                    <div className="form-group text-center">
-                    <p>
-                        <a href>Quên mật khẩu</a>
-                    </p>
-                    <p>
-                        <Link to="/register">
-                        Bác chưa có tài khoản. Nhấn vào để đăng ký?
-                        </Link>
-                    </p>
+                    <div className="col-auto formLogin">
+                        <form noValidate onSubmit={this.onSubmit}>
+                            <div className="form-group">
+                                <label>
+                                    <i className="fas fa-mobile-alt" />
+                                    &nbsp;&nbsp; Số Điện Thoại
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="UserName"
+                                    aria-describedby="helpId"
+                                    placeholder="Số điện thoại ..."
+                                    value={this.state.UserName}
+                                    onChange={this.onChange}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>
+                                    <i className="fas fa-key" />
+                                    &nbsp;&nbsp;Mật Khẩu
+                                </label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    name="PassWord"
+                                    aria-describedby="helpId"
+                                    placeholder="Mật khẩu ..."
+                                    value={this.state.PassWord}
+                                    onChange={this.onChange}
+                                />
+                            </div>
+                            <div className="form-group text-center">
+                                <span style={{color: 'yellow', fontStyle: 'italic'}}>{this.state.Error}</span>
+                            </div>
+                            <div className="form-group" />
+                                <div className="form-group text-center">
+                                    <button className="btn btn-light btnLogin" type="submit">
+                                        Đăng Nhập
+                                    </button>
+                                </div>
+                                <div className="form-group text-center">
+                                <p>
+                                    <span>Quên mật khẩu</span>
+                                </p>
+                                <p>
+                                    <Link to="/register">
+                                    Bác chưa có tài khoản. Nhấn vào để đăng ký?
+                                    </Link>
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                </div>
             </div>
-            </div>
-            {/* content */}
         </div>
+        {/* content */}
+    </div>
     );
-  }
+}
 }
 
-export default WrapperLogin;
+export default withRouter(WrapperLogin);

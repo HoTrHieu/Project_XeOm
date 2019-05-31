@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
+import jwt_decode from 'jwt-decode';
 
 class WrapperMain extends Component {
+    constructor(){
+        super();
+        this.state={
+            UserName: ''
+        }
+    }
+    componentDidMount(){
+        const token = localStorage.taikhoan;
+        const decoded = jwt_decode(token);
+        this.setState({ UserName: decoded.UserName  });
+    }
     render() {
         return (
             <div className="wrapperMain">

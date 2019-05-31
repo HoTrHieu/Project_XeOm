@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TopBar from '../../Block/TopBar/TopBar';
 import Footer from '../../Block/Footer/Footer';
-import MenuSub from '../../Block/MenuSub/MenuSub';
+/* import MenuSub from '../../Block/MenuSub/MenuSub'; */
 import Register from '../../Block/Register/Register';
 import Why from '../../Block/Why/Why';
 import Useprocess from '../../Block/Useprocess/Useprocess';

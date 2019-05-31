@@ -35,7 +35,7 @@ class ListBacTai extends Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-2 imgDriver">
-                            <img src="./templates/users/lib/images/administrator-male.png" alt className="img-fluid" />
+                            <img src="./templates/users/lib/images/administrator-male.png" alt="#" className="img-fluid" />
                           </div>
                           <div className="col-8 info">
                             <p><b>Hồ Công Hậu</b></p>
@@ -53,7 +53,7 @@ class ListBacTai extends Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-2 imgDriver">
-                            <img src="./templates/users/lib/images/administrator-male.png" alt className="img-fluid" />
+                            <img src="./templates/users/lib/images/administrator-male.png" alt="#" className="img-fluid" />
                           </div>
                           <div className="col-8 info">
                             <p><b>Hồ Công Hậu</b></p>
@@ -71,7 +71,7 @@ class ListBacTai extends Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-2 imgDriver">
-                            <img src="./templates/users/lib/images/administrator-male.png" alt className="img-fluid" />
+                            <img src="./templates/users/lib/images/administrator-male.png" alt="#" className="img-fluid" />
                           </div>
                           <div className="col-8 info">
                             <p><b>Hồ Công Hậu</b></p>
@@ -89,7 +89,7 @@ class ListBacTai extends Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-2 imgDriver">
-                            <img src="./templates/users/lib/images/administrator-male.png" alt className="img-fluid" />
+                            <img src="./templates/users/lib/images/administrator-male.png" alt="#" className="img-fluid" />
                           </div>
                           <div className="col-8 info">
                             <p><b>Hồ Công Hậu</b></p>
@@ -107,7 +107,7 @@ class ListBacTai extends Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-2 imgDriver">
-                            <img src="./templates/users/lib/images/administrator-male.png" alt className="img-fluid" />
+                            <img src="./templates/users/lib/images/administrator-male.png" alt="#" className="img-fluid" />
                           </div>
                           <div className="col-8 info">
                             <p><b>Hồ Công Hậu</b></p>
@@ -125,7 +125,7 @@ class ListBacTai extends Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-2 imgDriver">
-                            <img src="./templates/users/lib/images/administrator-male.png" alt className="img-fluid" />
+                            <img src="./templates/users/lib/images/administrator-male.png" alt="#" className="img-fluid" />
                           </div>
                           <div className="col-8 info">
                             <p><b>Hồ Công Hậu</b></p>
@@ -143,7 +143,7 @@ class ListBacTai extends Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-2 imgDriver">
-                            <img src="./templates/users/lib/images/administrator-male.png" alt className="img-fluid" />
+                            <img src="./templates/users/lib/images/administrator-male.png" alt="#" className="img-fluid" />
                           </div>
                           <div className="col-8 info">
                             <p><b>Hồ Công Hậu</b></p>
@@ -161,7 +161,7 @@ class ListBacTai extends Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-2 imgDriver">
-                            <img src="./templates/users/lib/images/administrator-male.png" alt="" className="img-fluid" />
+                            <img src="./templates/users/lib/images/administrator-male.png" alt="#" className="img-fluid" />
                           </div>
                           <div className="col-8 info">
                             <p><b>Hồ Công Hậu</b></p>

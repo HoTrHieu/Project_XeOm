@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+/* import ReactDOM from 'react-dom'; */
 import MyMap from '../MyMap/MyMap';
 import axios from 'axios';
 
@@ -89,7 +89,7 @@ class Blook extends Component {
     }
     
     componentWillUpdate(nextProps, nextState) {
-        var self = this;
+        /* var self = this; */
         //console.log(nextState)
         
 

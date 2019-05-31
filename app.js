@@ -3,16 +3,48 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var mongoose = require('mongoose');
+var dotenv = require('dotenv');
+var db=mongoose.connection;
+var morgan = require('morgan');
+var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
-var indexRouter = require('./routes/index');
+/* var indexRouter = require('./routes/index'); */
 var usersRouter = require('./routes/users');
 
 var app = express();
 
+dotenv.config();
 
-mongoose.connect('mongodb://localhost:27017/XeOmDB');
+const urlDB = 'mongodb://localhost:27017/XeOmDB'
+//connect db
+mongoose.set('useCreateIndex', true)
+mongoose
+  .connect(urlDB, { useNewUrlParser: true })
+  .then(() => console.log('DB Connected on port 27017! '));
+db.on('error', (err) => {
+    console.log('DB connection error:', err.message);
+})
+
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
+app.use(expressValidator());
+app.use(session({
+  secret: 'max',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,8 +56,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+/* app.use('/', indexRouter); */
+app.use('/', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
