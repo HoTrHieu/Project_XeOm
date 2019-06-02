@@ -10,6 +10,6 @@ const TaiKhoan = new Schema({
 })
 
 //TaiKhoan.plugin(mongooseUniqueValidator);
-const ModelTaiKhoan= mongoose.model("TaiKhoan",TaiKhoan)
+const ModelTaiKhoan= mongoose.model("TaiKhoan",TaiKhoan,"TaiKhoan")
 
 module.exports = ModelTaiKhoan

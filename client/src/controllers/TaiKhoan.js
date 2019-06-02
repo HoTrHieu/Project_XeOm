@@ -16,7 +16,7 @@ exports.show_login = function(req, res, next){
     res.render('index',  { title: 'Hiếu Đẹp Trai' });
 }
 
-exports.register = function(req, res){    
+exports.register = function(req, res,next){    
     ModelTaiKhoan.findOne({
         UserName: req.body.SoDienThoai
     }).exec(function(err, taikhoan){
@@ -68,12 +68,19 @@ exports.login = function(req, res){
         if(bcrypt.compareSync(req.body.PassWord, taikhoan.PassWord)){
             const payload = {
                 _id: taikhoan.id,
-                UserName : taikhoan.UserName
+                UserName : taikhoan.UserName,
+                LoaiTaiKhoan: taikhoan.LoaiTaiKhoan
             }
             let token = jwt.sign(payload, process.env.SECRET_KEY,{
-                expiresIn: 1440
+                expiresIn: 1440,
+            },(err, token)=>{
+                if(payload.LoaiTaiKhoan === 'admin'){
+                    res.json({user: token, 'role': 'admin'})
+                }else{
+                    res.json({user: token,'role': 'taixe'})
+                }
             })
-                res.json({user: token})
+                
             }else{
             res.json({err: 'incorrect'})
         }

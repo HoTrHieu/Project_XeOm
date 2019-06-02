@@ -21,7 +21,7 @@ export const login = taikhoan =>{
     return axios
         .post('/login', {
             UserName:  taikhoan.UserName,
-            PassWord: taikhoan.PassWord
+            PassWord: taikhoan.PassWord,
         })
         .then(res=>{
             if(res.data.user){

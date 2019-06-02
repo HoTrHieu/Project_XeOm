@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom'
 
 class WrapperMainTK extends Component {
     render() {
@@ -12,24 +13,24 @@ class WrapperMainTK extends Component {
           <img src="./templates/users/lib/images/image002_2.jpg" alt="#" className="img-fluid avatarSideBar" />
         </div>
         <ul>
-          <a href="profile.html">
+          <Link to="/profile">
             <li>
               <i className="fas fa-user" />&nbsp;<span>Thông tin</span> 
               <div>Thông tin</div> 
             </li>
-          </a>
-          <a href="statistical.html">
+          </Link>
+          <Link to="/statistical">
             <li className="active">
               <i className="fas fa-chart-bar" />&nbsp;<span> Thống kê</span>
               <div>Thống kê</div> 
             </li>
-          </a>
-          <a href="/">
+          </Link>
+          <Link to="/login">
             <li>
               <i className="fas fa-sign-out-alt" />&nbsp;<span>Đăng xuất</span> 
               <div>Đăng xuất</div> 
             </li>
-          </a>
+          </Link>
         </ul>
       </div> {/* sideBar */}
       <div className="col-xs-12 col-sm-9 statistical" id="content">

@@ -14,8 +14,14 @@ var MongoStore = require('connect-mongo')(session);
 
 /* var indexRouter = require('./routes/index'); */
 var usersRouter = require('./routes/users');
+var indexRouter = require('./routes/index');
+var cors = require('cors')
 
+const TaiXe_route = require('./routes/TaiXe');
+const TaiKhoan_route = require('./routes/TaiKhoan');
+const ChuyenDi_route = require('./routes/ChuyenDi')
 var app = express();
+app.use(cors())
 
 dotenv.config();
 
@@ -56,8 +62,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* app.use('/', indexRouter); */
+
+app.use('/', indexRouter);
 app.use('/', usersRouter);
+app.use('/taixe',TaiXe_route);
+app.use('/taikhoan',TaiKhoan_route);
+app.use('/chuyendi',ChuyenDi_route);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

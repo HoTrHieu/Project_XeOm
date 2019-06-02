@@ -23,6 +23,6 @@ const ChuyenDi = new Schema({
     }
 })
 
-const ModelChuyenDi= mongoose.model("ChuyenDi",ChuyenDi)
+const ModelChuyenDi= mongoose.model("ChuyenDi",ChuyenDi,"ChuyenDi")
 
 module.exports = ModelChuyenDi

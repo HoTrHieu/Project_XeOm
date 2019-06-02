@@ -1,19 +1,54 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom'
+import axios from 'axios'
 import jwt_decode from 'jwt-decode';
+import { decode } from 'punycode';
 
 class WrapperMain extends Component {
-    constructor(){
-        super();
-        this.state={
+    constructor(props){
+        super(props)
+        this.state = {
+            taixe: {},
             UserName: ''
-        }
+        }  
     }
-    componentDidMount(){
-        const token = localStorage.taikhoan;
+    componentWillMount(){
+        const token = localStorage.getItem('taikhoan')
         const decoded = jwt_decode(token);
-        this.setState({ UserName: decoded.UserName  });
+        const username = decoded.UserName;
+        console.log(decoded) 
+        // this.setState({ UserName: username });
+        // console.log("user name nek",this.state.UserName)
+            // console.log("didmount",this.state.UserName)
+        if(decode.LoaiTaiKhoan ==='TaiXe'){
+            this.getData(username);
+        } 
+       
     }
+    getData = (id) =>{
+        const link = 'http://localhost:8080/taixe/' + id;
+        axios.get(link)
+        .then( res=> {
+            const taixe = res.data.taixe
+            this.setState({
+                taixe: taixe
+            })
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .finally(function () {
+          // always executed
+        });
+    }
+// componentWillMount(){
+//    this.getData()
+ 
+// }
+
     render() {
+        
         return (
             <div className="wrapperMain">
                 <div className="container-fluid ct-f-sideBar">
@@ -24,24 +59,24 @@ class WrapperMain extends Component {
                                 <img src="./templates/users/lib/images/image002_2.jpg" alt="" className="img-fluid avatarSideBar" />
                             </div>
                             <ul>
-                                <a href="profile.html">
+                                <Link to="/profile">
                                     <li className="active">
                                         <i className="fas fa-user" />&nbsp;<span>Thông tin</span> 
                                         <div>Thông tin</div> 
                                     </li>
-                                </a>
-                            <a href="statistical.html">
+                                </Link>
+                            <Link to="/statistical">
                                 <li>
                                     <i className="fas fa-chart-bar" />&nbsp;<span> Thống kê</span>
                                     <div>Thống kê</div> 
                                 </li>
-                            </a>
-                            <a href="/">
+                            </Link>
+                            <Link to="/login">
                                 <li>
                                     <i className="fas fa-sign-out-alt" />&nbsp;<span>Đăng xuất</span> 
                                     <div>Đăng xuất</div> 
                                 </li>
-                            </a>
+                            </Link>
                             </ul>
                         </div> {/* sideBar */}
                         <div className="col-xs-12 col-sm-9" id="content">
@@ -108,30 +143,33 @@ class WrapperMain extends Component {
                                 </label> 
                             </div>
                             </div> {/* wrapperImgProfileContent */}
+                            {/* {TaiXe} */}
                             <div className="col-xs-12 col-sm-6">
+                                                    
                             <div className="form-group">
-                                <label htmlFor="true">ID</label>
-                                <input type="text" className="form-control" defaultValue={'00241'} readOnly />
+                                <label htmlFor="true">Địa Chỉ</label>
+                                <input type="text" className="form-control" defaultValue={this.state.taixe.DiaChi} />
                             </div>
-                            </div> {/* col */}
+                            </div>  
                             <div className="col-xs-12 col-sm-6">
                             <div className="form-group">
                                 <label htmlFor="true">Họ và Tên</label>
-                                <input type="text"  className="form-control" placeholder="Họ và tên đệm" defaultValue="Hồ Công Hậu" />
+                                <input type="text"  className="form-control" placeholder="Họ và tên đệm" defaultValue={this.state.taixe.HoTen} />
                             </div>
-                            </div> {/* col */}
+                            </div>  
                             <div className="col-xs-12 col-sm-6">
                             <div className="form-group">
                                 <label htmlFor="true">Số điện thoại</label>
-                                <input type="text" className="form-control" placeholder="Số điện thoại" defaultValue={'0962858091'} />
+                                <input type="text" className="form-control" placeholder="Số điện thoại" defaultValue={this.state.taixe.SoDienThoai} />
                             </div>
-                            </div>  {/* col */}
+                            </div>   
                             <div className="col-xs-12 col-sm-6">
                             <div className="form-group">
                                 <label htmlFor="true">Biển số xe</label>
-                                <input type="text" className="form-control" placeholder="Biển số xe" defaultValue="60B3 - 47157" />
+                                <input type="text" className="form-control" placeholder="Biển số xe" defaultValue={this.state.taixe.BienSoXe} />
                             </div>
-                            </div> {/* col */}
+                            </div>  
+                            
                             <div className="col-12">
                             <div className="form-group">
                                 <button type="button" className="btn btn-success btnRegister btn-block">

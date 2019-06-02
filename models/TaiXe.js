@@ -11,6 +11,6 @@ const TaiXe = new Schema({
     AnhXe: {type:  [String] ,  required: true, trim: true}
 })
 
-const ModelTaiXe= mongoose.model("TaiXe",TaiXe)
+const ModelTaiXe= mongoose.model("TaiXe",TaiXe, "TaiXe")
 
 module.exports = ModelTaiXe

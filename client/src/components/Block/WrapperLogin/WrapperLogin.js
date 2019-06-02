@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { login } from "../../../actions/UserFunctions";
+import jwt_decode from 'jwt-decode';
 
 class WrapperLogin extends Component {
 constructor(props) {
@@ -9,6 +10,7 @@ constructor(props) {
     UserName: "",
     PassWord: "",
     Error:"",
+    role: ""
     };
 
 
@@ -38,8 +40,19 @@ onSubmit(e) {
                 this.setState({ Error: "Số điện thoại và mật khẩu không được trống" });
             }
             
-        } else if (res.user) {
-            this.props.history.push(`/profile`)  
+        } else if (res) {
+            const token = localStorage.getItem('taikhoan');
+            const decoded = jwt_decode(token);
+            console.log(decoded);
+            const role = decoded.LoaiTaiKhoan;
+            if(role === 'TaiXe'){
+                console.log(role)
+                this.props.history.push(`profile`)
+            }else{
+                console.log(role);
+                this.props.history.push(`index-admin`)
+            }
+            /* this.props.history.push(`/profile`)  */ 
         }
     });
 }

@@ -30,7 +30,7 @@ class TopBar extends Component {
                     <Link to="profile"><i className="fas fa-user"></i>&nbsp;Thông tin cá nhân</Link>
                 </li>
                 <li className="menuChose">
-                    <a href="" onClick={this.logOut.bind(this)}><i className="fas fa-sign-in-alt" />&nbsp;Đăng Xuất</a>
+                    <Link to="/" onClick={this.logOut.bind(this)}><i className="fas fa-sign-in-alt" />&nbsp;Đăng Xuất</Link>
                 </li>
             </ul>
         )
