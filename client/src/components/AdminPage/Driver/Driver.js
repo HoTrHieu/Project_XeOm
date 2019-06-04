@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
-import LeftSideBar from '../../Block/Left-SideBar/Left-SideBar';
+/* import LeftSideBar from '../../Block/Left-SideBar/Left-SideBar'; */
 import OneDriver from '../../Block/Right-SideBar/OneDrive';
-import TopBarAdmin from '../../Block/TopBarAdmin/TopBarAdmin';
+import TopBar from '../../Block/TopBar/TopBar';
+import LeftSideBar from '../../Block/LeftSideBar/LeftSideBar';
+import Footer from '../../Block/Footer/Footer';
 
 class Driver extends Component {
     render() {
         return (
-            <div>
-                <TopBarAdmin/>
+            <div className="wrapperContent">
+                <TopBar></TopBar>
                 <div className="wrapperMain">
                     <div className="container-fluid ct-f-sideBar">
                         <div className="row r-sideBar">
-                            <LeftSideBar/>
+                            <LeftSideBar></LeftSideBar>
                             <OneDriver/>
                         </div>
                     </div>  
                 </div>
+                <Footer></Footer>
             </div>
         );
     }

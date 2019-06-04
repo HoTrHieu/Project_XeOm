@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 class TopBar extends Component {
     logOut(e){
@@ -7,8 +8,17 @@ class TopBar extends Component {
         localStorage.removeItem('taikhoan');
         this.props.history.push(`/`)
     }
+    getRole(){
+        if(localStorage.getItem('taikhoan')){
+            const token = localStorage.getItem('taikhoan');
+            const decoded = jwt_decode(token);
+            const role = decoded.LoaiTaiKhoan;
+            return role
+        }
+    }
     render() {
-        const loginRegLink =( 
+        const role = this.getRole();
+        const customLink =( 
             <ul>
                 <li className="menuChose">
                     <Link to="book"><i className="fas fa-mobile-alt" />&nbsp;Đặt Xe</Link>
@@ -21,13 +31,23 @@ class TopBar extends Component {
                 </li>
             </ul>
         )
-        const userLink =( 
+        const driverLink =( 
             <ul>
                 <li className="menuChose">
                     <Link to="book"><i className="fas fa-mobile-alt" />&nbsp;Đặt Xe</Link>
                 </li>
                 <li className="menuChose">
-                    <Link to="profile"><i className="fas fa-user"></i>&nbsp;Thông tin cá nhân</Link>
+                    <Link to="/profile"><i className="fas fa-user"></i>&nbsp;Thông tin cá nhân</Link>
+                </li>
+                <li className="menuChose">
+                    <Link to="/" onClick={this.logOut.bind(this)}><i className="fas fa-sign-in-alt" />&nbsp;Đăng Xuất</Link>
+                </li>
+            </ul>
+        )
+        const adminLink =( 
+            <ul>
+                <li className="menuChose">
+                    <Link to="/index-admin"><i className="fas fa-user"></i>&nbsp;Quản lý</Link>
                 </li>
                 <li className="menuChose">
                     <Link to="/" onClick={this.logOut.bind(this)}><i className="fas fa-sign-in-alt" />&nbsp;Đăng Xuất</Link>
@@ -49,7 +69,7 @@ class TopBar extends Component {
                             </div>
                         </div>
                         <div className="col-6 menuChoosse text-right">
-                            {localStorage.taikhoan ? userLink: loginRegLink}
+                            {role ? (role==='admin'?adminLink:driverLink): customLink}
                         </div>
                         <div id="iconBar">
                             <i className="fas fa-bars" />

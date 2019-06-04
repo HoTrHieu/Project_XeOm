@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import LeftSidebar from '../../Block/Left-SideBar/Left-SideBar'
 import ListBacTai from '../../Block/Right-SideBar/ListDriver'
-import TopBarAdmin from '../../Block/TopBarAdmin/TopBarAdmin';
+import LeftSideBar from '../../Block/LeftSideBar/LeftSideBar';
+import TopBar from '../../Block/TopBar/TopBar';
+import Footer from '../../Block/Footer/Footer';
 
 class IndexAdmin extends Component {
     render() {
         return (
-            <div >
-                <TopBarAdmin/>
+            <div className="wrapperContent">
+                <TopBar></TopBar>
                  <div className="wrapperMain">
                     <div className="container-fluid ct-f-sideBar">
                         <div className="row r-sideBar">
-                        <LeftSidebar/>
+                        <LeftSideBar></LeftSideBar>
                         <ListBacTai/>
                         </div>
                     </div>
                 </div>
+                <Footer></Footer>
             </div>
             
         );

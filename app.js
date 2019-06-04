@@ -11,11 +11,11 @@ var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var cors = require('cors');
 
 /* var indexRouter = require('./routes/index'); */
 var usersRouter = require('./routes/users');
 var indexRouter = require('./routes/index');
-var cors = require('cors')
 
 const TaiXe_route = require('./routes/TaiXe');
 const TaiKhoan_route = require('./routes/TaiKhoan');
@@ -60,7 +60,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);

@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import TopBar from '../../Block/TopBar/TopBar';
 import Footer from '../../Block/Footer/Footer';
 import MenuSub from '../../Block/MenuSub/MenuSub';
-import WrapperMain from '../../Block/WrapperMain/WrapperMain';
+import ProfileDriver from '../../Block/ProfileDriver/ProfileDriver';
 
 class Profile extends Component {
     render() {
         return (
             <div>
                 <TopBar></TopBar>
-                <WrapperMain></WrapperMain>
+                <ProfileDriver></ProfileDriver>
                 <Footer></Footer>
                 <MenuSub></MenuSub>
             </div>
