@@ -41,7 +41,7 @@ getData = (id) => {
 };
 
 render() {
-    console.log(this.state.taixe)
+    
     /* const listImage = this.state.taixe.AnhXe.map((img, key) =>
         <img src={img} alt={key} key={key}/>
     ); */
@@ -49,7 +49,7 @@ render() {
         <div className="wrapperMain">
         <div className="container-fluid ct-f-sideBar">
             <div className="row r-sideBar">
-                <LeftSideBar />
+                <LeftSideBar anhDaiDien = {this.state.taixe.AnhDaiDien} />
                 {/* sideBar */}
                 <div className="col-xs-12 col-sm-9" id="content">
                     <div className="container-fluid" id="sideBarSub">

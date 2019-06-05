@@ -154,6 +154,8 @@ input[type="file"] {
     background: #fff;
     overflow: hidden;
     border: 2px solid #fff;
+    display: flex;
+    justify-content: center;
 }
 #sideBar .wrapperAvtSideBar img{
     margin: auto;
@@ -237,17 +239,22 @@ input[type="file"] {
 }
 .statistical .imgDriver img{
 
-padding: 7px;
+padding: 1px;
 
 background: #28a745;
 
 border: 2px solid #003511;
 
 /* border-radius: 8px; */
+
+height: 48px;
+
+width: 48px;
 }
 
 .statistical .imgDriver {
     padding-left: 0;
+    padding: 00;
 }
 .statistical .info{
     

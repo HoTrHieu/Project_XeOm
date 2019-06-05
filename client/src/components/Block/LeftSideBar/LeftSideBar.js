@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
+import axios from 'axios'
 
 class LeftSideBar extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            taixe: [],
+            UserName: ""
+        };
+    }
     getRole(){
         if(localStorage.getItem('taikhoan')){
             const token = localStorage.getItem('taikhoan');
@@ -66,13 +74,13 @@ class LeftSideBar extends Component {
         return (
             <div className="col-sm-3 d-none d-sm-block" id="sideBar">
                 <p className="text-center">{role==='admin'?'Xin chào Admin':'Xin chào Bác Tài'}</p>
-                <div className="wrapperAvtSideBar">
+                {role==='admin'?'':<div className="wrapperAvtSideBar">
                     <img
-                    src="./templates/users/lib/images/image002_2.jpg"
+                    src={this.props.anhDaiDien}
                     alt=""
                     className="img-fluid avatarSideBar"
                     />
-                </div>
+                </div>}
                 {role==='admin'?adminLink:driverLink}
             </div>
         );
