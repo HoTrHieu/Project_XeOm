@@ -1,8 +1,29 @@
 var express = require('express');
 var router = express.Router();
-const TaiXe = require('../models/TaiKhoan')
-/* GET users listing. */
+const TaiXe = require('../models/TaiXe')
+const TaiKhoan = require('../models/TaiKhoan')
 
+
+/* GET users listing. */
+//get TaiXe voi TaiKhaon
+
+router.get('/api/taixe-taikhoan', async (req, res)=>{
+        const taixes = await TaiXe.find()
+        const taikhoans = await TaiKhoan.find()
+        let Similarphone = []
+        taixes.map(taixe=>{
+            taikhoans.map(taikhoan=>{
+                if(taixe.SoDienThoai == taikhoan.UserName){
+                       
+                    Similarphone.push({SimilarPhone:{taixe, taikhoan}})
+                }
+            })
+        })
+        res.json({
+            Similarphone
+        })
+       
+})
 router.post('/add', async (req,res)=>{ //
     const {UserName,PassWord,LoaiTaiKhoan,TinhTrang} = req.body
 
@@ -38,9 +59,11 @@ router.get('/delete/:id',async (req, res)=>{ //
 
 router.post('/update/:id', async (req, res)=>{
     const {id} = req.params
-    const {UserName,PassWord,LoaiTaiKhoan,TinhTrang} = req.query
-    console.log(UserName)
-    const taikhoan = await TaiKhoan.findByIdAndUpdate(id, {UserName,PassWord,LoaiTaiKhoan,TinhTrang}, {new: true})
+    const {TinhTrang} = req.body
+    
+    console.log(TinhTrang)
+    
+    const taikhoan = await TaiKhoan.findOneAndUpdate({_id:id}, {TinhTrang}, {new: true})
     res.json({
         taikhoan
   })

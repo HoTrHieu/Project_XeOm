@@ -54,12 +54,26 @@ router.get('/', async (req, res)=>{
 //         taixe
 //       })
 // })
+router.post('/api/update', async (req,res)=>{
+    
+})
 router.get('/delete/:id',async (req, res)=>{ 
         const {id} = req.params
         const  taixe = await TaiXe.findOneAndRemove({_id: id})
        res.json({
             taixe
        })
+})
+
+router.post('/update/:id', async (req, res)=>{
+    const {id} = req.params
+    const {} = req.body
+    console.log()
+    console.log(UserName)
+    const  taixe = await TaiXe.findByIdAndUpdate(id, {HoTen,SoDienThoai,DiaChi,BienSoXe,AnhDaiDien,AnhXe}, {new: true})
+    res.json({
+        taixe
+  })  
 })
 
 router.post('/update/:id', async (req, res)=>{

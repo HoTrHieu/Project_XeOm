@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-//var mongooseUniqueValidator = require('mongoose-unique-validator')
+// var mongooseUniqueValidator = require('mongoose-unique-validator')
 const Schema = mongoose.Schema
 
 const TaiKhoan = new Schema({
