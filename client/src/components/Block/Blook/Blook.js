@@ -107,6 +107,7 @@ class Blook extends Component {
                         <div className="col-xs-12 col-md-8 map">
                             {/* <MyMap DiemDon={this.state.DiemDon} DiemDen={this.state.DiemDen}></MyMap> */}
                             <MyMap
+                                id="myMap"
                                 latDon={this.state.latDon} lngDon={this.state.lngDon} latDen={this.state.latDen} lngDen={this.state.lngDen}
                             >
 
@@ -127,15 +128,15 @@ class Blook extends Component {
                                 <div className="form-group">
                                     <input onChange={this.handleInputChange} ref="inputSDT" type="text" name="SDT" id="" className="form-control" placeholder="Số điện thoại" aria-describedby="helpId" />
                                 </div>
-                                <div className="form-group">
-                                    <input type="text" name="" id="" className="form-control" placeholder="Số km dự tính : 15km" aria-describedby="helpId" readOnly />
+                                <div className="form-group text-center">
+                                    <p style={{color: 'red', fontWeight:'bold'}}>Số km dự tính : <span style={{fontSize:'18px'}}>15km</span></p>
                                 </div>
-                                <div className="form-group">
-                                    <input type="text" name="" id=""className="form-control" placeholder="Số tiền dự tính : 30.000đ" aria-describedby="helpId" readOnly />
+                                <div className="form-group text-center">
+                                    <p style={{color: 'red', fontWeight:'bold'}}>Số tiền dự tính : <span style={{fontSize:'18px'}}>30.000đ</span></p>
                                 </div>
                                 <div className="form-group text-right">
                                     <button onClick={this.handleSubmit} name="" className="btn btn-success btnRegister btn-block">
-                                        Đặt Xe &nbsp;&nbsp;<i className="fas fa-motorcycle" />
+                                        Tìm Tài Xế &nbsp;&nbsp;<i className="fas fa-motorcycle" />
                                     </button>
                                 </div>                        
                            
