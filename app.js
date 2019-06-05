@@ -9,9 +9,8 @@ var db=mongoose.connection;
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
 var cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 /* var indexRouter = require('./routes/index'); */
 var usersRouter = require('./routes/users');
@@ -22,6 +21,8 @@ const TaiKhoan_route = require('./routes/TaiKhoan');
 const ChuyenDi_route = require('./routes/ChuyenDi')
 var app = express();
 app.use(cors())
+app.use(fileUpload());
+
 
 dotenv.config();
 
@@ -43,14 +44,6 @@ app.use(
   })
 )
 app.use(expressValidator());
-app.use(session({
-  secret: 'max',
-  resave: true,
-  saveUninitialized: false,
-  store: new MongoStore({
-    mongooseConnection: db
-  })
-}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -62,13 +55,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-
 app.use('/', indexRouter);
 app.use('/', usersRouter);
 app.use('/taixe',TaiXe_route);
 app.use('/taikhoan',TaiKhoan_route);
 app.use('/chuyendi',ChuyenDi_route);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

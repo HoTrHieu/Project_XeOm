@@ -2,11 +2,18 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 
 class MenuSub extends Component {
+    componentDidMount(){
+        var idClose = document.getElementById('closeBar');
+        idClose.addEventListener('click',()=>{
+            var menuSub = document.getElementById('menuSub');
+            menuSub.classList.remove('show');
+        })
+    }
     render() {
         return (
             <div id="menuSub">
                 <div className="container-fluid">
-                    <div className="col-12 close text-right">
+                    <div className="col-12 close text-right" id="closeBar">
                         <i className="fas fa-times" />
                     </div>
                     <div className="contentMenuSub">

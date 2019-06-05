@@ -7,8 +7,8 @@ exports.UserValidator = function(req, res, next){
     req.check('SoDienThoai', 'ErrorSoDienThoai').notEmpty();
     req.check('DiaChi', 'ErrorDiaChi').notEmpty();
     req.check('BienSoXe', 'ErrorBienSoXe').notEmpty();
-    req.check('AnhDaiDien', 'ErrorAnhDaiDien').notEmpty();
-    req.check('AnhXe', 'ErrorAnhXe').notEmpty();
+    /* req.check('AnhDaiDien', 'ErrorAnhDaiDien').notEmpty();
+    req.check('AnhXe', 'ErrorAnhXe').notEmpty(); */
     req.check('UserName', 'ErrorUserName').notEmpty();
     req.check('PassWord', 'ErrorPassWord').notEmpty();
     req.check('PassWord', 'LengthPassWord').isLength({min:6});

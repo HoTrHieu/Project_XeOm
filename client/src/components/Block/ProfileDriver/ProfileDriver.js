@@ -7,7 +7,7 @@ class ProfileDriver extends Component {
 constructor(props) {
     super(props);
     this.state = {
-        taixe: {},
+        taixe: [],
         UserName: ""
     };
 }
@@ -41,6 +41,10 @@ getData = (id) => {
 };
 
 render() {
+    console.log(this.state.taixe)
+    /* const listImage = this.state.taixe.AnhXe.map((img, key) =>
+        <img src={img} alt={key} key={key}/>
+    ); */
     return (
         <div className="wrapperMain">
         <div className="container-fluid ct-f-sideBar">
@@ -81,7 +85,7 @@ render() {
                                 <label htmlFor="true">Ảnh đại diện</label>{" "}
                                 <br />
                                 <img
-                                src="./templates/users/lib/images/image002_2.jpg"
+                                src={this.state.taixe.AnhDaiDien}
                                 alt=""
                                 className="img-fluid imgProfileContent"
                                 />
@@ -103,6 +107,7 @@ render() {
                             {/* wrapperImgProfileContent */}
                             <div className="col-12 wrapperImgProfileContent">
                                 <label htmlFor="true">Ảnh xe</label> <br />
+
                                 <img
                                 src="./templates/users/lib/images/Gia-xe-Honda-Vision-thang-5-9-1525418495-315-width500height391.jpg"
                                 alt=""

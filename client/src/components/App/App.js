@@ -13,7 +13,6 @@ import IndexAdmin from "../AdminPage/IndexAdmin/Index";
 import AllDrivers from "../AdminPage/AllDrivers/AllDrivers";
 import Driver from "../AdminPage/Driver/Driver";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
 
 class App extends Component {
   componentDidMount() {
