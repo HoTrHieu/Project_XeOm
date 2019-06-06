@@ -11,7 +11,7 @@ class AllDrivers extends Component {
                 <div className="wrapperMain">
                     <div className="container-fluid ct-f-sideBar">
                         <div className="row r-sideBar">
-                        <LeftSideBar></LeftSideBar>
+                        <LeftSideBar active="alldriver"></LeftSideBar>
                         <StatisticalAllDriver></StatisticalAllDriver>
                         </div>
                     </div>

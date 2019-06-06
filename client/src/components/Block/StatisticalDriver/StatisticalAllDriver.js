@@ -6,34 +6,55 @@ constructor(props) {
     super(props);
     this.state = {
         similarPhone: [],
-        filterBy: "date",
-        dateFilter: this.getDate(),
-        rangeYear: [2017, 2018],
-        rangeMonth: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        rangeWeek: [1, 2, 3, 4, 5],
-        dateRes: new Date().toJSON().slice(0, 10).replace(/[-T:]/g, ""),
-        errGetData: "",
-        change: false,
+        filterBy: "date", // select filter change [date, month, week]
+        dateYMD: this.getYMD(), // get current date format with "-"" character [2019-06-15]
+        dateFilter: '', // get date from input date of filter by date
+        dateRes: this.getYMDNotSpace(), 
 
-        monthFilter : new Date().getMonth() + 1,
-        yearFilter : new Date().getFullYear(),
-        week:'',
-        weekMonth:'',
-        weekYear:''
+        rangeYear: [2017, 2018], // set default range year from 2017->2018 for map select option year
+        rangeMonth: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], // set default range month from 1->12 for map select option month
+        rangeWeek: [1, 2, 3, 4, 5], // set default range week from 1->5 for map select option week
+        week:'1', // set default select option week value is 1
+        weekMonth: new Date().getMonth() + 1, // set default select option month value is current month
+        weekYear: new Date().getFullYear(), // set default select option year value is current year
+        
+        errGetData: "", // error when not similarPhone
+
+        monthFilter : new Date().getMonth() + 1, // set default month value is current month use for filter by month
+        yearFilter : new Date().getFullYear(), // set default year value is current year use for filter by month
     };
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
 }
-getDate() {
-    /* 2019-06-06 */
-    var today = new Date().toJSON();
+
+getDate() {/* 15/06/2019 */
+    var offset = +7;
+    var today = new Date( new Date().getTime() + offset * 3600 * 1000).toJSON()
     var dd = today.substr(8,2).length < 2 ? '0' + today.substr(8,2) :  today.substr(8,2) 
     var mm = today.substr(5,2).length < 2 ? '0' + today.substr(5,2) : today.substr(5,2)
-    var yyyy = today.substr(0,4)
-    var today = dd + '/' + mm + '/' + yyyy;
-    return today;
+    var yyyy = today.substr(0,4);
+    console.log(dd + '/' + mm + '/' + yyyy);
+    return dd + '/' + mm + '/' + yyyy; 
 }
-setRangeYear() {
+
+getYMD() { /* 2019-06-06 */
+    var offset = +7;
+    var today = new Date( new Date().getTime() + offset * 3600 * 1000).toJSON()
+    var dd = today.substr(8,2).length < 2 ? '0' + today.substr(8,2) :  today.substr(8,2) 
+    var mm = today.substr(5,2).length < 2 ? '0' + today.substr(5,2) : today.substr(5,2)
+    var yyyy = today.substr(0,4);
+    return yyyy + '-' + mm + '-' + dd;
+}
+
+getYMDNotSpace() { /* 20190606 */
+    var offset = +7;
+    var today = new Date( new Date().getTime() + offset * 3600 * 1000).toJSON()
+    var dd = today.substr(8,2).length < 2 ? '0' + today.substr(8,2) :  today.substr(8,2) 
+    var mm = today.substr(5,2).length < 2 ? '0' + today.substr(5,2) : today.substr(5,2)
+    var yyyy = today.substr(0,4);
+    return yyyy + '' + mm + '' + dd;
+}
+
+setRangeYear() { /* [2000,2001,2002,2003,...,current year] */
     const time = new Date().getFullYear();
     var minYear = 2000,
         maxYear = time;
@@ -43,60 +64,42 @@ setRangeYear() {
     }
     this.setState({ rangeYear: year });
 }
-componentDidMount() {
-    this.setRangeYear();
-    if(this.state.change === false){
-        if(this.state.filterBy === 'date'){
-            this.getInfoTaiXeByDate(this.state.dateRes)
-        } 
-    }
+
+formatMoney(num) { /* 2000000 => 2.000.000 */
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
 }
+
+componentDidMount() {
+    this.getDate();
+    this.setRangeYear();
+}
+
 async onChange(e) {
     await this.setState({ [e.target.name]: e.target.value, change: true
     });
     if(this.state.filterBy === 'date'){
-        var time = new Date(this.state.dateFilter).toJSON();
-        /* 2019-05-14T17:00:00.000Z */
-        var y = time.substr(0,4);
-        var m = time.substr(5,2);
-        var d =  parseInt(time.substr(8,2)) + 1 ;
-        d  = d < 10 ? '0'+ d: d
-        var date = y+m+d; 
-        this.getInfoTaiXeByDate(date); 
+        if(this.state.dateFilter!== ''){
+            var time = new Date(this.state.dateFilter).toJSON();
+            var y = time.substr(0,4);
+            var m = time.substr(5,2);
+            var d =  parseInt(time.substr(8,2)) ;
+            d  = d < 10 ? '0'+ d: d
+            var date = y+m+d; 
+            this.setState({ errGetData : '' });
+            this.getInfoTaiXeByDate(date); 
+        }else{
+            this.setState({ errGetData : 'Không đúng định dạng' });
+        }
     }
     else if(this.state.filterBy === 'month'){
-        var y =  this.state.yearFilter;
-        var m = this.state.monthFilter < 10 ? '0' + this.state.monthFilter: this.state.monthFilter
-        var date = y + m;
-        this.getInfoTaiXeByMonth(date)
+        this.getInfoTaiXeByMonth(this.state.yearFilter  + ((this.state.monthFilter < 10) ? '0' + this.state.monthFilter: this.state.monthFilter))
     }else if(this.state.filterBy === 'week'){
-        alert('week')
+        this.getInfoTaiXeByWeek(this.state.weekYear+''+((this.state.weekMonth < 10) ? ('0' + this.state.weekMonth) : (this.state.weekMonth))+''+this.state.week); 
     }
-
-}
-onSubmit(e){
-    e.preventDefault();
-    if(this.state.filterBy === 'date'){
-        var time = new Date(this.state.dateFilter).toJSON();
-        /* 2019-05-14T17:00:00.000Z */
-        var y = time.substr(0,4);
-        var m = time.substr(5,2);
-        var d =  parseInt(time.substr(8,2)) + 1 ;
-        d  = d < 10 ? '0'+ d: d
-        var date = y+m+d; 
-        this.getInfoTaiXeByDate(date); 
-    } else if(this.state.filterBy === 'month'){
-        var y =  this.state.yearFilter;
-        var m = this.state.monthFilter < 10 ? '0' + this.state.monthFilter: this.state.monthFilter
-        var date = y + m;
-        this.getInfoTaiXeByMonth(date)
-    }
-    
 }
 getInfoTaiXeByDate(times) {
     const link =
         "http://localhost:8080/taixe/getbydate/" + times;
-    console.log(link)
     axios
         .get(link)
         .then((res) => {
@@ -117,7 +120,6 @@ getInfoTaiXeByDate(times) {
 getInfoTaiXeByMonth(times) {
     const link =
         "http://localhost:8080/taixe/getbymonth/" + times;
-    console.log(link)
     axios
         .get(link)
         .then((res) => {
@@ -138,7 +140,6 @@ getInfoTaiXeByMonth(times) {
 getInfoTaiXeByWeek(times) {
     const link =
         "http://localhost:8080/taixe/getbyweek/" + times;
-    console.log(link)
     axios
         .get(link)
         .then((res) => {
@@ -167,7 +168,7 @@ render() {
             <td>{item.SimilarPhone.taixe.SoDienThoai}</td>
             <td>{item.SimilarPhone.taixe.BienSoXe}</td>
             <td>{item.SimilarPhone.chuyendi.SoKm}</td>
-            <td>{item.SimilarPhone.chuyendi.SoTien}</td>
+            <td>{this.formatMoney(item.SimilarPhone.chuyendi.SoTien)}đ</td>
         </tr>
         ));
     } else {
@@ -205,7 +206,7 @@ render() {
                 <div className="col-xs-12 col-md-2">
                     <div className="form-group">
                     <select
-                        className="form-control"
+                        className="form-control custom-select"
                         name="filterBy"
                         id=""
                         style={{ width: "100%" }}
@@ -218,26 +219,17 @@ render() {
                     </select>
                     </div>
                 </div>
-                <div className="col-xs-12 col-md-3">
+                <div className="col-xs-12 col-md-4">
                     
                     {this.state.filterBy === "date" ? (
                         <div className="form-group">
-                            {/* <input
+                            <input
                                 className="form-control"
                                 type="date"
                                 id="example-date-input"
-                                defaultValue={this.state.dateFilter}
+                                defaultValue={this.state.dateYMD}
                                 onChange={this.onChange}
                                 name="dateFilter"
-                            /> */}
-                            <input
-                                className="form-control"
-                                type="text"
-                                id="example-date-input"
-                                defaultValue={this.state.dateFilter}
-                                onChange={this.onChange}
-                                name="dateFilter"
-                                placeholder="05/23/2019 {mm/dd/yyyy}"
                             />
                         </div>
                     ) : this.state.filterBy === "month" ? (
@@ -317,15 +309,12 @@ render() {
                         </div>
                     )}
                 </div>
-                <div className="col-xs-12 col-md-2">
-                    <button
-                    type="submit"
-                    className="btn btn-block btn-success"
-                    >
-                    Tìm kiếm
-                    </button>
-                </div>
             </div>{" "}
+            <div className="row justify-content-center">
+                <div className="col-auto">
+                    {this.state.errGetData}
+                </div>
+            </div>
             </form>
             {/* filterStatistical */}
             <div className="row listTable">
@@ -343,7 +332,11 @@ render() {
                             </tr>
                         </thead><tbody>{listDataStatiscal}</tbody></table>
                     </div>
-                    : <h6><i>Không có dữ liệu phù hợp</i></h6>}
+                    : <div className="row justify-content-center">
+                    <div className="col-auto">
+                    <h6><i style={{color: 'red'}}>Không có dữ liệu phù hợp</i></h6>
+                    </div>
+                    </div>}
 
                 </div>
             </div>

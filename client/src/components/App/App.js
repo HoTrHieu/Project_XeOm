@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 
 import "./App.css";
-import { BrowserRouter as Router, Route,Switch } from "react-router-dom";
+import { Route,Switch } from "react-router-dom";
 import Index from "../UserPage/Index/Index";
 import Profile from "../UserPage/Profile/Profile";
 import RegisterPage from "../UserPage/RegisterPage/RegisterPage";
@@ -14,9 +14,9 @@ import AllDrivers from "../AdminPage/AllDrivers/AllDrivers";
 import Driver from "../AdminPage/Driver/Driver";
 import jwt_decode from "jwt-decode";
 // import socketIOClient from "socket.io-client"
-import FindDriver from "../UserPage/FindDriver/FindDriver";
+/* import FindDriver from "../UserPage/FindDriver/FindDriver";
 import ConfirmDriver from "../UserPage/ConfirmDriver/ConfirmDriver";
-import RouteDriver from "../UserPage/RouteDriver/RouteDriver";
+import RouteDriver from "../UserPage/RouteDriver/RouteDriver"; */
 import {PrivateRouteAdmin} from "../PrivateRoute/PrivateAdmin"
 import {PrivateRouteProfile} from   "../PrivateRoute/PrivateRouteProFile"
 import DashboardAdmin from "../Dashboard/DashboardAdmin"
@@ -46,13 +46,13 @@ class App extends Component {
     // }
   
   }
-  getUser = () => {     
+  /* getUser = () => {     
     if (localStorage.getItem("taikhoan")) {
       const token = localStorage.getItem("taikhoan");
       const decoded = jwt_decode(token);
-
+      
     }
-  }
+  } */
   getRole() {
     let role;
     if (localStorage.getItem("taikhoan")) {
@@ -63,8 +63,6 @@ class App extends Component {
     return role;
   }
   render() {
-    console.log("dasdsad")
-    console.log(this.getRole())
     return (
       <Switch>
         <Route exact path="/" component={Index} />

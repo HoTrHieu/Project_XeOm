@@ -42,7 +42,7 @@ class LeftSideBar extends Component {
         const adminLink = (
             <ul className="menuParent">
                 <Link to="/index-admin">
-                <li className="parent ">
+                <li className={this.props.active === 'index'? "active parent": "parent"}>
                     <i className="fas fa-user" />
                     &nbsp;Danh Sách Bác Tài
                 </li>
@@ -55,13 +55,13 @@ class LeftSideBar extends Component {
                 </Link>
                 <ul className="subMenu">
                 <Link to="alldrivers">
-                    <li>
+                    <li className={this.props.active === 'alldriver'? "active parent": "parent"}>
                         <i className="far fa-dot-circle" />
                         &nbsp;Tất Cả Bác Tài
                     </li>
                 </Link>
                 <Link to="driver">
-                    <li>
+                    <li  className={this.props.active === 'driver'? "active parent": "parent"}>
                         <i className="far fa-dot-circle" />
                         &nbsp;Từng Bác Tài
                     </li>

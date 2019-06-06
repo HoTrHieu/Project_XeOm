@@ -29,7 +29,7 @@ class ListBacTai extends Component {
 
     })
       .then(function (response) {
-        console.log(response.data);
+        /* console.log(response.data); */
       })
       .catch(function (error) {
         console.log(error);
@@ -44,16 +44,12 @@ class ListBacTai extends Component {
 
     })
       .then(function (response) {
-        console.log(response.data);
+        /* console.log(response.data); */
       })
       .catch(function (error) {
         console.log(error);
       });
   }
-
-
-   
-   
 
   getData = () => {
     const link = 'http://localhost:8080/taikhoan/api/taixe-taikhoan';
@@ -73,13 +69,8 @@ class ListBacTai extends Component {
         // always executed
       });
   }
-   
-
   onUUpdate = (data, kichhoat) => {
-    // console.log(data,kichhoat)
-    console.log(data.SimilarPhone.taikhoan._id)
     const id = data.SimilarPhone.taikhoan._id
-    console.log(data.SimilarPhone.taikhoan.TinhTrang)
     const tinhtrang = data.SimilarPhone.taikhoan.TinhTrang
     if (tinhtrang === "KichHoat") {
       this.ApiUpdate_TrangThai_ChuaKichHoat(id)

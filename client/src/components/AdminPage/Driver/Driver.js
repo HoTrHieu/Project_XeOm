@@ -13,7 +13,7 @@ class Driver extends Component {
                 <div className="wrapperMain">
                     <div className="container-fluid ct-f-sideBar">
                         <div className="row r-sideBar">
-                            <LeftSideBar></LeftSideBar>
+                            <LeftSideBar active="driver"></LeftSideBar>
                             <OneDriver/>
                         </div>
                     </div>  

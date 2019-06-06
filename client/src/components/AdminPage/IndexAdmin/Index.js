@@ -9,10 +9,10 @@ class IndexAdmin extends Component {
         return (
             <div className="wrapperContent">
                 <TopBar></TopBar>
-                 <div className="wrapperMain">
+                <div className="wrapperMain">
                     <div className="container-fluid ct-f-sideBar">
                         <div className="row r-sideBar">
-                        <LeftSideBar></LeftSideBar>
+                        <LeftSideBar active="index"></LeftSideBar>
                         <ListBacTai/>
                         </div>
                     </div>

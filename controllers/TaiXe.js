@@ -100,52 +100,71 @@ module.exports.GetByWeek = async(req, res)=>{
     let year = paramsTime.substr(0,4);
     let month = paramsTime.substr(4,2);
     let week = paramsTime.substr(paramsTime.length-1);
-    dataWeek = []
-    switch(week){
-        case 1: 
-        {
-            for(var i = 1; i<= 7; i++){
-                dataWeek.push('01')
-            }
-            break;
-        }
-        case 2:{
-            for(var i = 8; i<= 14; i++){
-                dataWeek.push('02')
-            }
-            break;
-        }
-        case 3:{
-            for(var i = 15; i<= 21; i++){
-                dataWeek.push('03')
-            }
-            break;
-        }
-        case 4:{
-            for(var i = 22; i<= 28; i++){
-                dataWeek.push('04')
-            }
-            break;
-        }
-        case 5:{
-            for(var i = 29; i<= 31; i++){
-                dataWeek.push('05')
-            }
-            break;
-        }
-    }
-    dataWeek.map((data)=>{
-        console.log(data)
-    })
+    const dataWeek = [];
+    const week1 = ['01', '02', '03', '04', '05','06','07'];
+    const week2 = ['08', '09', '10', '11', '12','13','14'];
+    const week3 = ['15', '16', '17', '18', '19','20','21'];
+    const week4 = ['22', '23', '24', '25', '26','27','28'];
+    const week5 = ['29', '30', '31'];
+    console.log(year+month);
+    
     chuyendis.map(chuyendi=>{
         taixes.map(taixe=>{
-            let time = new Date(chuyendi.TinhTrang['time']).toJSON()
+            let monthyear = new Date(chuyendi.TinhTrang['time']).toJSON()
             .slice(0, 8)
             .replace(/[-T:]/g, "");
-            /* time = time.slice(4,15);
-            time= time.replace(/\s/g, '') */
-            if(taixe.SoDienThoai == chuyendi.SDTTaiXe && time === req.params.time){
-                Similarphone.push({SimilarPhone:{chuyendi, taixe, time}})
+            console.log('l: ' + monthyear)
+            let day = new Date(chuyendi.TinhTrang['time']).toJSON()
+            .slice(8, 10)
+            .replace(/[-T:]/g, "");
+            if(taixe.SoDienThoai === chuyendi.SDTTaiXe && monthyear === year+''+month){
+                if(week=== '1'){
+                    for(var d of week1){
+                        if(d ===day){
+                            Similarphone.push({SimilarPhone:{chuyendi, taixe}})
+                        }
+                    }
+                }else if(week=== '2'){
+                    for(var d of week2){
+                        if(d ===day){
+                            Similarphone.push({SimilarPhone:{chuyendi, taixe}})
+                        }
+                    }
+                }else if(week=== '3'){
+                    for(var d of week3){
+                        if(d ===day){
+                            Similarphone.push({SimilarPhone:{chuyendi, taixe}})
+                        }
+                    }
+                }else if(week=== '4'){
+                    for(var d of week4){
+                        if(d ===day){
+                            Similarphone.push({SimilarPhone:{chuyendi, taixe}})
+                        }
+                    }
+                }else if(week=== '5'){
+                    for(var d of week5){
+                        if(d ===day){
+                            Similarphone.push({SimilarPhone:{chuyendi, taixe}})
+                        }
+                    }
+                }
+            }
+        })
+    })  
+    res.json({
+        Similarphone
+    })
+}
+
+module.exports.GetByPhone =async(req, res)=>{
+    const taixes = await TaiXe.find()
+    const chuyendis = await ChuyenDi.find()
+    let Similarphone = []
+    chuyendis.map(chuyendi=>{
+        taixes.map(taixe=>{
+            if(taixe.SoDienThoai == chuyendi.SDTTaiXe && taixe.SoDienThoai === req.params.phone){
+                Similarphone.push({SimilarPhone:{chuyendi, taixe}})
             }
         })
     })

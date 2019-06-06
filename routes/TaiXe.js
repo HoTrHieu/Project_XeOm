@@ -19,4 +19,6 @@ router.get('/getbymonth/:time', controller.GetByMonth)
 
 router.get('/getbyweek/:time', controller.GetByWeek)
 
+router.get('/getbyphone/:phone', controller.GetByPhone)
+
 module.exports = router;
