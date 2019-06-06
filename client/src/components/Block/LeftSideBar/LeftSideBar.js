@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
-import axios from 'axios'
+/* import axios from 'axios' */
 
 class LeftSideBar extends Component {
     constructor(props) {
@@ -15,7 +15,6 @@ class LeftSideBar extends Component {
         if(localStorage.getItem('taikhoan')){
             const token = localStorage.getItem('taikhoan');
             const decoded = jwt_decode(token);
-            console.log(decoded);
             const role = decoded.LoaiTaiKhoan;
             return role
         }
@@ -48,14 +47,13 @@ class LeftSideBar extends Component {
                     &nbsp;Danh Sách Bác Tài
                 </li>
                 </Link>
-                <a href>
+                <Link to="alldrivers">
                 <li className="parent ">
                     <i className="fas fa-chart-bar" />
                     &nbsp;Thống Kê
                 </li>
-                </a>
+                </Link>
                 <ul className="subMenu">
-                <a href> </a>
                 <Link to="alldrivers">
                     <li>
                         <i className="far fa-dot-circle" />

@@ -331,23 +331,34 @@ input[type="file"] {
     padding-top: 58px;
     background: #02713b;
 }
-#book .map{
+#book .map, #confirmDriver .map{
     padding: 0;
     overflow: hidden;
     padding-right: 20px;
 }
-#book .bookCustomer{
+#book .bookCustomer, #confirmDriver .bookCustomer{
     padding: 30px 10px;
-    background-image: url("../lib/images/bggrid.jpg");
+    background: #fff;
     border-radius: 5px;
     width: 100%;
     height: 420px;
     margin: auto;
 }
-#book .titleBook{
+#confirmDriver .bookCustomer{
+    padding: 30px 10px;
+    border-radius: 5px;
+    width: 100%;
+    height: 420px;
+    margin: auto;
+}
+#book .titleBook, #confirmDriver .bookCustomer{
     color: #28a745;
     text-align: center;
 }
+#confirmDriver .bookCustomer{
+    background: #02713b;
+}
+
 
 /* login  =========================================== */
 #wrapperLogin{
@@ -715,4 +726,30 @@ align-items: center;
     #register .wrapperRegister{
         width: 90%;
     }
+}
+
+/* FIND DRIVER */
+#contentFindDriver, #contentRouteDriver{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 40px 0;
+}
+#contentFindDriver .wrapperImg, #contentRouteDriver .wrapperImg{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #dc3545;
+}
+#contentFindDriver .wrapperImg p, #contentRouteDriver .wrapperImg p{
+    margin: 0;
+}
+#contentFindDriver .btnAction, #contentRouteDriver .btnAction{
+    width: 180px;
+}
+
+/* CONFIRM DRIVER */
+#confirmDriver{
+    padding: 50px 0;
 }

@@ -15,7 +15,6 @@ const TaiXe = require('../models/TaiXe')
 const TaiKhoan = require('../models/TaiKhoan')
 
 
-
 exports.register = function(req, res,next){    
     ModelTaiKhoan.findOne({
         UserName: req.body.SoDienThoai

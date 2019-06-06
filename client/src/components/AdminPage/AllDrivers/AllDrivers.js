@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import ListBacTai from '../../Block/Right-SideBar/ListDriver';
 import TopBar from '../../Block/TopBar/TopBar';
 import LeftSideBar from '../../Block/LeftSideBar/LeftSideBar';
 import Footer from '../../Block/Footer/Footer';
+import StatisticalAllDriver from '../../Block/StatisticalDriver/StatisticalAllDriver';
 class AllDrivers extends Component {
     render() {
         return (
@@ -12,7 +12,7 @@ class AllDrivers extends Component {
                     <div className="container-fluid ct-f-sideBar">
                         <div className="row r-sideBar">
                         <LeftSideBar></LeftSideBar>
-                        <ListBacTai/>
+                        <StatisticalAllDriver></StatisticalAllDriver>
                         </div>
                     </div>
                 </div>

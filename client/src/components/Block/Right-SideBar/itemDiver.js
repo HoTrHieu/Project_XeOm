@@ -56,7 +56,7 @@ class ItemDriver extends Component {
                     <div className="container">
                       <div className="row" >
                         <div className="col-2 imgDriver">
-                          <img src={this.props.item.SimilarPhone.taixe.AnhDaiDien? this.props.item.SimilarPhone.taixe.AnhDaiDien: "./templates/users/lib/images/user.png"}  className="img-fluid" />
+                          <img src={this.props.item.SimilarPhone.taixe.AnhDaiDien? this.props.item.SimilarPhone.taixe.AnhDaiDien: "./templates/users/lib/images/user.png"}  className="img-fluid" alt="img" />
                         </div>
                         <div className="col-8 info">
                           <p><b>{this.props.item.SimilarPhone.taixe.HoTen}</b></p>

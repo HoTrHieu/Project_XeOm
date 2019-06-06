@@ -16,13 +16,13 @@ class TopBar extends Component {
             return role
         }
     }
-    componentDidMount(){
+    /* componentDidMount(){
         var idIconBar = document.getElementById('iconBar');
         idIconBar.addEventListener('click',()=>{
             var menuSub = document.getElementById('menuSub');;
-           /*  menuSub.classList.add('show'); */
+           menuSub.classList.add('show'); 
         })
-    }
+    } */
     render() {
         const role = this.getRole();
         const customLink =( 

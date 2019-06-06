@@ -254,7 +254,7 @@ width: 48px;
 
 .statistical .imgDriver {
     padding-left: 0;
-    padding: 00;
+    padding: 6px;
 }
 .statistical .info{
     
@@ -309,7 +309,7 @@ align-items: center;
     margin: 0;
 }
 
-.form-group select {
+/* .form-group select {
     border: none;
     border-bottom: 3px solid #28a745;
     border-radius: 0;
@@ -317,7 +317,7 @@ align-items: center;
 }
 .form-group select:focus {
     box-shadow: none;
-}
+} */
 .statisticalDriver .search form{ 
     width: 70%;
     position: absolute;
@@ -362,4 +362,12 @@ align-items: center;
 }
 .statisticalDriver .wrapperInfoDriver{
     background: #ececec;
+}
+.filterStatistical{
+    
+/* margin: auto; */
+}
+
+.filterStatistical .col-auto {
+
 }

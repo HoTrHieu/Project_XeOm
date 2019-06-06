@@ -40,7 +40,7 @@ class OneDriver extends Component {
      
     }
     render() {
-      const {taixes} = this.state
+      /* const {taixes} = this.state */
       //console.log(taixes)
       
       const SoDienThoai = this.state.taixes.map((taixe, index)=>{

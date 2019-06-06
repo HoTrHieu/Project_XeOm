@@ -14,6 +14,9 @@ import AllDrivers from "../AdminPage/AllDrivers/AllDrivers";
 import Driver from "../AdminPage/Driver/Driver";
 import jwt_decode from "jwt-decode";
 // import socketIOClient from "socket.io-client"
+import FindDriver from "../UserPage/FindDriver/FindDriver";
+import ConfirmDriver from "../UserPage/ConfirmDriver/ConfirmDriver";
+import RouteDriver from "../UserPage/RouteDriver/RouteDriver";
 
 // var socket
 class App extends Component {
