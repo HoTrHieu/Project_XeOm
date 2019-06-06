@@ -47,10 +47,12 @@ onSubmit(e) {
             const role = decoded.LoaiTaiKhoan;
             if(role === 'TaiXe'){
                 console.log(role)
-                this.props.history.push(`profile`)
+                window.location = '/profile';
+                // this.props.history.push(`/profile`)
             }else{
                 console.log(role);
-                this.props.history.push(`index-admin`)
+                window.location = '/index-admin';
+                // this.props.history.push(`/index-admin`)
             }
             /* this.props.history.push(`/profile`)  */ 
         }

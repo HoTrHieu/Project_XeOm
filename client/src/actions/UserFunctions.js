@@ -24,6 +24,7 @@ export const login = taikhoan =>{
             PassWord: taikhoan.PassWord,
         })
         .then(res=>{
+            console.log('login set tai khoan', res.data);
             if(res.data.user){
                 localStorage.setItem('taikhoan', JSON.stringify(res.data))
                 return res.data

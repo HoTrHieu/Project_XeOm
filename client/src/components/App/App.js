@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 
 import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route,Switch } from "react-router-dom";
 import Index from "../UserPage/Index/Index";
 import Profile from "../UserPage/Profile/Profile";
 import RegisterPage from "../UserPage/RegisterPage/RegisterPage";
@@ -17,7 +17,10 @@ import jwt_decode from "jwt-decode";
 import FindDriver from "../UserPage/FindDriver/FindDriver";
 import ConfirmDriver from "../UserPage/ConfirmDriver/ConfirmDriver";
 import RouteDriver from "../UserPage/RouteDriver/RouteDriver";
-
+import {PrivateRouteAdmin} from "../PrivateRoute/PrivateAdmin"
+import {PrivateRouteProfile} from   "../PrivateRoute/PrivateRouteProFile"
+import DashboardAdmin from "../Dashboard/DashboardAdmin"
+import DashboardProfile from "../Dashboard/DashboardProfile"
 // var socket
 class App extends Component {
   // constructor(props) {
@@ -60,30 +63,35 @@ class App extends Component {
     return role;
   }
   render() {
-   
-
+    console.log("dasdsad")
+    console.log(this.getRole())
     return (
-      <Router>
+      <Switch>
         <Route exact path="/" component={Index} />
-        <Route exact path="/book" component={BookPage} />
+       
         <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/book" component={BookPage} />
         <Route
           exact
           path="/profile"
           component={
-            localStorage.taikhoan && this.getRole() === "TaiXe"
-              ? Profile
-              : Index
+            localStorage.taikhoan && this.getRole() === "admin"
+              ? IndexAdmin
+              : Profile
           }
         />
-        <Route exact path="/register" component={RegisterPage} />
         <Route
           exact
           path="/statistical"
-          component={localStorage.taikhoan ? Statistical : Index}
+          component={
+            localStorage.taikhoan && this.getRole() === "admin"
+              ? IndexAdmin
+              : Statistical
+          }
         />
-        <Route
-          exact
+         <Route
+         exact
           path="/index-admin"
           component={
             localStorage.taikhoan && this.getRole() === "admin"
@@ -92,7 +100,6 @@ class App extends Component {
           }
         />
         <Route
-          exact
           path="/alldrivers"
           component={
             localStorage.taikhoan && this.getRole() === "admin"
@@ -101,15 +108,16 @@ class App extends Component {
           }
         />
         <Route
-          exact
           path="/driver"
           component={
             localStorage.taikhoan && this.getRole() === "admin"
               ? Driver
               : Index
           }
-        />
-      </Router>
+        /> 
+        <PrivateRouteAdmin path="/" component={DashboardAdmin}/>
+        <PrivateRouteProfile path="/" component ={DashboardProfile}/>
+     </Switch>
     );
   }
 }

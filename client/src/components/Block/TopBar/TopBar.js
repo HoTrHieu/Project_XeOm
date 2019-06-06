@@ -41,9 +41,6 @@ class TopBar extends Component {
         const driverLink =( 
             <ul>
                 <li className="menuChose">
-                    <Link to="book"><i className="fas fa-mobile-alt" />&nbsp;Đặt Xe</Link>
-                </li>
-                <li className="menuChose">
                     <Link to="/profile"><i className="fas fa-user"></i>&nbsp;Thông tin cá nhân</Link>
                 </li>
                 <li className="menuChose">
