@@ -137,7 +137,8 @@ class Blook extends Component {
                 // markers for each step.
                 
             if (status === 'OK') {
-                    //console.log("ketquaKm",response);
+                    //console.log("ketquaKm",response)
+                    
                     //document.getElementById('warnings-panel').innerHTML ='<b>' + response.routes[0].warnings + '</b>';
                     var  soKmT = response.routes[0].legs[0].distance.text;
                     document.getElementById("output-km").textContent=soKmT
@@ -152,7 +153,20 @@ class Blook extends Component {
                     await directionsDisplay.setDirections(response);                    
                     //ShowStep
                     await self.showSteps(response, markerArray, stepDisplay, map)
-                                         
+                    
+                    //vòng tròn thần thánh
+                    var slat=response.routes[0].legs[0].start_location.lat();
+                    var slng=response.routes[0].legs[0].start_location.lng();
+                    var cityCircle = new window.google.maps.Circle({
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: {lat:slat,lng:slng},
+                        radius: 5000
+                      });
                     
             } else {
                 document.getElementById("location-input-don").value = "";
