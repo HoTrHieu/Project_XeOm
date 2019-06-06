@@ -95,7 +95,7 @@ onSubmit(e){
 }
 getInfoTaiXeByDate(times) {
     const link =
-        "http://localhost:8080/taixe/api/taixe-chuyendi-date/" + times;
+        "http://localhost:8080/taixe/getbydate/" + times;
     console.log(link)
     axios
         .get(link)
@@ -116,7 +116,7 @@ getInfoTaiXeByDate(times) {
 }
 getInfoTaiXeByMonth(times) {
     const link =
-        "http://localhost:8080/taixe/api/taixe-chuyendi-month/" + times;
+        "http://localhost:8080/taixe/getbymonth/" + times;
     console.log(link)
     axios
         .get(link)
@@ -137,7 +137,7 @@ getInfoTaiXeByMonth(times) {
 }
 getInfoTaiXeByWeek(times) {
     const link =
-        "http://localhost:8080/taixe/api/taixe-chuyendi-week/" + times;
+        "http://localhost:8080/taixe/getbyweek/" + times;
     console.log(link)
     axios
         .get(link)
