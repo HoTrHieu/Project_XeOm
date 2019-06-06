@@ -11,10 +11,10 @@ const ModelTaiKhoan = require('../models/TaiKhoan');
 const ModelTaiXe = require('../models/TaiXe');
 
 process.env.SECRET_KEY = "secret";
+const TaiXe = require('../models/TaiXe')
+const TaiKhoan = require('../models/TaiKhoan')
 
-exports.show_login = function(req, res, next){
-    res.render('index',  { title: 'Hiếu Đẹp Trai' });
-}
+
 
 exports.register = function(req, res,next){    
     ModelTaiKhoan.findOne({
@@ -106,3 +106,66 @@ exports.logout = function(req,res){
         failureFlash: true
     })(req, res, next);    
 } */
+
+module.exports.APITaiXe_TaiKhoan = async (req, res)=>{ //API TaiXe TaiKhoan
+    const taixes = await TaiXe.find()
+    const taikhoans = await TaiKhoan.find()
+    let Similarphone = []
+    taixes.map(taixe=>{
+        taikhoans.map(taikhoan=>{
+            if(taixe.SoDienThoai == taikhoan.UserName){
+                   
+                Similarphone.push({SimilarPhone:{taixe, taikhoan}})
+            }
+        })
+    })
+    res.json({
+        Similarphone
+    })
+   
+}
+module.exports.Add = async (req,res)=>{ //add
+const {UserName,PassWord,LoaiTaiKhoan,TinhTrang} = req.body
+
+const taikhoan = new TaiKhoan({UserName,PassWord,LoaiTaiKhoan,TinhTrang})
+const new_TaiKhoan= await taikhoan.save()
+res.json({
+    new_TaiKhoan
+})
+}
+module.exports.Select = async (req, res)=>{ //select * 
+
+const taikhoan = await TaiKhoan.find({})
+res.json({
+    taikhoan
+ })
+//res.render('view', {TaiKhoan})
+}
+module.exports.FetchID = async (req, res)=>{ //select theo id
+  const {id} = req.params
+  const taikhoan = await TaiKhoan.findById(id)
+  res.json({
+    taikhoan
+  })
+// res.render('update', {TaiKhoan})
+}
+module.exports.Delete =  async (req, res)=>{ //delete
+    const {id} = req.params
+    const taikhoan = await TaiKhoan.findOneAndRemove({_id: id})
+   res.json({
+         taikhoan
+   })
+}
+
+module.exports.Update = async (req, res)=>{ //update
+const {id} = req.params
+const {TinhTrang} = req.body
+
+console.log(TinhTrang)
+
+const taikhoan = await TaiKhoan.findOneAndUpdate({_id:id}, {TinhTrang}, {new: true})
+res.json({
+    taikhoan
+})
+//res.redirect('/TaiKhoan')
+}

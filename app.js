@@ -11,6 +11,9 @@ var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var cors = require('cors');
 const fileUpload = require('express-fileupload');
+const http = require("http")
+const socketIO = require("socket.io")
+
 
 /* var indexRouter = require('./routes/index'); */
 var usersRouter = require('./routes/users');
@@ -22,7 +25,18 @@ const ChuyenDi_route = require('./routes/ChuyenDi')
 var app = express();
 app.use(cors())
 app.use(fileUpload());
+// const server = app.listen(8081)
 
+// const io = socketIO(server)
+// io.on("connection", socket =>{
+//   console.log("new client connected", + socket.id )
+//   socket.on("tai-xe-online",data=>{
+//     console.log(data)
+//       let user_online = `tai xe online ${data.UserName}`
+//      io.emit("thong-bao-online", user_online)
+     
+//   })
+// })
 
 dotenv.config();
 
@@ -60,6 +74,7 @@ app.use('/', usersRouter);
 app.use('/taixe',TaiXe_route);
 app.use('/taikhoan',TaiKhoan_route);
 app.use('/chuyendi',ChuyenDi_route);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
