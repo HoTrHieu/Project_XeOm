@@ -8,7 +8,8 @@ const TaiXe = new Schema({
     DiaChi: {type: String, required: true, trim: true},
     BienSoXe: {type: String,  required: true, trim: true},
     AnhDaiDien: {type: String,  required: true, trim: true},
-    AnhXe: {type:  [String] ,  required: true, trim: true}
+    AnhXe: {type:  [String] ,  required: true, trim: true},
+    HoatDong : {type: String, required: true, trim: true}
 })
 
 const ModelTaiXe= mongoose.model("TaiXe",TaiXe, "TaiXe")

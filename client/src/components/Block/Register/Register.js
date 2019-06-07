@@ -15,6 +15,7 @@ class Register extends Component {
         PassWord: "",
         PassWordConfirm: "",
         TinhTrang: "ChuaKichHoat",
+        HoatDong: "Offline",
         LoaiTaiKhoan: "TaiXe",
 
         ErrorHoTen: "",
@@ -25,7 +26,7 @@ class Register extends Component {
         ErrorAnhXe: "",
         ErrorPassWord: "",
         /*       ErrorPassWordConfirm:"",
-    PasswordMismatch:"", */
+PasswordMismatch:"", */
         LengthPassWord: ""
     };
 
@@ -77,94 +78,105 @@ class Register extends Component {
     });
   }
   onSubmit(e) {
+    var self = this;
     e.preventDefault();
     this.handleUploadImage();
     this.handleUploadSingleImage();
-    var self = this;
-    setTimeout(function() {
-        const thongtin = {
-          HoTen: self.state.HoTen,
-          SoDienThoai: self.state.SoDienThoai,
-          DiaChi: self.state.DiaChi,
-          BienSoXe: self.state.BienSoXe,
-          AnhDaiDien: self.state.AnhDaiDien,
-          AnhXe: self.state.AnhXe,
 
-          PassWord: self.state.PassWord,
-          PassWordConfirm: self.state.PassWordConfirm,
-          TinhTrang: self.state.TinhTrang,
-          LoaiTaiKhoan: self.state.LoaiTaiKhoan
-        };
-        register(thongtin).then((res) => {
-          console.log(res);
-          if (!res.data.error) {
-            self.props.history.push(`login`);
-          } else {
-            self.setState({
-                ErrorHoTen: "",
-                ErrorSoDienThoai: "",
-                ErrorBienSoXe: "",
-                ErrorDiaChi: "",
-                /*  ErrorAnhDaiDien:"",
-          ErrorAnhXe:"", */
-                ErrorPassWord: "",
-                /*  ErrorPassWordConfirm:"", */
-                /* PasswordMismatch:"", */
-                LengthPassWord: ""
-              });
-              if (res.data.error === "ErrorHoTen") {
-                self.setState({ ErrorHoTen: "Họ và Tên không được trống" });
-              }
-              if (res.data.error === "ErrorSoDienThoai") {
-                self.setState({
-                    ErrorSoDienThoai: "Số điện thoại không được trống"
-                });
-              }
-              if (res.data.err === "exists") {
-                self.setState({
-                    ErrorSoDienThoai: "Số điện thoại đã được sử dụng"
-                });
-              }
-              if (res.data.error === "ErrorBienSoXe") {
-                self.setState({
-                    ErrorBienSoXe: "Biển số xe không được trống"
-                });
-              }
-              if (res.data.error === "ErrorDiaChi") {
-                self.setState({ ErrorDiaChi: "Địa chỉ không được trống" });
-              }
-              /* if(res.data.error === 'ErrorAnhDaiDien'){
-          self.setState({ ErrorAnhDaiDien: "Ảnh đại diện không được trống" });
-        }
-        if(res.data.error === 'ErrorAnhXe'){
-          self.setState({ ErrorAnhXe: "Ảnh xe không được trống" });
-        } */
-              if (res.data.error === "ErrorPassWord") {
-                self.setState({ ErrorPassWord: "Mật khẩu không được trống" });
-              }
-              /* if(res.data.error === 'ErrorPassWordConfirm'){
-          self.setState({ ErrorPassWordConfirm: "Mật khẩu xác nhận không được trống" });
-        }   */
-              /*  if(res.data.error === 'PasswordMismatch'){
-          self.setState({ PasswordMismatch: "Mật khẩu xác nhận không trùng khớp" });
-        }   */
-              if (res.data.error === "LengthPassWord") {
-                self.setState({
-                    LengthPassWord: "Mật khẩu có ít nhất 6 ký tự"
-                });
-              }
+    /* await console.log("ADD: " + self.state.AnhDaiDien);
+    console.log("AX: " + self.state.AnhXe); */
+
+    setTimeout(function(){
+      const thongtin = {
+        HoTen: self.state.HoTen,
+        SoDienThoai: self.state.SoDienThoai,
+        DiaChi: self.state.DiaChi,
+        BienSoXe: self.state.BienSoXe,
+        AnhDaiDien: self.state.AnhDaiDien,
+        AnhXe: self.state.AnhXe,
+        HoatDong: self.state.HoatDong,
+
+        PassWord: self.state.PassWord,
+        PassWordConfirm: self.state.PassWordConfirm,
+        TinhTrang: self.state.TinhTrang,
+        LoaiTaiKhoan: self.state.LoaiTaiKhoan
+    };
+    register(thongtin).then((res) => {
+        console.log(res);
+        if (!res.data.error) {
+          self.props.history.push(`login`);
+        } else {
+          self.setState({
+              ErrorHoTen: "",
+              ErrorSoDienThoai: "",
+              ErrorBienSoXe: "",
+              ErrorDiaChi: "",
+              /*  ErrorAnhDaiDien:"",
+      ErrorAnhXe:"", */
+              ErrorPassWord: "",
+              /*  ErrorPassWordConfirm:"", */
+              /* PasswordMismatch:"", */
+              LengthPassWord: ""
+          });
+          if (res.data.error === "ErrorHoTen") {
+              self.setState({ ErrorHoTen: "Họ và Tên không được trống" });
           }
-        });
-    }, 1000);
+          if (res.data.error === "ErrorSoDienThoai") {
+              self.setState({
+                ErrorSoDienThoai: "Số điện thoại không được trống"
+              });
+          }
+          if (res.data.err === "exists") {
+              self.setState({
+                ErrorSoDienThoai: "Số điện thoại đã được sử dụng"
+              });
+          }
+          if (res.data.error === "ErrorBienSoXe") {
+              self.setState({
+                ErrorBienSoXe: "Biển số xe không được trống"
+              });
+          }
+          if (res.data.error === "ErrorDiaChi") {
+              self.setState({ ErrorDiaChi: "Địa chỉ không được trống" });
+          }
+          /* if(res.data.error === 'ErrorAnhDaiDien'){
+      self.setState({ ErrorAnhDaiDien: "Ảnh đại diện không được trống" });
+    }
+    if(res.data.error === 'ErrorAnhXe'){
+      self.setState({ ErrorAnhXe: "Ảnh xe không được trống" });
+    } */
+          if (res.data.error === "ErrorPassWord") {
+              self.setState({ ErrorPassWord: "Mật khẩu không được trống" });
+          }
+          /* if(res.data.error === 'ErrorPassWordConfirm'){
+      self.setState({ ErrorPassWordConfirm: "Mật khẩu xác nhận không được trống" });
+    }   */
+          /*  if(res.data.error === 'PasswordMismatch'){
+      self.setState({ PasswordMismatch: "Mật khẩu xác nhận không trùng khớp" });
+    }   */
+          if (res.data.error === "LengthPassWord") {
+              self.setState({
+                LengthPassWord: "Mật khẩu có ít nhất 6 ký tự"
+              });
+          }
+        }
+    });
+    } , 2000)
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  }
+  componentWillUpdate(nextProps, nextState) {}
+  componentDidUpdate(prevProps, prevState) {}
 
   render() {
     /*  const listImage = this.state.AnhXe.map((img, key) =>
-      <div className="col-4">
-        <img src={img} alt={key} key={key}/>
-      </div>
-    
-  ); */
+  <div className="col-4">
+    <img src={img} alt={key} key={key}/>
+  </div>
+
+); */
     return (
         <div id="register" history={this.props.history}>
           <div className="wrapperRegister">
@@ -308,7 +320,6 @@ class Register extends Component {
                             {this.state.ErrorAnhDaiDien}
                           </span>
                       </div>
-                      <img src={this.state.AnhDaiDien} alt="img" />
                       <div className="form-group">
                           <div className="inputFile">
                             <label id="#bb">

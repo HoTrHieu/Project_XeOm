@@ -299,7 +299,7 @@ input[type="file"] {
     background: #fff;
     z-index: 2;
     right: 2%;
-    transform: translateY(20%);
+    transform: translateY(2%);
     padding-bottom: 30px;
 }
 #register .titleMain{
@@ -337,7 +337,7 @@ input[type="file"] {
     padding-right: 20px;
 }
 #book .bookCustomer, #confirmDriver .bookCustomer{
-    padding: 30px 10px;
+    padding: 20px 10px;
     background: #fff;
     border-radius: 5px;
     width: 100%;
