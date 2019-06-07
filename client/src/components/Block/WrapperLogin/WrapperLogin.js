@@ -31,19 +31,18 @@ onSubmit(e) {
     };
 
     login(taikhoan).then((res) => {
-        if(res.err){
-            if(res.err === 'incorrect'){
+        if(res.error){
+            if(res.error === 'incorrect'){
                 this.setState({ Error: "Số điện thoại hoặc mật khẩu chưa chính xác" });
-            } else if(res.err === 'notactivated'){
+            } else if(res.error === 'notactivated'){
                 this.setState({ Error: "Số điện thoại chưa được kích hoạt hoặc đã bị khoá" });
-            } else if(res.err === 'ErrorUserName' || res.data.err === 'ErrorPassWord'){
+            } else if(res.error === 'ErrorUserName' || res.error === 'ErrorPassWord'){
                 this.setState({ Error: "Số điện thoại và mật khẩu không được trống" });
             }
             
         } else if (res) {
             const token = localStorage.getItem('taikhoan');
             const decoded = jwt_decode(token);
-            console.log(decoded);
             const role = decoded.LoaiTaiKhoan;
             if(role === 'TaiXe'){
                 console.log(role)

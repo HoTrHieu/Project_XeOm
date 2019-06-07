@@ -75,7 +75,7 @@ class LeftSideBar extends Component {
                 {role==='admin'?'':<div className="wrapperAvtSideBar">
                     <img
                     src={this.props.anhDaiDien}
-                    alt=""
+                    alt="img"
                     className="img-fluid avatarSideBar"
                     />
                 </div>}

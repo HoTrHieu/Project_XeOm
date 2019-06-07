@@ -62,6 +62,8 @@ class App extends Component {
     }
     return role;
   }
+
+  
   render() {
     return (
       <Switch>
@@ -114,7 +116,7 @@ class App extends Component {
           }
         /> 
         <Route
-          path="/finddriver"
+          path="/find"
           component={
             FindDriver
           }

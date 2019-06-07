@@ -17,20 +17,25 @@ class Register extends Component {
         TinhTrang: "ChuaKichHoat",
         HoatDong: "Offline",
         LoaiTaiKhoan: "TaiXe",
+        upImgSingle: false,
+        upImg: false,
 
         ErrorHoTen: "",
         ErrorSoDienThoai: "",
+        LengthSDT: "",
         ErrorBienSoXe: "",
         ErrorDiaChi: "",
         ErrorAnhDaiDien: "",
         ErrorAnhXe: "",
         ErrorPassWord: "",
-        /*       ErrorPassWordConfirm:"",
-PasswordMismatch:"", */
+        ErrorPassWordConfirm:"",
+        PasswordMismatch:"",
         LengthPassWord: ""
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onChangeImg = this.onChangeImg.bind(this);
+    this.onChangeImgSingle = this.onChangeImgSingle.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleUploadImage = this.handleUploadImage.bind(this);
     this.handleUploadSingleImage = this.handleUploadSingleImage.bind(this);
@@ -44,7 +49,6 @@ PasswordMismatch:"", */
     for (var i = 0; i < this.uploadInput.files.length; i++) {
         data.append("file", this.uploadInput.files[i]);
     }
-
     fetch("http://localhost:8080/upload", {
         method: "POST",
         body: data
@@ -54,8 +58,9 @@ PasswordMismatch:"", */
           this.setState({
               AnhXe: data.map((obj) => "http://localhost:8080/" + obj)
           });
-          console.log("Multi");
         });
+    }).catch(err=>{
+      return false
     });
   }
 
@@ -63,6 +68,7 @@ PasswordMismatch:"", */
     const data = new FormData();
     data.append("file", this.uploadInputFile.files[0]);
 
+    var t;
     fetch("http://localhost:8080/uploadsingle", {
         method: "POST",
         body: data
@@ -73,20 +79,38 @@ PasswordMismatch:"", */
           this.setState({
               AnhDaiDien: newData
           });
-          console.log("Single");
+          t = data.length
+          console.log('TT:', t);
         });
+    }).catch(err=>{
+      return false
     });
   }
+
+  ValidateUSPhoneNumber(phoneNumber) {
+    var regExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4,5})$/;
+    var phone = phoneNumber.match(regExp);
+    if (phone) {
+        return true;
+    }
+    return false;
+  }
+
+  onChangeImgSingle(e) {
+    this.setState({ upImgSingle : true  });
+    this.handleUploadSingleImage();
+  }
+
+  onChangeImg(e) {
+    this.setState({ upImg: true  });
+    this.handleUploadImage();
+  }
+
   onSubmit(e) {
     var self = this;
     e.preventDefault();
-    this.handleUploadImage();
-    this.handleUploadSingleImage();
-
-    /* await console.log("ADD: " + self.state.AnhDaiDien);
-    console.log("AX: " + self.state.AnhXe); */
-
-    setTimeout(function(){
+    
+    /* if(this.state.upImg ===true && this.state.upImgSingle === true){ */
       const thongtin = {
         HoTen: self.state.HoTen,
         SoDienThoai: self.state.SoDienThoai,
@@ -109,13 +133,14 @@ PasswordMismatch:"", */
           self.setState({
               ErrorHoTen: "",
               ErrorSoDienThoai: "",
+              LengthSDT: "",
               ErrorBienSoXe: "",
               ErrorDiaChi: "",
-              /*  ErrorAnhDaiDien:"",
-      ErrorAnhXe:"", */
+              ErrorAnhDaiDien:"",
+              ErrorAnhXe:"",
               ErrorPassWord: "",
-              /*  ErrorPassWordConfirm:"", */
-              /* PasswordMismatch:"", */
+              ErrorPassWordConfirm:"",
+              PasswordMismatch:"", 
               LengthPassWord: ""
           });
           if (res.data.error === "ErrorHoTen") {
@@ -126,7 +151,17 @@ PasswordMismatch:"", */
                 ErrorSoDienThoai: "Số điện thoại không được trống"
               });
           }
-          if (res.data.err === "exists") {
+          if (res.data.error === "LengthSDT") {
+            self.setState({
+              LengthSDT: "Số điện thoại tối thiểu 10 số"
+            });
+          }
+          if(self.ValidateUSPhoneNumber(self.state.SoDienThoai)===false){
+            self.setState({
+              ErrorSoDienThoai: "Số điện thoại không đúng định dạng. (Gợi ý: 0962815653)"
+            });
+          }
+          if (res.data.error === "exists") {
               self.setState({
                 ErrorSoDienThoai: "Số điện thoại đã được sử dụng"
               });
@@ -139,21 +174,21 @@ PasswordMismatch:"", */
           if (res.data.error === "ErrorDiaChi") {
               self.setState({ ErrorDiaChi: "Địa chỉ không được trống" });
           }
-          /* if(res.data.error === 'ErrorAnhDaiDien'){
-      self.setState({ ErrorAnhDaiDien: "Ảnh đại diện không được trống" });
-    }
-    if(res.data.error === 'ErrorAnhXe'){
-      self.setState({ ErrorAnhXe: "Ảnh xe không được trống" });
-    } */
+          if(res.data.error === 'ErrorAnhDaiDien'){
+          self.setState({ ErrorAnhDaiDien: "Ảnh đại diện không được trống" });
+          }
+          if(res.data.error === 'ErrorAnhXe'){
+            self.setState({ ErrorAnhXe: "Ảnh xe không được trống hoặc ít nhất 2 tấm" });
+          }
           if (res.data.error === "ErrorPassWord") {
               self.setState({ ErrorPassWord: "Mật khẩu không được trống" });
           }
-          /* if(res.data.error === 'ErrorPassWordConfirm'){
-      self.setState({ ErrorPassWordConfirm: "Mật khẩu xác nhận không được trống" });
-    }   */
-          /*  if(res.data.error === 'PasswordMismatch'){
-      self.setState({ PasswordMismatch: "Mật khẩu xác nhận không trùng khớp" });
-    }   */
+          if(res.data.error === 'ErrorPassWordConfirm'){
+            self.setState({ ErrorPassWordConfirm: "Mật khẩu xác nhận không được trống" });
+          }
+          if(res.data.error === 'PasswordMismatch'){
+            self.setState({ PasswordMismatch: "Mật khẩu xác nhận không trùng khớp" });
+          }  
           if (res.data.error === "LengthPassWord") {
               self.setState({
                 LengthPassWord: "Mật khẩu có ít nhất 6 ký tự"
@@ -161,14 +196,8 @@ PasswordMismatch:"", */
           }
         }
     });
-    } , 2000)
+    /* } */
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
-  componentWillUpdate(nextProps, nextState) {}
-  componentDidUpdate(prevProps, prevState) {}
 
   render() {
     /*  const listImage = this.state.AnhXe.map((img, key) =>
@@ -232,6 +261,9 @@ PasswordMismatch:"", */
                           <span style={{ color: "red", fontStyle: "italic" }}>
                             {this.state.ErrorSoDienThoai}
                           </span>
+                          <span style={{ color: "red", fontStyle: "italic" }}>
+                            {this.state.LengthSDT}
+                          </span>
                       </div>
                       <div className="form-group">
                           <input
@@ -277,7 +309,7 @@ PasswordMismatch:"", */
                           />
                       </div>
                       <div className="form-group">
-                          {/* <span style={{color: 'red', fontStyle: 'italic'}}>{this.state.ErrorPassWordConfirm}</span> */}
+                          <span style={{color: 'red', fontStyle: 'italic'}}>{this.state.ErrorPassWordConfirm}</span> 
                           <span style={{ color: "red", fontStyle: "italic" }}>
                             {this.state.PasswordMismatch}
                           </span>
@@ -311,6 +343,7 @@ PasswordMismatch:"", */
                                       this.uploadInputFile = ref;
                                   }}
                                   name="filename"
+                                  onChange={this.onChangeImgSingle}
                                 />
                             </label>
                           </div>
@@ -335,6 +368,7 @@ PasswordMismatch:"", */
                                   id="FileXe"
                                   className="form-control-file inputFile"
                                   aria-describedby="fileHelpId"
+                                  onChange={this.onChangeImg}
                                 />
                             </label>
                           </div>

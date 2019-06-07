@@ -18,12 +18,12 @@ const TaiKhoan = require('../models/TaiKhoan')
 exports.register = function(req, res,next){    
     ModelTaiKhoan.findOne({
         UserName: req.body.SoDienThoai
-    }).exec(function(err, taikhoan){
+    }).exec(function(error, taikhoan){
         if(taikhoan){
             return res.json({error: 'exists'})
         }else if(!taikhoan){
-            bcrypt.hash(req.body.PassWord, 10, function(err, hash){
-                if (err) {return next(err);}
+            bcrypt.hash(req.body.PassWord, 10, function(error, hash){
+                if (error) {return next(error);}
                 const taiKhoanData ={
                     UserName: req.body.SoDienThoai,
                     PassWord: req.body.PassWord,
@@ -42,10 +42,10 @@ exports.register = function(req, res,next){
                 taiKhoanData.PassWord = hash;
                 const taikhoan = new ModelTaiKhoan(taiKhoanData)
                 const taixe = new ModelTaiXe(taiXeData)
-                taikhoan.save((err, result) => {
-                    if(err) {return res.json({err})}
-                    taixe.save((err, result)=>{
-                        if(err) {return res.json({err})}
+                taikhoan.save((error, result) => {
+                    if(error) {return res.json({error})}
+                    taixe.save((error, result)=>{
+                        if(error) {return res.json({error})}
                         res.json({taiKhoanData, taiXeData: result})
                     })
                 })
@@ -57,13 +57,13 @@ exports.register = function(req, res,next){
 exports.login = function(req, res){
     ModelTaiKhoan.findOne({
         UserName: req.body.UserName
-    }).exec(function(err, taikhoan){
-        if(err){
-            return res.json({err})
+    }).exec(function(error, taikhoan){
+        if(error){
+            return res.json({error})
         }else if(!taikhoan){
-            return res.json({err: 'incorrect'})
+            return res.json({error: 'incorrect'})
         }else if(taikhoan.TinhTrang !== 'KichHoat' ){
-            return res.json({err: 'notactivated'})
+            return res.json({error: 'notactivated'})
         }
         if(bcrypt.compareSync(req.body.PassWord, taikhoan.PassWord)){
             const payload = {
@@ -73,7 +73,7 @@ exports.login = function(req, res){
             }
             let token = jwt.sign(payload, process.env.SECRET_KEY,{
                 expiresIn: 1440,
-            },(err, token)=>{
+            },(error, token)=>{
                 if(payload.LoaiTaiKhoan === 'admin'){
                     res.json({user: token, 'role': 'admin'})
                 }else{
@@ -82,7 +82,7 @@ exports.login = function(req, res){
             })
                 
             }else{
-            res.json({err: 'incorrect'})
+            res.json({error: 'incorrect'})
         }
     })
 }

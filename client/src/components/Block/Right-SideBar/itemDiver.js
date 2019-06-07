@@ -52,7 +52,7 @@ class ItemDriver extends Component {
         return (
         
                 <div className="col-xs-12 col-md-6 wrapperDriver" >
-                  <div className={this.props.item.SimilarPhone.taixe.TinhTrang === "Online" ? "driver check" : "driver"}>  
+                  <div className={this.props.item.SimilarPhone.taixe.HoatDong === "Online" ? "driver check" : "driver"}>  
                     <div className="container">
                       <div className="row" >
                         <div className="col-2 imgDriver">
@@ -66,14 +66,6 @@ class ItemDriver extends Component {
                           <i className={this.props.item.SimilarPhone.taikhoan.TinhTrang === "KichHoat" ? "far fa-check-circle check" : "far fa-times-circle uncheck" } />
                           
                         </div>
-                        {/* <div className= "col-2 status uncheck">
-                          <i className="far fa-times-circle uncheck" />
-                          
-                        </div>
-                        <div className= "col-2 status check">
-                          <i className="far fa-check-circle check" />
-                          
-                        </div>  */}
                       </div>
                     </div>
                   </div>

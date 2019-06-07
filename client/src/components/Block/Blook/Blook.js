@@ -267,136 +267,128 @@ componentDidMount() {
 render() {
     return (
         <div id="book">
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-xs-12 col-md-8 map">
-                    <div style={{ width: `100%`, height: `100%` }} id="myMap">
-                    <div
-                        id="warnings-panel"
-                        style={{
-                            width: `100%`,
-                            height: `10%`,
-                            textAlign: "center"
-                        }}
-                    />
-                    </div>
-                </div>
-                {/* map */}
-                <div className=" col-xs-12 col-md-4 bookCustomer">
-                    <form onSubmit={this.handleSubmit}>
-                    <h4 className="titleBook">Thông tin khách hàng</h4>
-                    <small style={{ color: "red" }}>
-                        <i>
-                            {this.state.requireInputDon !== ""
-                                ? this.state.requireInputDon
-                                : ""}
-                        </i>
-                    </small>
-                    <div className="form-group location-input">
-                        <input
-                            ref="inputDon"
-                            type="text"
-                            name="DiemDon"
-                            id="location-input-don"
-                            className="form-control"
-                            placeholder="Địa điểm đón"
-                            aria-describedby="helpId"
-                        />
-                    </div>
-                    <small style={{ color: "red" }}>
-                        <i>
-                            {this.state.requireInputDen !== ""
-                                ? this.state.requireInputDen
-                                : ""}
-                        </i>
-                    </small>
-                    <div className="form-group location-input">
-                        <input
-                            ref="inputDen"
-                            type="text"
-                            name="DiemDen"
-                            id="location-input-den"
-                            className="form-control"
-                            placeholder="Địa điểm đến"
-                            aria-describedby="helpId"
-                        />
-                    </div>
-                    <small style={{ color: "red" }}>
-                        <i>
-                            {this.state.requireInputSDT !== ""
-                                ? this.state.requireInputSDT
-                                : ""}
-                        </i>
-                    </small>
-                    <div className="form-group">
-                        <input
-                            onChange={this.handleInputChange}
-                            ref="inputSDT"
-                            type="number"
-                            name="SDT"
-                            id="input-sdt"
-                            className="form-control"
-                            placeholder="Số điện thoại"
-                            aria-describedby="helpId"
-                        />
-                    </div>
-                    <div className="form-group text-center">
-                        <p style={{ color: "red", fontWeight: "bold" }}>
-                            Số km dự tính :{" "}
-                            <span id="output-km" style={{ fontSize: "18px" }}>
-                                {this.state.soKM}0 km
-                            </span>
-                        </p>
-                    </div>
-                    <div className="form-group text-center">
-                        <p style={{ color: "red", fontWeight: "bold" }}>
-                            Số tiền dự tính :{" "}
-                            <span
-                                id="output-tien"
-                                style={{ fontSize: "18px" }}
-                            >
-                                0 đ
-                            </span>
-                        </p>
-                    </div>
-
-                    {this.state.existsRound === false ? (
-                        <div className="form-group text-center">
-                            <button
-                                name=""
-                                className="btn btn-success btnRegister btn-block"
-                                type="submit"
-                            >
-                                Xem Lộ Trình &nbsp;&nbsp;
-                                <i className="fas fa-motorcycle" />
-                            </button>{" "}
+            <div className="container-fluid ct-book">
+                <div className="row r-book">
+                    <div className="col-12 map" id="myMap">
+                        <div style={{ width: `100%`, height: `100%` }} >
                         </div>
-                    ) : (
-                        <div className="form-group text-center">
-                            <button
-                                onClick={this.handleCancel}
-                                name=""
-                                className="btn btn-danger btnCancel"
-                            >
-                                Huỷ &nbsp;&nbsp;
-                                <i className="fas fa-motorcycle" />
-                            </button>{" "}
-                            &nbsp;{" "}
-                            <button
-                                onClick={this.handleSubmit}
-                                name=""
-                                className="btn btn-success btnFindDriver"
-                            >
-                                Tìm tài xế &nbsp;&nbsp;
-                                <i className="fas fa-motorcycle" />
-                            </button>{" "}
-                        </div>
-                    )}
-                    {/* bookCustomer */}
-                    </form>
+                    </div>
+                    {/* map */}
                 </div>
             </div>
-        </div>
+            <div className="bookCustomer">
+                <form onSubmit={this.handleSubmit}>
+                <h4 className="titleBook">Thông tin khách hàng</h4>
+                <small style={{ color: "yellow" }}>
+                    <i>
+                        {this.state.requireInputDon !== ""
+                            ? this.state.requireInputDon
+                            : ""}
+                    </i>
+                </small>
+                <div className="form-group location-input">
+                    <input
+                        ref="inputDon"
+                        type="text"
+                        name="DiemDon"
+                        id="location-input-don"
+                        className="form-control"
+                        placeholder="Địa điểm đón"
+                        aria-describedby="helpId"
+                    />
+                </div>
+                <small style={{ color: "yellow" }}>
+                    <i>
+                        {this.state.requireInputDen !== ""
+                            ? this.state.requireInputDen
+                            : ""}
+                    </i>
+                </small>
+                <div className="form-group location-input">
+                    <input
+                        ref="inputDen"
+                        type="text"
+                        name="DiemDen"
+                        id="location-input-den"
+                        className="form-control"
+                        placeholder="Địa điểm đến"
+                        aria-describedby="helpId"
+                    />
+                </div>
+                <small style={{ color: "yellow" }}>
+                    <i>
+                        {this.state.requireInputSDT !== ""
+                            ? this.state.requireInputSDT
+                            : ""}
+                    </i>
+                </small>
+                <div className="form-group">
+                    <input
+                        onChange={this.handleInputChange}
+                        ref="inputSDT"
+                        type="number"
+                        name="SDT"
+                        id="input-sdt"
+                        className="form-control"
+                        placeholder="Số điện thoại"
+                        aria-describedby="helpId"
+                    />
+                </div>
+                <div className="form-group text-center">
+                    <p style={{ color: "yellow", fontWeight: "bold" }}>
+                        Số km dự tính :{" "}
+                        <span id="output-km" style={{ fontSize: "18px" }}>
+                            {this.state.soKM}0 km
+                        </span>
+                    </p>
+                </div>
+                <div className="form-group text-center">
+                    <p style={{ color: "yellow", fontWeight: "bold" }}>
+                        Số tiền dự tính :{" "}
+                        <span
+                            id="output-tien"
+                            style={{ fontSize: "18px" }}
+                        >
+                            0 đ
+                        </span>
+                    </p>
+                </div>
+
+                {this.state.existsRound === false ? (
+                    <div className="form-group text-center">
+                        <button
+                            name=""
+                            className="btn btn-success btnRegister btn-block"
+                            type="submit"
+                        >
+                            Xem Lộ Trình &nbsp;&nbsp;
+                            <i className="fas fa-motorcycle" />
+                        </button>{" "}
+                    </div>
+                ) : (
+                    <div className="form-group text-center">
+                        <button
+                            onClick={this.handleCancel}
+                            name=""
+                            className="btn btn-danger btnCancel"
+                        >
+                            Huỷ &nbsp;&nbsp;
+                            <i className="fas fa-motorcycle" />
+                        </button>{" "}
+                        &nbsp;{" "}
+                        <button
+                            onClick={this.handleSubmit}
+                            name=""
+                            className="btn btn-success btnFindDriver"
+                        >
+                            Tìm tài xế &nbsp;&nbsp;
+                            <i className="fas fa-motorcycle" />
+                        </button>{" "}
+                    </div>
+                )}
+                {/* bookCustomer */}
+                </form>
+            </div>
         </div>
     );
 }

@@ -5,13 +5,14 @@ export const register = thongtin => {
         .post('/register',{
             HoTen: thongtin.HoTen,
             SoDienThoai: thongtin.SoDienThoai,
-            DiaChi: thongtin.DiaChi,
             BienSoXe: thongtin.BienSoXe,
+            DiaChi: thongtin.DiaChi,
+            PassWord: thongtin.PassWord,
+            PassWordConfirm: thongtin.PassWordConfirm,
             AnhDaiDien: thongtin.AnhDaiDien,
             AnhXe: thongtin.AnhXe,
 
             UserName: thongtin.SoDienThoai,
-            PassWord: thongtin.PassWord,
             TinhTrang: thongtin.TinhTrang,
             LoaiTaiKhoan: thongtin.LoaiTaiKhoan
         })
@@ -32,7 +33,7 @@ export const login = taikhoan =>{
             else    
                 return res.data
         })
-        .catch(err=>{
-            console.log(err);
+        .catch(error=>{
+            console.log(error);
         })
 }

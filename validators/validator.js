@@ -5,15 +5,15 @@ exports.UserValidator = function(req, res, next){
     //name
     req.check('HoTen', 'ErrorHoTen').notEmpty();
     req.check('SoDienThoai', 'ErrorSoDienThoai').notEmpty();
-    req.check('DiaChi', 'ErrorDiaChi').notEmpty();
+    req.check('SoDienThoai', 'LengthSDT').isLength({min:10});
     req.check('BienSoXe', 'ErrorBienSoXe').notEmpty();
-    /* req.check('AnhDaiDien', 'ErrorAnhDaiDien').notEmpty();
-    req.check('AnhXe', 'ErrorAnhXe').notEmpty(); */
-    req.check('UserName', 'ErrorUserName').notEmpty();
     req.check('PassWord', 'ErrorPassWord').notEmpty();
     req.check('PassWord', 'LengthPassWord').isLength({min:6});
-    /* req.check('PassWordConfirm', 'ErrorPassWordConfirm').notEmpty(); */
-    /* req.check('PassWordConfirm','PasswordMismatch').equals(req.body.PassWord); */
+    req.check('PassWordConfirm', 'ErrorPassWordConfirm').notEmpty();
+    req.check('PassWordConfirm','PasswordMismatch').equals(req.body.PassWord);
+    req.check('DiaChi', 'ErrorDiaChi').notEmpty();
+    req.check('AnhDaiDien', 'ErrorAnhDaiDien').notEmpty();
+    req.check('AnhXe', 'ErrorAnhXe').notEmpty();
 
     //check for errors
     const errors = req.validationErrors();

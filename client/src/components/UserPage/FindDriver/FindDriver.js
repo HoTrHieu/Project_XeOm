@@ -6,7 +6,7 @@ import Find from "../../Block/FindDriver/Find";
     class FindDriver extends Component {
     render() {
         return (
-        <div>
+        <div className="wrapperDivFindDriver">
             <TopBar></TopBar>
             <Find></Find>
             <Footer></Footer>

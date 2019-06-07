@@ -6,7 +6,7 @@
     class ConfirmDriver extends Component {
     render() {
         return (
-        <div>
+        <div className="wrapperDivConfirmDriver">
             <TopBar />
             <Confirm />
             <Footer />

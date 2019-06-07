@@ -1,13 +1,49 @@
 import React, { Component } from "react";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
+import axios from 'axios'
+import jwt_decode from "jwt-decode";
 
 class StatisticalDriver extends Component {
+constructor(props) {
+    super(props);
+    this.state = {
+        taixe: [],
+        UserName: ""
+    };
+}
+componentWillMount() {
+    const token = localStorage.getItem("taikhoan");
+    const decoded = jwt_decode(token);
+    const username = decoded.UserName;
+    console.log(decoded);
+    if (decoded.LoaiTaiKhoan === "TaiXe") {
+        this.getData(username);
+    }
+}
+getData = (id) => {
+    const link = "http://localhost:8080/taixe/" + id;
+    axios
+        .get(link)
+        .then((res) => {
+        const taixe = res.data.taixe;
+        this.setState({
+            taixe: taixe
+        });
+        })
+        .catch(function(error) {
+        // handle error
+        console.log(error);
+        })
+        .finally(function() {
+        // always executed
+        });
+};
 render() {
     return (
         <div className="wrapperMain">
         <div className="container-fluid ct-f-sideBar">
             <div className="row r-sideBar">
-                <LeftSideBar></LeftSideBar>
+                <LeftSideBar anhDaiDien = {this.state.taixe.AnhDaiDien}></LeftSideBar>
                 {/* sideBar */}
                 <div className="col-xs-12 col-sm-9 statistical" id="content">
                     <div className="container-fluid">

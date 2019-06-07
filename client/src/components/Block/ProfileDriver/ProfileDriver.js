@@ -41,15 +41,14 @@ getData = (id) => {
 };
 
 render() {
-    
     /* const listImage = this.state.taixe.AnhXe.map((img, key) =>
-        <img src={img} alt={key} key={key}/>
-    ); */
+<img src={img} alt={key} key={key}/>
+); */
     return (
         <div className="wrapperMain">
         <div className="container-fluid ct-f-sideBar">
             <div className="row r-sideBar">
-                <LeftSideBar anhDaiDien = {this.state.taixe.AnhDaiDien} />
+                <LeftSideBar anhDaiDien={this.state.taixe.AnhDaiDien} />
                 {/* sideBar */}
                 <div className="col-xs-12 col-sm-9" id="content">
                     <div className="container-fluid" id="sideBarSub">
@@ -70,6 +69,7 @@ render() {
                                 <li>
                                     <i className="fas fa-chart-bar" />
                                     <div>Thống kê</div>
+                                    <hr />
                                 </li>
                                 </a>
                             </ul>
@@ -80,114 +80,186 @@ render() {
                     {/* sideBarSub */}
                     <div className="container-fluid">
                     <div className="row">
-                        <div className="col-xs-12 col-sm-4">
-                            <div className="col-12 wrapperImgProfileContent">
+                        <div className="col-12">
+                            <h2 className="titleMain text-center">
+                                Thông Tin Bác Tài
+                            </h2>
+                        </div>
+                    </div>
+                    </div>
+                    <div className="container-fluid">
+                    <div class="row justify-content-md-center">
+                        <div class="col col-lg-8">
+                            <div className="row">
+                                <div className="col-12">
+                                <div className="form-group">
+                                    <label htmlFor="true">Họ và Tên</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Họ và tên đệm"
+                                        defaultValue={this.state.taixe.HoTen}
+                                    />
+                                </div>
+                                </div>
+                                <div className="col-12">
+                                <div className="form-group">
+                                    <label htmlFor="true">
+                                        Số điện thoại
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Số điện thoại"
+                                        defaultValue={
+                                            this.state.taixe.SoDienThoai
+                                        }
+                                    />
+                                </div>
+                                </div>
+                                <div className="col-12">
+                                <div className="form-group">
+                                    <label htmlFor="true">Biển số xe</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Biển số xe"
+                                        defaultValue={
+                                            this.state.taixe.BienSoXe
+                                        }
+                                    />
+                                </div>
+                                </div>
+                                <div className="col-12">
+                                <div className="form-group">
+                                    <label htmlFor="true">Địa Chỉ</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        defaultValue={this.state.taixe.DiaChi}
+                                    />
+                                </div>
+                                </div>
+                                <div className="col-12 wrapperImgProfileContent text-center">
                                 <label htmlFor="true">Ảnh đại diện</label>{" "}
                                 <br />
                                 <img
-                                src={this.state.taixe.AnhDaiDien}
-                                alt=""
-                                className="img-fluid imgProfileContent"
+                                    src={this.state.taixe.AnhDaiDien}
+                                    alt=""
+                                    className="img-fluid imgProfileContent"
                                 />
                                 <div className="inputFile">
-                                <label id="#bb">
-                                    {" "}
-                                    Đổi ảnh đại diện bác tài
-                                    <input
-                                        type="file"
-                                        id="File"
-                                        className="form-control-file inputFile"
-                                        name="true"
-                                        placeholder="true"
-                                        aria-describedby="fileHelpId"
-                                    />
-                                </label>
+                                    <label id="#bb">
+                                        {" "}
+                                        Đổi ảnh đại diện bác tài
+                                        <input
+                                            type="file"
+                                            id="File"
+                                            className="form-control-file inputFile"
+                                            name="true"
+                                            placeholder="true"
+                                            aria-describedby="fileHelpId"
+                                        />
+                                    </label>
                                 </div>
-                            </div>{" "}
-                            {/* wrapperImgProfileContent */}
-                            <div className="col-12 wrapperImgProfileContent">
-                                <label htmlFor="true">Ảnh xe</label> <br />
-
-                                <img
-                                src="./templates/users/lib/images/Gia-xe-Honda-Vision-thang-5-9-1525418495-315-width500height391.jpg"
-                                alt=""
-                                className="img-fluid imgProfileContent"
-                                />
-                                <div className="inputFile">
-                                <label id="#bb">
-                                    {" "}
-                                    Đổi ảnh xe
-                                    <input
-                                        type="file"
-                                        id="File"
-                                        className="form-control-file inputFile"
-                                        name="true"
-                                        placeholder="true"
-                                        aria-describedby="fileHelpId"
-                                    />
-                                </label>
-                                </div>
-                            </div>{" "}
-                            {/* wrapperImgProfileContent */}
-                        </div>
-
-                        <div className="col-xs-12 col-sm-8">
-                            <div className="col-12">
-                                <div className="form-group">
-                                <label htmlFor="true">Họ và Tên</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Họ và tên đệm"
-                                    defaultValue={this.state.taixe.HoTen}
-                                />
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="form-group">
-                                <label htmlFor="true">Số điện thoại</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Số điện thoại"
-                                    defaultValue={
-                                        this.state.taixe.SoDienThoai
-                                    }
-                                />
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="form-group">
-                                <label htmlFor="true">Biển số xe</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Biển số xe"
-                                    defaultValue={this.state.taixe.BienSoXe}
-                                />
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="form-group">
-                                <label htmlFor="true">Địa Chỉ</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    defaultValue={this.state.taixe.DiaChi}
-                                />
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="form-group">
-                                <button
-                                    type="button"
-                                    className="btn btn-success btnRegister btn-block"
+                                </div>{" "}
+                                {/* wrapperImgProfileContent */}
+                                <hr />
+                                <div className="col-12 wrapperImgProfileContent text-center">
+                                <label htmlFor="true" className="text-left">
+                                    Ảnh xe
+                                </label>{" "}
+                                <br />
+                                <div
+                                    id="demo"
+                                    className="carousel slide"
+                                    data-ride="carousel"
                                 >
-                                    Lưu Thay Đổi
-                                </button>
+                                    {/* Indicators */}
+                                    <ul className="carousel-indicators">
+                                        <li
+                                            data-target="#demo"
+                                            data-slide-to={0}
+                                            className="active"
+                                        />
+                                        <li
+                                            data-target="#demo"
+                                            data-slide-to={1}
+                                        />
+                                        <li
+                                            data-target="#demo"
+                                            data-slide-to={2}
+                                        />
+                                    </ul>
+                                    {/* The slideshow */}
+                                    <div className="carousel-inner">
+                                        <div className="carousel-item active">
+                                            <img
+                                            src="./templates/users/lib/images/Gia-xe-Honda-Vision-thang-5-9-1525418495-315-width500height391.jpg"
+                                            alt="anhxe"
+                                            />
+                                        </div>
+                                        <div className="carousel-item">
+                                            <img
+                                            src="./templates/users/lib/images/Gia-xe-Honda-Vision-thang-5-9-1525418495-315-width500height391.jpg"
+                                            alt="anhxe"
+                                            />
+                                        </div>
+                                        <div className="carousel-item">
+                                            <img
+                                            src="./templates/users/lib/images/Gia-xe-Honda-Vision-thang-5-9-1525418495-315-width500height391.jpg"
+                                            alt="anhxe"
+                                            />
+                                        </div>
+                                    </div>
+                                    {/* Left and right controls */}
+                                    <a
+                                        className="carousel-control-prev"
+                                        href="#demo"
+                                        data-slide="prev"
+                                    >
+                                        <span className="carousel-control-prev-icon" />
+                                    </a>
+                                    <a
+                                        className="carousel-control-next"
+                                        href="#demo"
+                                        data-slide="next"
+                                    >
+                                        <span className="carousel-control-next-icon" />
+                                    </a>
                                 </div>
+                                <div className="inputFile">
+                                    <label id="#bb">
+                                        {" "}
+                                        Đổi ảnh xe
+                                        <input
+                                            type="file"
+                                            id="File"
+                                            className="form-control-file inputFile"
+                                            name="true"
+                                            placeholder="true"
+                                            aria-describedby="fileHelpId"
+                                        />
+                                    </label>
+                                </div>
+                                </div>{" "}
+                                {/* wrapperImgProfileContent */}
+                                <div className="col-12">
+                                <div className="form-group">
+                                    <button
+                                        type="button"
+                                        className="btn btn-success btnRegister btn-block"
+                                    >
+                                        Lưu Thay Đổi
+                                    </button>
+                                </div>
+                                </div>{" "}
                             </div>{" "}
+                            {/* row */}
                         </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-4" />
                     </div>
                     </div>{" "}
                     {/* content */}

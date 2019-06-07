@@ -6,7 +6,7 @@ import Footer from '../../Block/Footer/Footer';
 class Login extends Component {
     render() {
         return (
-            <div>
+            <div className="wrapperDivLogin">
                 <TopBar></TopBar>
                 <WrapperLogin></WrapperLogin>
                 <Footer></Footer>
