@@ -14,9 +14,9 @@ import AllDrivers from "../AdminPage/AllDrivers/AllDrivers";
 import Driver from "../AdminPage/Driver/Driver";
 import jwt_decode from "jwt-decode";
 // import socketIOClient from "socket.io-client"
-/* import FindDriver from "../UserPage/FindDriver/FindDriver";
+import FindDriver from "../UserPage/FindDriver/FindDriver";
 import ConfirmDriver from "../UserPage/ConfirmDriver/ConfirmDriver";
-import RouteDriver from "../UserPage/RouteDriver/RouteDriver"; */
+import RouteDriver from "../UserPage/RouteDriver/RouteDriver";
 import {PrivateRouteAdmin} from "../PrivateRoute/PrivateAdmin"
 import {PrivateRouteProfile} from   "../PrivateRoute/PrivateRouteProFile"
 import DashboardAdmin from "../Dashboard/DashboardAdmin"
@@ -113,6 +113,24 @@ class App extends Component {
               : Index
           }
         /> 
+        <Route
+          path="/finddriver"
+          component={
+            FindDriver
+          }
+        /> 
+         <Route
+          path="/confirm"
+          component={
+            ConfirmDriver
+          }
+        /> 
+         <Route
+          path="/router"
+          component={
+            RouteDriver
+          }
+          /> 
         <PrivateRouteAdmin path="/" component={DashboardAdmin}/>
         <PrivateRouteProfile path="/" component ={DashboardProfile}/>
      </Switch>
