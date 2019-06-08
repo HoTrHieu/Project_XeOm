@@ -5,20 +5,12 @@ const Schema = mongoose.Schema
 const ChuyenDi = new Schema({
     SDTKhach: {type: String, required: true, trim: true},
     SDTTaiXe: {type: String, required: true, trim: true},
-    DiaDiemDon: {
-        addressname:{type: String, required: true, trim: true},
-        lat:String,
-        lng:String
-    },
-    DiaDiemDi: {
-        addressname:{type: String, required: true, trim: true},
-        lat:String,
-        lng:String
-    },
+    DiaDiemDon: {type: String, required: true, trim: true},
+    DiaDiemDi: {type: String, required: true, trim: true},
     SoKm: Number, 
     SoTien: Number,
     TinhTrang:{
-        status: {type: String, enum: ['NhanKhach', 'TuChoi','HoanThanh']},
+        status: {type: String, required: true, trim: true },
         time: {type: Date, default: Date.now}
     }
 })

@@ -1,11 +1,30 @@
 import React, { Component } from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import socKetClient from "socket.io-client"
 
+let socket
 class TopBar extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            point : "http://localhost:8080/"
+        }
+        socket = socKetClient(this.state.point)
+    }
+    componentDidMount(){
+        this.logOut_socketIO()
+    }
+
+    logOut_socketIO = (username) =>{
+        socket.emit("logout-tai-khoan", username)
+    }
     logOut(e){
+       
         e.preventDefault();
+        this.logOut_socketIO(jwt_decode(localStorage.getItem("taikhoan")).UserName)
         localStorage.removeItem('taikhoan');
+        
         this.props.history.push(`/`)
     }
     getRole(){

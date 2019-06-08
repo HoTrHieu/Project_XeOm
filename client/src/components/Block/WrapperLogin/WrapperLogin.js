@@ -47,11 +47,11 @@ onSubmit(e) {
             if(role === 'TaiXe'){
                 console.log(role)
                 window.location = '/profile';
-                // this.props.history.push(`/profile`)
+                 //this.props.history.push(`/profile`)
             }else{
                 console.log(role);
                 window.location = '/index-admin';
-                // this.props.history.push(`/index-admin`)
+            //this.props.history.push(`/index-admin`)
             }
             /* this.props.history.push(`/profile`)  */ 
         }

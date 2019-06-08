@@ -1,6 +1,9 @@
     import React, { Component } from "react";
-
+    import socketIOClient from "socket.io-client"
+    import jwt from "jwt-decode"
+    var socket 
     class Route extends Component {
+
         
         constructor(props) {
             super(props);
@@ -10,11 +13,20 @@
                 TaiXe:{lat: 10.779691, lng: 106.699073},
                 WayPointT:[],
                 WayPointK:[],
-                MTaiXe:null
+                MTaiXe:null,
+                point : "http://localhost:8080/",
+                data: {}
             }
+            socket = socketIOClient(this.state.point)
         }
         
+        getDataRoute = (data) => {
+            this.setState({
+                data
+            })
+    }
     
+
         initMap = async(nameDon='',nameDen='')=> {
             var self =this;
             //console.log("LenMap")
@@ -174,13 +186,28 @@
         
         
         async componentDidMount() {
+            if (!localStorage.getItem("taikhoan")) {
+                console.log("khong ton tai tai khoan")
+                
+              } else {
+                  if(jwt(localStorage.getItem("taikhoan")).LoaiTaiKhoan === "TaiXe"){
+                      socket.on("route-nhan-data",  data=>{
+                          if(data.phonedriver === jwt(localStorage.getItem("taikhoan")).UserName){
+                              this.getDataRoute(data)
+                          }
+                      })
+                    
+                  }
+              }
             await this.initMap();
             console.log("Waipointl 1:",this.state.WayPointK)
             console.log("Waipointl 2:",this.state.WayPointT)
             console.log("ma",this.state.MTaiXe)
         }
 
+ 
     render() {
+        console.log("router",this.state.data)
         return (
             <div id="contentRouteDriver">
                 {/* <iframe

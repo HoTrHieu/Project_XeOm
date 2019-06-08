@@ -9,9 +9,10 @@ const TaiXe = new Schema({
     BienSoXe: {type: String,  required: true, trim: true},
     AnhDaiDien: {type: String,  required: true, trim: true},
     AnhXe: {type:  [String] ,  required: true, trim: true},
-    HoatDong : {type: String, required: true, trim: true}
+    HoatDong:{type: String, enum: ['Online','Offline']}
+ 
 })
 
 const ModelTaiXe= mongoose.model("TaiXe",TaiXe, "TaiXe")
 
-module.exports = ModelTaiXe
+module.exports = ModelTaiXe 

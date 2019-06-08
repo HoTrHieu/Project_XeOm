@@ -172,3 +172,14 @@ module.exports.GetByPhone =async(req, res)=>{
         Similarphone
     })
 }
+module.exports.UpdateHoatDong = async(req,res)=>{
+    const {id} = req.params
+    const {HoatDong} = req.body
+    const  taixe = await TaiXe.findByIdAndUpdate(id, {HoatDong}, {new: true})
+    res.json({
+        taixe
+  })  
+}
+module.exports.text = async (req,res)=>{
+    console.log("toi dang update on line")
+}

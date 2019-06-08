@@ -21,4 +21,7 @@ router.get('/getbyweek/:time', controller.GetByWeek)
 
 router.get('/getbyphone/:phone', controller.GetByPhone)
 
+router.post('/updateHoatDong/:id',controller.UpdateHoatDong)
+
+router.get('/text-api', controller.text)
 module.exports = router;

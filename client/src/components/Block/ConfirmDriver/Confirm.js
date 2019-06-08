@@ -1,29 +1,85 @@
-import React, { Component } from "react";
-
-var numDeltas = 100;
-var delay = 100; //milliseconds
-var i = 0;
-var deltaLat;
-var deltaLng;
-var position = []//set điểm bắt đầu
-var map;
-//var MymarkerArray = [];
-var marker;
-
-class Confirm extends Component {
+ 
+    import React, { Component } from "react";
+    import socketIOClient from "socket.io-client"
+    import { withRouter} from "react-router-dom"
+    import jwt from "jwt-decode"
     
-    constructor(props) {
-        super(props);
-        this.state={
-            DiemA:{lat:10.773595,lng: 106.694417},
-            DiemB:{lat:10.762987,lng: 106.682150},
-            TaiXe:{lat: 10.779691, lng: 106.699073},
-            WayPointT:[],
-            WayPointK:[],
-            //MTaiXe:null
-        }
-    }
-    
+    var socket
+    var numDeltas = 100;
+    var delay = 100; //milliseconds
+    var i = 0;
+    var deltaLat;
+    var deltaLng;
+    var position = []//set điểm bắt đầu
+    var map;
+    //var MymarkerArray = [];
+    var marker;
+    class Confirm extends Component {
+        constructor(props){
+            super(props)
+                this.state = {
+                    point: "http://localhost:8080/",
+                    data : {},
+                    noidon: '', 
+                    noiden: '',
+                    sodienthoai:'',
+                    sokm: '',
+                    giatien:'',
+                    DiemA:{lat:10.773595,lng: 106.694417},
+                    DiemB:{lat:10.762987,lng: 106.682150},
+                    TaiXe:{lat: 10.779691, lng: 106.699073},
+                    WayPointT:[],
+                    WayPointK:[],
+                }
+                socket = socketIOClient(this.state.point)
+            }
+            getData = (data) =>{
+                this.setState({
+                    data
+                })
+            }
+    //     componentDidMount(){
+           
+         
+    //   }
+      // socket_NhanKhach
+      socket = ()=>{
+          
+      }
+      onChange = (e) =>{
+          this.setState({ [e.target.name]: e.target.value })
+      }
+      handleSubmitUnRecieve = ()=>{
+          let username  = jwt(localStorage.getItem("taikhoan")).UserName
+          socket.emit("taixe-huy-chuyen", username)
+      }
+      handleSubmitRecieve = ()=>{
+          // truyen thong tin chuyen di
+          const {giatien, noidon, noiden, sodienthoai, sokm } = this.state.data
+          //sodienthoaikhach, sodienthoaitaixe, noidon, noidi, sdt, sotien,tinhtrang
+          let phonedriver  = jwt(localStorage.getItem("taikhoan")).UserName
+          
+           let chuyendi = {
+                sodienthoai,
+                phonedriver,
+                noidon,
+                noiden,
+                sokm,
+                giatien,
+                tinhtrang:"NhanKhach"
+           }
+          let xacnhan = {
+              sodienthoai, phonedriver
+          }
+           //chay den trang route 
+            //sau do gui thong tin tài xe qua khach hang bang trang find
+              socket.emit("chay-den-tai-xe-xac-nhan", xacnhan) //nguoi dung
+              socket.emit("chay-den-trang-route", chuyendi )
+      }
+//<<<<<<< Updated upstream
+
+
+ 
 
     initMap = async(nameDon='',nameDen='')=> {
         var self =this;
@@ -278,7 +334,17 @@ class Confirm extends Component {
     }
 
     async componentDidMount() {
+       
         await this.initMap();
+        if (!localStorage.getItem("taikhoan")) {
+            console.log("khong ton tai tai khoan")
+            
+          } else {
+              if(jwt(localStorage.getItem("taikhoan")).LoaiTaiKhoan === "TaiXe"){
+                socket.on("thong-tin-dat",  this.getData)
+                  
+            }
+        }
         //console.log("Waipointl 2:",this.state.WayPointK)
         //console.log("Waipointl 1:",this.state.WayPointT)
         //console.log("ma",this.state.MTaiXe)
@@ -293,8 +359,8 @@ class Confirm extends Component {
         //if(nextState.WayPointK.length!==0 && nextState.MTaiXe.getPosition().lat() === nextState.WayPointT[0].lat){
         //    this.MoveMoTo(nextState);
         //}
-        console.log("arrayT",nextState.WayPointT);
-        console.log("arrayK",nextState.WayPointK);
+        // console.log("arrayT",nextState.WayPointT);
+        // console.log("arrayK",nextState.WayPointK);
 
         var self=this;
         if(nextState.WayPointK.length!==0){
@@ -308,7 +374,13 @@ class Confirm extends Component {
     
     
 render() {
+    console.log("data nek",this.state.data)
+    const {giatien, noidon, noiden, sodienthoai, sokm } = this.state.data
     return (
+
+              
+    
+   
         <div id="confirmDriver">
             {/* <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31356.67522812481!2d106.67437147917477!3d10.766478188433842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1c06f4e1dd%3A0x43900f1d4539a3d!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaG9hIGjhu41jIFThu7Egbmhpw6puIFRwLiBIQ00!5e0!3m2!1svi!2s!4v1559716477029!5m2!1svi!2s"
@@ -328,64 +400,114 @@ render() {
                 </h4>
                 <div className="form-group">
                     <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Địa điểm đón"
-                        aria-describedby="helpId"
-                        readOnly
+ 
+                    type="text"
+                    value = {noidon}
+                    name = "noidon"
+                    id
+                    className="form-control"
+                    placeholder="Địa điểm đón"
+                    aria-describedby="helpId"
+                    onChange = {this.onChange}
+                    readOnly
+                    
+ 
+                    />
+                </div>
+                <div className="form-group"> 
+                    <input
+ 
+                     
+                    value = {noiden}
+                    name = "noiden"
+                    type="text"
+                    
+                     
+                    id
+                    className="form-control"
+                    placeholder="Địa điểm đến"
+                    aria-describedby="helpId"
+                    onChange = {this.onChange}
+                    readOnly
+ 
                     />
                 </div>
                 <div className="form-group">
                     <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Địa điểm đến"
-                        aria-describedby="helpId"
-                        readOnly
+ 
+                    value = {sodienthoai}
+                    name = "sodienthoai"
+                    type="text"
+                    name
+                    id
+                    className="form-control"
+                    placeholder="Số điện thoại"
+                    aria-describedby="helpId"
+                    onChange = {this.onChange}
+                    readOnly
+
                     />
                 </div>
                 <div className="form-group">
                     <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Số điện thoại"
-                        aria-describedby="helpId"
-                        readOnly
+ 
+                     value = {sokm}
+                     name = "sokm"
+                    type="text"
+                    name
+                    id
+                    className="form-control"
+                    placeholder= "Số km dự tính : 15km"
+                    aria-describedby="helpId"
+                    onChange = {this.onChange}
+                    readOnly
+ 
                     />
                 </div>
                 <div className="form-group">
                     <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Số km dự tính : 15km"
-                        aria-describedby="helpId"
-                        readOnly
-                    />
-                </div>
-                <div className="form-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Số tiền dự tính : 30.000đ"
-                        aria-describedby="helpId"
-                        readOnly
+ 
+                    value = {giatien}
+                    name = "giatien"
+                    type="text"
+                    name
+                    id
+                    className="form-control"
+                    
+                    aria-describedby="helpId"
+                    onChange = {this.onChange}
+                    readOnly
+ 
                     />
                 </div>
                 <div className="form-group text-right">
                     <div className="row">
                         <div className="col-6">
                         <button
-                            type="button"
-                            className="btn btn-success btn-block btnRegister btn-danger"
+ 
+                        type="button"
+                        name
+                        id
+                        className="btn btn-success btn-block btnRegister btn-danger"
+                        onClick = {this.handleSubmitUnRecieve}
                         >
-                            Không Nhận &nbsp;
-                            <i className="far fa-times-circle" />
+                        Không Nhận &nbsp;
+                        <i className="far fa-times-circle" />
+                        
+
                         </button>
                         </div>
                         <div className="col-6">
                         <button
+ 
                             type="button"
                             className="btn btn-success btn-block btnRegister btn-block"
+ 
+                        name
+                        id
+   
+                        onClick = {this.handleSubmitRecieve}
+ 
                         >
                             Nhận Chuyến&nbsp;
                             <i className="far fa-check-circle" />

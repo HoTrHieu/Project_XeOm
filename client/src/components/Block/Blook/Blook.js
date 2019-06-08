@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom"
+import socketClient from "socket.io-client"
 /* import ReactDOM from 'react-dom'; */
-import MyMap from "../MyMap/MyMap";
-import axios from "axios";
-import { async } from "q";
-import { isNumber } from "util";
+ 
 
+let socket
 class Blook extends Component {
 constructor(props) {
     super(props);
@@ -20,10 +20,59 @@ constructor(props) {
         existsRound: false,
         requireInputDon: "",
         requireInputDen: "",
-        requireInputSDT: ""
+        requireInputSDT: "",
+        point: 'http://localhost:8080',
     };
+    socket = socketClient(this.state.point)
+     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 }
+
+componentDidMount() {
+    this.socket_DatXe()
+    // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
+    
+}
+
+getDataXacNhan = (data) =>{
+    // if(document.getElementById("input-sdt").value === data){
+    //         this.props.history.push
+    // }
+}
+
+
+socket_DatXe = (data) => {
+       
+    // setTimeout(() => {
+        // socket.emit("nhan-thong-tin-dat-ve", data)
+        // socket.emit("nhan-thong-tin-dat-ve", data)
+    // }, 100);
+    // setInterval(() => {
+        socket.emit("nhan-thong-tin-dat-ve", data)
+    // }, 1000);
+    
+    socket.emit("nhan-thong-tin-dat-ve", data)
+
+}
+
+handleSubmitFindDriver = () => {
+    let noidon = document.getElementById("location-input-don").value
+    let noiden = document.getElementById("location-input-den").value
+    let sodienthoai = document.getElementById("input-sdt").value
+    let giatien = document.getElementById("output-tien").textContent
+    let sokm = document.getElementById("output-km").textContent
+
+    let thongtinchuyendi = {
+        noidon,
+        noiden,
+        sodienthoai,
+        giatien,
+        sokm
+    }
+    localStorage.setItem("sodienthoaiKH", sodienthoai)
+    this.socket_DatXe(thongtinchuyendi)
+}
+
 
 ValidateUSPhoneNumber(phoneNumber) {
     var regExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4,5})$/;
@@ -377,7 +426,7 @@ render() {
                         </button>{" "}
                         &nbsp;{" "}
                         <button
-                            onClick={this.handleSubmit}
+                         onClick={this.handleSubmitFindDriver}
                             name=""
                             className="btn btn-success btnFindDriver"
                         >
@@ -395,3 +444,7 @@ render() {
 }
 
 export default Blook;
+
+
+
+
