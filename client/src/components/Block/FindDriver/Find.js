@@ -75,12 +75,12 @@ calculateAndDisplayRouteProps = async (
     DiemB,
     WayPoint
 ) => {
-    var self = this;
-    var request = {
-        origin: new window.google.maps.LatLng(DiemA.lat, DiemA.lng),
-        destination: new window.google.maps.LatLng(DiemB.lat, DiemB.lng),
-        travelMode: "DRIVING",
-        unitSystem: window.google.maps.UnitSystem.METRIC
+        var self = this;
+        var request = {
+            origin: new window.google.maps.LatLng(DiemA.lat, DiemA.lng),
+            destination: new window.google.maps.LatLng(DiemB.lat, DiemB.lng),
+            travelMode: "DRIVING",
+            unitSystem: window.google.maps.UnitSystem.METRIC
     };
 
     directionsService.route(request, async function(response, status) {
