@@ -41,55 +41,115 @@ const server = app.listen(8080, () => {
 //socket nhan-thong-tin-dat-ve 
 //
 const io = socketIO(server)
-let arr_TaiXeOnline = []
+//tai xe online
+
 io.on("connection", socket => {
   console.log("new client connected", + socket.id)
   // lay cac tai xe dang online -> gui ve server update-trang-thai-online
 
+  //page Login/logOut
   socket.on("tai-xe-online", data => {
     console.log("tai-xe", data)
 
-    if (arr_TaiXeOnline.includes(data)) {
-
-      arr_TaiXeOnline.splice(arr_TaiXeOnline.indexOf(data), 1)
-    }
-    arr_TaiXeOnline.push(data)
-    arr_TaiXeOnline.map(item => {
       let HoatDong = "Online"
-      TaiXe.findOneAndUpdate({ SoDienThoai: item }, { HoatDong }, { new: true }).then(taixe => {
-        console.log("okkk")
-      })
+      TaiXe.findOneAndUpdate({ SoDienThoai: data }, { HoatDong }, { new: true }).then(taixe => {
 
     })
-
-
   })
-  socket.on("logout-tai-khoan", (data) => {
+  //page Logout
+  socket.on("logout-tai-khoan",async (data) => {
     let HoatDong = "Offline"
-    TaiXe.findOneAndUpdate({ SoDienThoai: data }, { HoatDong }, { new: true }).then(taixe => {
-      console.log("da update off line")
+    await TaiXe.findOneAndUpdate({ SoDienThoai: data }, { HoatDong }, { new: true }).then(taixe => {
+      console.log("TaiXe update off line")
     })
+
   })
 
 
-
+  //component book
   socket.on("nhan-thong-tin-dat-ve", (data) => {
-    console.log("co nguoi dat ve")
+    
+     
     //truy suat data lay tai xe dang online
     //gui ve tai xe gan nhat
+    let indexMm=[];
+    let arrayMm=[];
+    let temp=0;
+    
+    for(let i=0;i<data.ArrKC.length;i++){
+      arrayMm[i]=data.ArrKC[i];
+    }
+    
+    
+    arrayMm.sort(function(a, b){return a - b});
+
+    for(let j=0;j<arrayMm.length;j++){
+      indexMm[j]=data.ArrKC.indexOf(arrayMm[j]);
+    }
+    ////////////////////////
+    console.log("taixeMin",data.ArrDriver[indexMm[0]])
+    io.sockets.emit("co-nguoi-dat-ve", data )
+    let txTemp;
+    //for(let i=0;i<indexMm.length;i++){
+      //txTemp=data.ArrDriver[indexMm[i]];
+      //console.log("taixeMin",txTemp)
+      //io.sockets.emit("co-nguoi-dat-ve", txTemp)
+    //}
+    
+    // for(let i=0;i<arrayMm;i++){
+    //   if(arrayMm[i]>arrayMm[i+1])
+    //   {
+    //     let temp = arrayMn[i];
+    //     arrayMm[i]=arrayMm[i+1];
+    //     arrayMm[i+1]=temp
+    //   }
+    // }
+    //console.log("Mang2",arrayMm)
+    console.log("co nguoi dat ve", data)
+    // while(indexMm.length < data.ArrKC.length){
+    //   for(var i=0;i<data.ArrKC.length;i++){
+    //     if(data.ArrKC[i] < data.ArrKC[i+1] && data.ArrKC[i] <= data.ArrKC[temp])
+    //       temp=i+1;
+    //   }
+    //   indexMm.push(temp);
+    // }
+    // console.log(indexMm);
+    
+    
+
     //  let data = "co nguoi dat ve"
-    io.sockets.emit("co-nguoi-dat-ve", data)
+
+    //tim tai xe
+  //   let thongtinchuyendi = {
+  //     ArrDriver,
+  //     ArrKC,
+  //     noidon,
+  //     noiden,
+  //     sodienthoai,
+  //     giatien,
+  //     sokm
+  // }
+    
+
+    //gửi thông tin cho tài xe gan nhat
+    
   })
+
+  
+  
+  //component comfirm
   socket.on("confirm-ne", data => {
     io.sockets.emit("thong-tin-dat", data)
   })
 
+  //componet route
   socket.on("chay-den-trang-route", data => {
     //Insert Thong tin chuyen di
     console.log(data)
     io.sockets.emit("tai-xe-load-route", data)
   })
 
+  //component book khach hang
   socket.on("chay-den-tai-xe-xac-nhan", data=>{
      TaiXe.findOne({ SoDienThoai: data.phonedriver }).then(taixe=>{
         let thongtin ={
@@ -104,9 +164,12 @@ io.on("connection", socket => {
             io.sockets.emit("truyen-den-trang-tai-xe-xac-nhan", thongtin)
      })
   })
+
+  //nhận từ hach hang to route
   socket.on("truyen-data-route", data=>{
     io.sockets.emit("route-nhan-data", data)
   })
+  //gửi data taixe to khach hang
   socket.on("gui-thong-tin-tai-xe", data=>{
     io.sockets.emit("truyen-from-confirm-to-find", data)
   })

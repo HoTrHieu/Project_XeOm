@@ -315,7 +315,7 @@
         
         if(i !== numDeltas){
             i++;
-            console.log("XuatA:",a);
+            //console.log("XuatA:",a);
             setTimeout(()=>this.moveMarker(arrayT,a), 10);
         }
         else{

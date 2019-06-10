@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom"
 import socketClient from "socket.io-client"
+import Axios from "axios";
 /* import ReactDOM from 'react-dom'; */
  
 
 let socket
+ let arrayTemp=[]
 class Blook extends Component {
 constructor(props) {
     super(props);
@@ -22,17 +24,25 @@ constructor(props) {
         requireInputDen: "",
         requireInputSDT: "",
         point: 'http://localhost:8080',
-        submitDriver: false
+        submitDriver: false,
+        ArrayDriver:[],
+        ArrayKhoangCach:[]
     };
     socket = socketClient(this.state.point)
      this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+     this.TinhKhoangCach=this.TinhKhoangCach.bind(this);
 }
 
-componentDidMount() {
+componentWillMount() {
+    this.GetAllDriver();
+}
+
+componentDidMount(){
+    //bắt socket on 
+    // this.GetAllDriver();
     this.socket_DatXe()
     // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
-    
+   
 }
 
 getDataXacNhan = (data) =>{
@@ -42,49 +52,6 @@ getDataXacNhan = (data) =>{
 }
 
 
-socket_DatXe = (data) => {
-       
-    // setTimeout(() => {
-        // socket.emit("nhan-thong-tin-dat-ve", data)
-        // socket.emit("nhan-thong-tin-dat-ve", data)
-    // }, 100);
-    // setInterval(() => {
-        socket.emit("nhan-thong-tin-dat-ve", data)
-    // }, 1000);
-    
-    socket.emit("nhan-thong-tin-dat-ve", data)
-
-}
-
-handleSubmitFindDriver = () => {
-    let noidon = document.getElementById("location-input-don").value
-    let noiden = document.getElementById("location-input-den").value
-    let sodienthoai = document.getElementById("input-sdt").value
-    let giatien = document.getElementById("output-tien").textContent
-    let sokm = document.getElementById("output-km").textContent
-
-    this.setState({ submitDriver: true  });
-
-    let thongtinchuyendi = {
-        noidon,
-        noiden,
-        sodienthoai,
-        giatien,
-        sokm
-    }
-    localStorage.setItem("sodienthoaiKH", sodienthoai)
-    this.socket_DatXe(thongtinchuyendi)
-}
-
-
-ValidateUSPhoneNumber(phoneNumber) {
-    var regExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4,5})$/;
-    var phone = phoneNumber.match(regExp);
-    if (phone) {
-        return true;
-    }
-    return false;
-}
 
 async handleSubmit(event) {
     event.preventDefault();
@@ -131,7 +98,73 @@ async handleSubmit(event) {
         );
         console.log("stateOK: " + self.state.existsRound);
     }
+
+    //console.log("seeKC:", self.state.ArrayKhoangCach); 
+
 }
+GetAllDriver=()=>{
+    var self=this
+    Axios.get('http://localhost:8080/taixe')
+  .then(function (res) {
+    // handle success
+    // console.log(res.data.taixe)
+    let taixes= res.data.taixe;
+    self.setState({
+        ArrayDriver:taixes
+    })
+     
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+
+    
+}
+
+handleSubmitFindDriver = () => {
+    
+    console.log("ComponentUpdate:", this.state.ArrayKhoangCach); 
+
+    let noidon = document.getElementById("location-input-don").value
+    let noiden = document.getElementById("location-input-den").value
+    let sodienthoai = document.getElementById("input-sdt").value
+    let giatien = document.getElementById("output-tien").textContent
+    let sokm = document.getElementById("output-km").textContent
+    let ArrKC = this.state.ArrayKhoangCach
+    this.setState({ submitDriver: true  });
+    let ArrDriver = this.state.ArrayDriver
+    let thongtinchuyendi = {
+        ArrDriver,
+        ArrKC,
+        noidon,
+        noiden,
+        sodienthoai,
+        giatien,
+        sokm
+    }
+    localStorage.setItem("sodienthoaiKH", sodienthoai)
+    this.socket_DatXe(thongtinchuyendi)
+}
+
+
+
+socket_DatXe = (data) => {
+    // gửi 2 lần do gửi chậm
+    //socket.emit("nhan-thong-tin-dat-ve", data)
+    socket.emit("nhan-thong-tin-dat-ve", data)
+}
+
+
+ValidateUSPhoneNumber(phoneNumber) {
+    var regExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4,5})$/;
+    var phone = phoneNumber.match(regExp);
+    if (phone) {
+        return true;
+    }
+    return false;
+}
+
 handleCancel = (event) => {
     event.preventDefault();
     this.setState({ existsRound: false });
@@ -140,9 +173,13 @@ handleCancel = (event) => {
     document.getElementById("output-km").textContent = "0 km";
     document.getElementById("output-tien").textContent = "0 đ";
 };
-shouldComponentUpdate(nextProps, nextState) {
-    /*  console.log("shouldComponentUpdate:", nextState); */
 
+shouldComponentUpdate(nextProps, nextState) {
+   
+    //console.log("shouldComponentUpdate:", nextState.ArrayKhoangCach); 
+    
+    //console.log("mangPHu",arrayTemp)
+    //console.log("amngPhu",nextState.ArrayKhoangCach.length)
     return true;
 }
 componentWillUpdate(nextProps, nextState) {
@@ -195,6 +232,38 @@ initMap = (nameDon = "", nameDen = "") => {
     }
 };
 
+
+
+TinhKhoangCach=async(nameDon,ToaDoTX)=>{
+    var self=this;
+    let sss=null;
+    var request = {
+        origin: nameDon,
+        destination: new window.google.maps.LatLng(ToaDoTX.lat, ToaDoTX.lng),
+        travelMode: "DRIVING",
+        unitSystem: window.google.maps.UnitSystem.METRIC
+    };
+
+    var directionsService = new window.google.maps.DirectionsService();
+    await directionsService.route(request, function(response, status) {
+        // Route the directions and pass the response to a function to create
+        // markers for each step.
+        
+        if (status === "OK") {
+            arrayTemp.push(response.routes[0].legs[0].distance.value);
+            //document.getElementById("output-km").textContent = soKmT;
+            //them khoang cahc vao mang
+            //arrayTemp.push(soKmT);
+            //console.log("SOK",arrayTemp.length);
+            self.setState({
+                ArrayKhoangCach:arrayTemp
+            })
+           console.log("Mang",arrayTemp)
+
+        } 
+    })
+}
+
 calculateAndDisplayRouteProps = async (
     directionsDisplay,
     directionsService,
@@ -224,37 +293,71 @@ calculateAndDisplayRouteProps = async (
         // markers for each step.
 
         if (status === "OK") {
-        console.log("ke", "ok");
-        //console.log("ketquaKm",response)
-        await self.setState({ existsRound: true });
-        console.log("ke", self.state.existsRound);
-        //document.getElementById('warnings-panel').innerHTML ='<b>' + response.routes[0].warnings + '</b>';
-        var soKmT = response.routes[0].legs[0].distance.text;
-        document.getElementById("output-km").textContent = soKmT;
-        //xử lý tiền
-        var temp = response.routes[0].legs[0].distance.value;
-        var soKM = (temp / 1000).toFixed(1);
-        var tien = soKM * 2000;
-        //var tien=parseFloat(soKm).toFixed(2);
-        document.getElementById("output-tien").textContent = tien + " đ";
+            console.log("ke", "ok");
+            //console.log("ketquaKm",response)
+            await self.setState({ existsRound: true });
+            console.log("ke", self.state.existsRound);
+            //document.getElementById('warnings-panel').innerHTML ='<b>' + response.routes[0].warnings + '</b>';
+            var soKmT = response.routes[0].legs[0].distance.text;
+            document.getElementById("output-km").textContent = soKmT;
+            //xử lý tiền
+            var temp = response.routes[0].legs[0].distance.value;
+            var soKM = (temp / 1000).toFixed(1);
+            var tien = soKM * 2000;
+            //var tien=parseFloat(soKm).toFixed(2);
+            document.getElementById("output-tien").textContent = tien + " đ";
 
-        await directionsDisplay.setDirections(response);
-        //ShowStep
-        await self.showSteps(response, markerArray, stepDisplay, map);
+            await directionsDisplay.setDirections(response);
+            //ShowStep
+            await self.showSteps(response, markerArray, stepDisplay, map);
 
-        //vòng tròn thần thánh
-        var slat = response.routes[0].legs[0].start_location.lat();
-        var slng = response.routes[0].legs[0].start_location.lng();
-        var cityCircle = new window.google.maps.Circle({
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#FF0000",
-            fillOpacity: 0.35,
-            map: map,
-            center: { lat: slat, lng: slng },
-            radius: 2500
-        });
+            //vòng tròn thần thánh
+            var slat = response.routes[0].legs[0].start_location.lat();
+            var slng = response.routes[0].legs[0].start_location.lng();
+            var cityCircle = new window.google.maps.Circle({
+                strokeColor: "#FF0000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#FF0000",
+                fillOpacity: 0.35,
+                map: map,
+                center: { lat: slat, lng: slng },
+                radius: 2500
+            });
+            
+            
+            self.state.ArrayDriver.map(async (item)=>{
+                await self.TinhKhoangCach(nameDon,item.ToaDoHienTai).value
+                //arrayTemp.push(xxx);
+                //console.log("item nha",xxx)
+                
+             })
+
+            // let mangt=[];
+            // for(var x=0;x<self.state.ArrayDriver.length;x++){
+            //     var requestKC = {
+            //         origin: nameDon,
+            //         destination: new window.google.maps.LatLng(self.state.ArrayDriver[x].ToaDoHienTai.lat, self.state.ArrayDriver[x].ToaDoHienTai.lng),
+            //         travelMode: "DRIVING",
+            //         unitSystem: window.google.maps.UnitSystem.METRIC
+            //     };
+            //     var direction = new window.google.maps.DirectionsService();
+            //     direction.route(request, function(res, statu) {
+                    
+            //         if (statu === "OK") {
+            //             let sss = res.routes[0].legs[0].distance.value;
+            //             console.log("SSSS",sss)
+            //             mangt.push(sss);
+            //             console.log("myarray",mangt)
+            //         } 
+            //     })
+            // }
+            
+            ///
+        
+           
+            //console.log("amngPhu",arrayTemp)
+            
         } else {
         /* document.getElementById("location-input-don").value = "";
     document.getElementById("location-input-den").value = ""; */
@@ -318,6 +421,7 @@ componentDidMount() {
 }
 
 render() {
+    console.log("staHT",this.state.ArrayDriver)
     return (
         <div id="book">
             <div className="container-fluid ct-book">
