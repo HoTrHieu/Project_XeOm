@@ -22,6 +22,7 @@ constructor(props) {
         requireInputDen: "",
         requireInputSDT: "",
         point: 'http://localhost:8080',
+        submitDriver: false
     };
     socket = socketClient(this.state.point)
      this.handleSubmit = this.handleSubmit.bind(this);
@@ -61,6 +62,8 @@ handleSubmitFindDriver = () => {
     let sodienthoai = document.getElementById("input-sdt").value
     let giatien = document.getElementById("output-tien").textContent
     let sokm = document.getElementById("output-km").textContent
+
+    this.setState({ submitDriver: true  });
 
     let thongtinchuyendi = {
         noidon,
@@ -231,7 +234,7 @@ calculateAndDisplayRouteProps = async (
         //xử lý tiền
         var temp = response.routes[0].legs[0].distance.value;
         var soKM = (temp / 1000).toFixed(1);
-        var tien = soKM * 5000;
+        var tien = soKM * 2000;
         //var tien=parseFloat(soKm).toFixed(2);
         document.getElementById("output-tien").textContent = tien + " đ";
 
@@ -250,7 +253,7 @@ calculateAndDisplayRouteProps = async (
             fillOpacity: 0.35,
             map: map,
             center: { lat: slat, lng: slng },
-            radius: 5000
+            radius: 2500
         });
         } else {
         /* document.getElementById("location-input-don").value = "";
@@ -298,7 +301,8 @@ componentDidMount() {
     this.initMap();
 
     var options = {
-        types: ["(cities)"]
+        types: [],
+        componentRestrictions: {country: 'VN'}
     };
     var input1 = document.getElementById("location-input-don");
     var autocomplete1 = new window.google.maps.places.Autocomplete(
@@ -425,14 +429,15 @@ render() {
                             <i className="fas fa-motorcycle" />
                         </button>{" "}
                         &nbsp;{" "}
-                        <button
-                         onClick={this.handleSubmitFindDriver}
+                        {this.state.submitDriver === false? <button
+                            onClick={this.handleSubmitFindDriver}
                             name=""
                             className="btn btn-success btnFindDriver"
                         >
-                            Tìm tài xế &nbsp;&nbsp;
+                            Đặt xe &nbsp;&nbsp;
                             <i className="fas fa-motorcycle" />
-                        </button>{" "}
+                        </button> : ""}
+                        
                     </div>
                 )}
                 {/* bookCustomer */}
