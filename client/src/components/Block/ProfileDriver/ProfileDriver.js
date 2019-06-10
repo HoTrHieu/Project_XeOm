@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
+import SideBarMobile from "../LeftSideBar/SideBarMobile";
 
 class ProfileDriver extends Component {
 constructor(props) {
@@ -60,36 +61,10 @@ render() {
         <div className="wrapperMain">
         <div className="container-fluid ct-f-sideBar">
             <div className="row r-sideBar">
-                <LeftSideBar anhDaiDien={this.state.taixe.AnhDaiDien} />
+                <LeftSideBar anhDaiDien={this.state.taixe.AnhDaiDien} active="profile" />
                 {/* sideBar */}
-                <div className="col-xs-12 col-sm-9" id="content">
-                    <div className="container-fluid" id="sideBarSub">
-                    <div className="row">
-                        <div className="col-6 d-block d-sm-none">
-                            <ul>
-                                <a href="profile.html">
-                                <li className="active">
-                                    <i className="fas fa-user" />
-                                    <div>Thông tin</div>
-                                </li>
-                                </a>
-                            </ul>
-                        </div>
-                        <div className="col-6 d-block d-sm-none">
-                            <ul>
-                                <a href="statistical.html">
-                                <li>
-                                    <i className="fas fa-chart-bar" />
-                                    <div>Thống kê</div>
-                                    <hr />
-                                </li>
-                                </a>
-                            </ul>
-                        </div>
-                    </div>{" "}
-                    {/* row */}
-                    </div>{" "}
-                    {/* sideBarSub */}
+                <div className="col-xs-12 col-md-9" id="content">
+                    <SideBarMobile active="profile"></SideBarMobile>
                     <div className="container-fluid">
                     <div className="row">
                         <div className="col-12">

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import SideBarMobile from "../LeftSideBar/SideBarMobile";
 
 class StatisticalAllDriver extends Component {
 constructor(props) {
@@ -34,7 +35,6 @@ getDate() {/* 15/06/2019 */
     var dd = today.substr(8,2).length < 2 ? '0' + today.substr(8,2) :  today.substr(8,2) 
     var mm = today.substr(5,2).length < 2 ? '0' + today.substr(5,2) : today.substr(5,2)
     var yyyy = today.substr(0,4);
-    console.log(dd + '/' + mm + '/' + yyyy);
     return dd + '/' + mm + '/' + yyyy; 
 }
 
@@ -81,6 +81,7 @@ async onChange(e) {
     });
     if(this.state.filterBy === 'date'){
         if(this.state.dateFilter!== ''){
+            
             var time = new Date(this.state.dateFilter).toJSON();
             var y = time.substr(0,4);
             var m = time.substr(5,2);
@@ -90,7 +91,6 @@ async onChange(e) {
             this.setState({ errGetData : '' });
             this.getDataGroup('D', date); 
         }else{
-            console.log('ddd : ' + this.state.dateRes)
             this.getDataGroup('D', this.state.dateRes)
         }
     }
@@ -123,7 +123,6 @@ getDate(times, type) {
 }
 getFilter = (id, type, time) => {
     const link = `http://localhost:8080/taixe/getbyphone/${id}/${type}/${time}`;
-    console.log(link);
     axios
         .get(link)
         .then((res) => {
@@ -134,7 +133,7 @@ getFilter = (id, type, time) => {
         })
         .catch(function(error) {
         // handle error
-        console.log(error);
+        /* console.log(error); */
         })
         .finally(function() {
         // always executed
@@ -142,7 +141,6 @@ getFilter = (id, type, time) => {
 };
 getDataGroup = (type, time) => {
     const link = `http://localhost:8080/taixe/getgroupbyphone/${type}/${time}`;
-    console.log(link);
     axios
         .get(link)
         .then((res) => {
@@ -153,7 +151,7 @@ getDataGroup = (type, time) => {
         })
         .catch(function(error) {
         // handle error
-        console.log(error);
+        /* console.log(error); */
         })
         .finally(function() {
         // always executed
@@ -194,7 +192,7 @@ render() {
     ));
 
     return (
-        <div className="col-sm-9 statistical" id="content">
+        <div className="col-xs-12 col-md-9 statistical" id="content">
             
         <div className="container-fluid">
             <div className="row">
@@ -204,6 +202,7 @@ render() {
                     </h2>
                 </div>
             </div>
+            <SideBarMobile active="alldriver"></SideBarMobile>
             <form onSubmit={this.onSubmit}>
             <div className="row filterStatistical">
                 <div className="col-xs-12 col-md-2">

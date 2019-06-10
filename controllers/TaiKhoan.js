@@ -37,7 +37,8 @@ exports.register = function(req, res,next){
                     BienSoXe: req.body.BienSoXe,
                     AnhDaiDien: req.body.AnhDaiDien,
                     AnhXe: req.body.AnhXe,
-                    HoatDong: "Offline"
+                    HoatDong: "Offline",
+                    ToaDoHienTai: req.body.ToaDoHienTai
                 }
                 taiKhoanData.PassWord = hash;
                 const taikhoan = new ModelTaiKhoan(taiKhoanData)

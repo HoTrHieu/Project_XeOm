@@ -24,14 +24,14 @@ class LeftSideBar extends Component {
         const driverLink = (
             <ul>
                 <Link to="/profile">
-                    <li>
+                    <li className={this.props.active === 'profile'? "active parent": "parent"}>
                         <i className="fas fa-user" />
                         &nbsp;<span>Thông tin</span>
                         <div>Thông tin</div>
                     </li>
                 </Link>
                 <Link to="/statistical">
-                    <li>
+                    <li className={this.props.active === 'statistical'? "active parent": "parent"}>
                         <i className="fas fa-chart-bar" />
                         &nbsp;<span> Thống kê</span>
                         <div>Thống kê</div>
@@ -44,7 +44,7 @@ class LeftSideBar extends Component {
                 <Link to="/index-admin">
                 <li className={this.props.active === 'index'? "active parent": "parent"}>
                     <i className="fas fa-user" />
-                    &nbsp;Danh Sách Bác Tài
+                    &nbsp;Danh Sách
                 </li>
                 </Link>
                 <Link to="alldrivers">
@@ -70,7 +70,7 @@ class LeftSideBar extends Component {
             </ul>
         );
         return (
-            <div className="col-sm-3 d-none d-sm-block" id="sideBar">
+            <div className="col-md-3 d-none d-md-block" id="sideBar">
                 <p className="text-center">{role==='admin'?'Xin chào Admin':'Xin chào Bác Tài'}</p>
                 {role==='admin'?'':<div className="wrapperAvtSideBar">
                     <img

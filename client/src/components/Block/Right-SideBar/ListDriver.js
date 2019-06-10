@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import ItemDriver from "./itemDiver"
+import SideBarMobile from '../LeftSideBar/SideBarMobile';
 
 class ListBacTai extends Component {
   constructor(props) {
@@ -105,7 +106,7 @@ class ListBacTai extends Component {
       <ItemDriver key={key} item={item} similarPhone={similarPhone} kichhoat={this.state.kichhoat} onUpdate={this.onUUpdate}  />
     );
     return (
-      <div className="col-9 statistical" id="content">
+      <div className="col-xs-12 col-md-9 statistical" id="content">
         <div className="container-fluid">
           <div className="row">
             <div className="col-12">
@@ -115,21 +116,26 @@ class ListBacTai extends Component {
             </div>
           </div>
         </div>
+        <SideBarMobile active="index"></SideBarMobile>
         <div className="note">
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-12 col-sm-4 text-right wrapperNote ">
-                <i className="far fa-check-circle check" />&nbsp; Kích Hoạt
+            <div className="container">
+                <div className="row">
+                    <div className="col-xs-12 col-sm-4 text-left wrapperNote ">
+                    <i className="far fa-check-circle check" />
+                    &nbsp; Kích Hoạt
                     </div>
-              <div className="col-xs-12 col-sm-4 text-center wrapperNote">
-                <i className="far fa-times-circle uncheck" />&nbsp; Chưa Kích Hoạt
+                    <div className="col-xs-12 col-sm-4 text-left wrapperNote">
+                    <i className="far fa-times-circle uncheck" />
+                    &nbsp; Chưa Kích Hoạt
                     </div>
-              <div className="col-xs-12 col-sm-4 text-left wrapperNote">
-                <i className="fas fa-ellipsis-v running" />&nbsp; Ðang Chạy
+                    <div className="col-xs-12 col-sm-4 text-left wrapperNote">
+                    <i className="fas fa-ellipsis-v running" />
+                    &nbsp; Ðang Chạy
                     </div>
+                </div>
             </div>
-          </div>
-        </div> {/* note */}
+        </div>{" "}
+        {/* note */}
         <div className="container">
           <div className="row">
             {listTaiXe}

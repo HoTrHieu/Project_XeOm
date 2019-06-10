@@ -25,14 +25,14 @@ if (req.files) {
     for (var i = 0; i < file.length; i++) {
         console.log(file[i].name);
         file[i].mv(
-        `${__dirname}/../public/upload/${time}-${file[i].name}`,
+        `${__dirname}/../public/AnhXe/${time}-${file[i].name}`,
         function(err) {
             if (err) {
                 return res.send(err);
             }
         }
         );
-        data.push(`public/upload/${time}-${file[i].name}`);
+        data.push(`public/AnhXe/${time}-${file[i].name}`);
     }
     return res.send(data);
 }
@@ -47,12 +47,12 @@ var time = new Date()
     .slice(0, 19)
     .replace(/[-T:]/g, "");
 imageFile.mv(
-    `${__dirname}/../public/upload/${time}-${imageFile.name}`,
+    `${__dirname}/../public/AnhDaiDien/${time}-${imageFile.name}`,
     function(err) {
         if (err) {
         return res.status(500).send(err);
         }
-        res.json({ file: `public/upload/${time}-${imageFile.name}` });
+        res.json({ file: `public/AnhDaiDien/${time}-${imageFile.name}` });
     }
 );
 });

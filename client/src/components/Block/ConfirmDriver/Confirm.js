@@ -363,6 +363,18 @@
         //console.log("Waipointl 2:",this.state.WayPointK)
         //console.log("Waipointl 1:",this.state.WayPointT)
         //console.log("ma",this.state.MTaiXe)
+
+         // show hide form book 
+        var btnShowHideForm = document.getElementById('btnShowHideForm');
+        var bookCustomer = document.getElementById('bookCustomer');
+        btnShowHideForm.addEventListener('click',()=>{
+            if(btnShowHideForm.innerHTML==='<i class="fas fa-eye"></i>'){
+                btnShowHideForm.innerHTML='<i class="fas fa-eye-slash"></i>'
+            }else {
+                btnShowHideForm.innerHTML = '<i class="fas fa-eye"></i>'
+            }
+            bookCustomer.classList.toggle('action_show_hide_form');
+        })
     }
     shouldComponentUpdate(nextProps, nextState) {
         //console.log('ShowMaker',nextState.MTaiXe)
@@ -409,7 +421,7 @@ render() {
             <div style={{ width: `100%`, height: `100%` }} id="myMap" ></div>
 
             
-            <div className=" col-xs-12 col-md-4 bookCustomer">
+            <div className=" col-xs-12 col-md-4 bookCustomer confirmDriver" id="bookCustomer">
                 <h4 className="titleBook" style={{ color: "#fff" }}>
                     Thông tin khách hàng
                 </h4>
@@ -530,6 +542,9 @@ render() {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="btnShowHideForm btnShowHideFormConfirm" id="btnShowHideForm" data-toggle="tooltip" title="Đặt xe!">
+                <i className="fas fa-eye"></i>
             </div>
         </div>
     );

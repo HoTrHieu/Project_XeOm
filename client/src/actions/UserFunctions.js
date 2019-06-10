@@ -11,6 +11,7 @@ export const register = thongtin => {
             PassWordConfirm: thongtin.PassWordConfirm,
             AnhDaiDien: thongtin.AnhDaiDien,
             AnhXe: thongtin.AnhXe,
+            ToaDoHienTai: thongtin.ToaDoHienTai,
 
             UserName: thongtin.SoDienThoai,
             TinhTrang: thongtin.TinhTrang,

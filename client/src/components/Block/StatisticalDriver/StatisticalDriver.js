@@ -3,6 +3,7 @@ import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Content from "./Content";
+import SideBarMobile from "../LeftSideBar/SideBarMobile";
 
 class StatisticalDriver extends Component {
 constructor(props) {
@@ -46,8 +47,9 @@ render() {
         <div className="wrapperMain">
         <div className="container-fluid ct-f-sideBar">
             <div className="row r-sideBar">
-                <LeftSideBar anhDaiDien={this.state.taixe.AnhDaiDien} />
-                <div className="col-xs-12 col-sm-9 statistical" id="content">
+                <LeftSideBar anhDaiDien={this.state.taixe.AnhDaiDien}   active="statistical"/>
+                <SideBarMobile active="statistical"></SideBarMobile>
+                <div className="col-xs-12 col-md-9 statistical" id="content">
                     <div className="container-fluid">
                             <div className="row">
                                 <div className="col-12">

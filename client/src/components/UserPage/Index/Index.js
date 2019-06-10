@@ -5,7 +5,6 @@ import SalientFeatures from '../../Block/SalientFeatures/SalientFeatures';
 import FirstH3 from '../../Block/FirstH3/FirstH3';
 import DownloadApp from '../../Block/DownloadApp/DownloadApp';
 import Footer from '../../Block/Footer/Footer';
-import MenuSub from '../../Block/MenuSub/MenuSub';
 
 class Index extends Component {
     render() {
@@ -17,7 +16,6 @@ class Index extends Component {
                 <FirstH3></FirstH3>
                 <DownloadApp></DownloadApp>
                 <Footer></Footer>
-                <MenuSub></MenuSub>
             </div>
         );
     }

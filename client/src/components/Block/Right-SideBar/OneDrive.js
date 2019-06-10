@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Content from "../StatisticalDriver/Content";
+import SideBarMobile from "../LeftSideBar/SideBarMobile";
 class OneDriver extends Component {
   constructor(props) {
     super(props);
@@ -85,7 +86,7 @@ class OneDriver extends Component {
         </option>
     ));
     return (
-        <div className="col-9 statistical" id="content">
+        <div className="col-xs-12 col-md-9 statistical" id="content">
           <div className="container-fluid">
               <div className="row">
                 <div className="col-12">
@@ -95,6 +96,7 @@ class OneDriver extends Component {
                 </div>
               </div>
           </div>
+          <SideBarMobile active="driver"></SideBarMobile>
           <div className="container statisticalDriver">
               <div className="row">
               </div>{" "}
@@ -103,7 +105,7 @@ class OneDriver extends Component {
               <div className="row wrapperInfoDriver">
                 <div className="container">
                     <div className="row">
-                      <div className="col-xs-12 col-sm-6 col-md-1 imgDriverStatiscal">
+                      <div className="col-xs-12 col-sm-2 col-md-1 text-xs-center imgDriverStatiscal">
                           <img
                             src={this.state.AnhDaiDien ? this.state.AnhDaiDien : "./templates/users/lib/images/user.png"}
                             alt="img"

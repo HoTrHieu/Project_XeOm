@@ -173,7 +173,19 @@ class Find extends Component {
                 taixe: data.taixe
             })
          })
-       
+         this.initMap();
+
+          // show hide form book 
+        var btnShowHideForm = document.getElementById('btnShowHideForm');
+        var bookCustomer = document.getElementById('bookCustomer');
+        btnShowHideForm.addEventListener('click',()=>{
+            if(btnShowHideForm.innerHTML==='<i class="fas fa-eye"></i>'){
+                btnShowHideForm.innerHTML='<i class="fas fa-eye-slash"></i>'
+            }else {
+                btnShowHideForm.innerHTML = '<i class="fas fa-eye"></i>'
+            }
+            bookCustomer.classList.toggle('action_show_hide_form');
+        })
     }
 
     componentWillUpdate() {
@@ -181,7 +193,7 @@ class Find extends Component {
         //     this.socketFind()
         // }, 200);
 
-        this.initMap();
+        
         console.log("Waipoint 1:", this.state.WayPointK);
         console.log("Waipoint 2:", this.state.WayPointT);
     }
@@ -202,7 +214,7 @@ class Find extends Component {
                         style={{ width: `100%`, height: `100%`, textAlign: "center" }}
                     />
                 </div>
-                <div className=" col-xs-12 col-md-4 bookCustomer">
+                <div className=" col-xs-12 col-md-4 bookCustomer findDriver" id="bookCustomer">
                     <h4 className="titleBook" style={{ color: "#fff", textAlign: "center" }}>
                         Thông tin bác tài
             </h4>
@@ -290,6 +302,9 @@ class Find extends Component {
                         </div>
                     </div>
                 </div>
+                <div className="btnShowHideForm btnShowHideFormFind" id="btnShowHideForm" data-toggle="tooltip" title="Đặt xe!">
+                <i className="fas fa-eye"></i>
+            </div>
             </div>
         );
     }

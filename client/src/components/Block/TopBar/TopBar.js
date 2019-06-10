@@ -35,31 +35,37 @@ class TopBar extends Component {
             return role
         }
     }
-    /* componentDidMount(){
+    componentDidMount(){
         var idIconBar = document.getElementById('iconBar');
+        var menuSub = document.getElementById('menuSub');
         idIconBar.addEventListener('click',()=>{
-            var menuSub = document.getElementById('menuSub');;
-           menuSub.classList.add('show'); 
+            menuSub.classList.add('show');
         })
-    } */
+
+        var idClose = document.getElementById('closeBar');
+        idClose.addEventListener('click',()=>{
+            menuSub.classList.remove('show');
+        })
+
+    }
     render() {
         const role = this.getRole();
         const customLink =( 
             <ul>
-                <li className="menuChose">
+                <li className="menuChose" id="idbook">
                     <Link to="book"><i className="fas fa-mobile-alt" />&nbsp;Đặt Xe</Link>
                 </li>
-                <li className="menuChose">
+                <li className="menuChose" id="idregister">
                     <Link to="register"><i className="fas fa-motorcycle" />&nbsp;Trở Thành Tài Xế</Link>
                 </li>
-                <li className="menuChose">
+                <li className="menuChose" id="idlogin">
                     <Link to="login"><i className="fas fa-sign-in-alt" />&nbsp;Đăng Nhập</Link>
                 </li>
             </ul>
         )
         const driverLink =( 
             <ul>
-                <li className="menuChose">
+                <li className="menuChose" id="idprofile">
                     <Link to="/profile"><i className="fas fa-user"></i>&nbsp;Thông tin cá nhân</Link>
                 </li>
                 <li className="menuChose">
@@ -69,11 +75,45 @@ class TopBar extends Component {
         )
         const adminLink =( 
             <ul>
-                <li className="menuChose">
+                <li className="menuChose" id="idmanagement">
                     <Link to="/index-admin"><i className="fas fa-user"></i>&nbsp;Quản lý</Link>
                 </li>
                 <li className="menuChose">
                     <Link to="/" onClick={this.logOut.bind(this)}><i className="fas fa-sign-in-alt" />&nbsp;Đăng Xuất</Link>
+                </li>
+            </ul>
+        )
+
+        const customLinkSub =( 
+            <ul>
+                <li className="menuChose">
+                    <Link to="book"><i className="fas fa-mobile-alt" />&nbsp;<br/>Đặt Xe</Link>
+                </li>
+                <li className="menuChose">
+                    <Link to="register"><i className="fas fa-motorcycle" />&nbsp;<br/>Trở Thành Tài Xế</Link>
+                </li>
+                <li className="menuChose">
+                    <Link to="login"><i className="fas fa-sign-in-alt" />&nbsp;<br/>Đăng Nhập</Link>
+                </li>
+            </ul>
+        )
+        const driverLinkSub =( 
+            <ul>
+                <li className="menuChose">
+                    <Link to="/profile"><i className="fas fa-user"></i>&nbsp;<br/> Thông tin cá nhân</Link>
+                </li>
+                <li className="menuChose">
+                    <Link to="/" onClick={this.logOut.bind(this)}><i className="fas fa-sign-in-alt" />&nbsp;<br/>Đăng Xuất</Link>
+                </li>
+            </ul>
+        )
+        const adminLinkSub =( 
+            <ul>
+                <li className="menuChose">
+                    <Link to="/index-admin"><i className="fas fa-user"></i>&nbsp;<br/>Quản lý</Link>
+                </li>
+                <li className="menuChose">
+                    <Link to="/" onClick={this.logOut.bind(this)}><i className="fas fa-sign-in-alt" />&nbsp;<br/>Đăng Xuất</Link>
                 </li>
             </ul>
         )
@@ -99,6 +139,16 @@ class TopBar extends Component {
                         </div>
                     </div>
                 </div>
+                <div id="menuSub">
+                <div className="container-fluid">
+                    <div className="col-12 close text-right" id="closeBar">
+                        <i className="fas fa-times" />
+                    </div>
+                    <div className="contentMenuSub">
+                        {role ? (role==='admin'?adminLinkSub:driverLinkSub): customLinkSub}
+                    </div> {/* contentMenuSub */}
+                </div>
+            </div>
             </div>
 
         );

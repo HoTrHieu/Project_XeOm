@@ -154,7 +154,6 @@ class Content extends Component {
     }
     getFilter = (id, type, time) => {
         const link = `http://localhost:8080/taixe/getbyphone/${id}/${type}/${time}`;
-        console.log(link);
         axios
             .get(link)
             .then((res) => {
@@ -221,42 +220,6 @@ class Content extends Component {
     ));
         return (
             <div>
-                <div className="container-fluid" id="sideBarSub">
-                    <div className="row">
-                        <div className="col-4 d-block d-sm-none">
-                            <ul>
-                                <a href="profile.html">
-                                <li>
-                                    <i className="fas fa-user" />
-                                    <div>Thông tin</div>
-                                </li>
-                                </a>
-                            </ul>
-                        </div>
-                        <div className="col-4 d-block d-sm-none">
-                            <ul>
-                                <a href="statistical.html">
-                                <li className="active">
-                                    <i className="fas fa-chart-bar" />
-                                    <div>Thống kê</div>
-                                </li>
-                                </a>
-                            </ul>
-                        </div>
-                        <div className="col-4 d-block d-sm-none">
-                            <ul>
-                                <a href="/">
-                                <li>
-                                    <i className="fas fa-sign-out-alt" />
-                                    <div>Đăng xuất</div>
-                                </li>
-                                </a>
-                            </ul>
-                        </div>
-                    </div>{" "}
-                    {/* row */}
-                </div>{" "}
-                {/* sideBarSub */}
                 <div className="container-fluid">
                     <div className="row filterStatistical">
                         <div className="col-xs-12 col-md-2">
@@ -373,7 +336,7 @@ class Content extends Component {
                 </div>
                 <div className="container">
                     <div className="row text-center wrapperRow">
-                        <div className="col-xs-12 col-md-3">
+                        <div className="col-xs-6 col-md-3">
                             <div className="wrapperBlock">
                             <i className="fas fa-road" />
                             <p>Số Km</p>
@@ -382,7 +345,7 @@ class Content extends Component {
                             </h3>
                             </div>
                         </div>
-                        <div className="col-xs-12 col-md-3">
+                        <div className="col-xs-6 col-md-3">
                             <div className="wrapperBlock">
                             <i className="fas fa-check-circle"></i>
                             <p>Hoàn Thành</p>
@@ -391,7 +354,7 @@ class Content extends Component {
                             </h3>
                             </div>
                         </div>
-                        <div className="col-xs-12 col-md-3">
+                        <div className="col-xs-6 col-md-3">
                             <div className="wrapperBlock">
                             <i className="fas fa-times-circle"></i>
                             <p>Đã Huỷ</p>
@@ -400,7 +363,7 @@ class Content extends Component {
                             </h3>
                             </div>
                         </div>
-                        <div className="col-xs-12 col-md-3 text-center">
+                        <div className="col-xs-6 col-md-3 text-center">
                             <div className="wrapperBlock">
                             <i className="fas fa-money-check-alt" />
                             <p>Số Tiền</p>

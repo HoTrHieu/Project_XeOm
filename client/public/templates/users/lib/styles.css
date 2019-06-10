@@ -22,10 +22,6 @@ h2.titleMain{
     border: 1px solid #ced4da;
 }
 
-input[type="file"] {
-    /* display: none; */
-}
-
 .wrapperInfo .info:hover{
     cursor: pointer;
 }
@@ -71,8 +67,6 @@ input[type="file"] {
 
 .wrapperMain, .wrapperMain .ct-f-sideBar, .wrapperMain .ct-f-sideBar .r-sideBar{
     position: relative!important;
-    /* width: 100%!important; */
-    /* height: 100%!important; */
     margin: 0;
     padding: 0;
 }
@@ -80,6 +74,7 @@ input[type="file"] {
     position: relative;
     height: 100%;
     width: 100%;
+    overflow-x: hidden;
 }
 
 #wrapper .wrapperDivFindDriver, #wrapper .wrapperDivRouteDriver, #wrapper .wrapperDivConfirmDriver {
@@ -358,8 +353,6 @@ input[type="file"] {
 
 /* book  =========================================== */
 #book{
-    /* padding: 20px; */
-    /* padding-top: 58px; */
     background: #02713b;
     min-height: 650px;
     width: 100%;
@@ -385,16 +378,22 @@ input[type="file"] {
     width: 30%;
     position: absolute;
     top: 15%;
-    right: 53px;
+    right: 50px;
     border: 1px solid #009040;
     box-shadow: 0px 0px 3px 2px #28a745;
+    transition: 0.4s;
 }
+.bookCustomer.confirmDriver{
+    width: 50%;
+    top: 6%;
+}
+
 
 #contentFindDriver .bookCustomer {
     top: 8%;
 }
 .bookCustomer{
-    padding: 30px 10px;
+    padding: 18px 10px;
     border-radius: 5px;
     margin: auto;
     text-align: left;
@@ -402,6 +401,19 @@ input[type="file"] {
 #book .titleBook{
     color: #ffffff;
     text-align: center;
+    transition: 0.4s;
+}
+
+@media only screen and (max-width: 866px) {
+    #book .titleBook{
+        font-size: 20px;
+        transition: 0.4s;
+    }
+}
+@media only screen and (max-width: 673px) {
+    .bookCustomer.confirmDriver{
+        width: 65%;
+    }
 }
 .bookCustomer{
     background: #02713b;
@@ -426,15 +438,12 @@ input[type="file"] {
     width: 100%;
 }
 
-div#demo {}
 
 
 /* login  =========================================== */
 #wrapperLogin{
-    /* background-image: url("../lib/images/bggrid.jpg"); */
     padding: 30px;
     position: relative;
-    /* height: 100%; */
     min-height: 600px;
 }
 #wrapperLogin .titleMain{
@@ -563,14 +572,14 @@ padding: 0;
 /* menu sub  =========================================== */
 #menuSub{
     width: 100%;
-	height: 100%;
-	background: #009345fd;
-	position: fixed;
-	z-index: 9999999999999;
-	left: -100%;
-	visibility: hidden;
-	transition: all 1s;
-	top: 0;
+    height: 100%;
+    position: fixed;
+    z-index: 9999999999999;
+    left: -100%;
+    visibility: hidden;
+    transition: all 1s;
+    top: 0;
+    background-image: linear-gradient(277deg, #009345fd, #004c24fd);
 }
 
 #menuSub .container-fluid {
@@ -649,7 +658,8 @@ align-items: center;
     }
 
 #topBar .menuChoosse ul {
-    line-height: 70px;
+    line-height: 30px;
+    padding: 0;
 }
     #topBar .menuChoosse ul .menuChose i{
         display: none;
@@ -662,6 +672,7 @@ align-items: center;
         width: 50px;
     }
 } 
+
 @media only screen and (max-width: 768px) {
     #topBar .menuChoosse{
         display: none;
@@ -685,9 +696,7 @@ align-items: center;
     #topBar #iconBar{
         display: block;
         right: 10%;
-    }
-    #book{
-        padding-top: 25px;
+        top: 12%;
     }
     #book .map{
         padding: 0;
@@ -708,6 +717,22 @@ align-items: center;
     }
     #register .wrapperRegister{
         width: 70%;
+    }
+    .bookCustomer{
+        width: 60%;
+        top: 18%;
+        right: -100%;
+        transition: 1s;
+    }
+
+    .bookCustomer.action_show_hide_form {
+        right: 5%;
+        transition: 1s;
+    }
+    .btnShowHideForm{
+        visibility: visible!important;
+        opacity: 1!important;
+        transition: 0.4s!important;
     }
 }
 @media only screen and (min-width: 576px){
@@ -732,10 +757,6 @@ align-items: center;
     }
     #topBar #iconBar{
         right: 2%;
-    }
-    #book .map{
-        height: 100%;
-        margin-bottom: 10px;
     }
     .wrapperImgPhone .imgPhone img{
         left: 36%;
@@ -767,6 +788,12 @@ align-items: center;
         width: 70px;
         height: 70px;
     }
+    .bookCustomer{
+        width: 50%;
+        top: 18%;
+        right: -100%;
+        transition: 1s;
+    }
 }
 @media only screen and (max-width: 410px) {
     #topBar .col-5{
@@ -792,8 +819,28 @@ align-items: center;
     #register .wrapperRegister{
         width: 90%;
     }
+    #topBar #iconBar {
+        right: 2%;
+        top: 0%;
+    }
+    .bookCustomer{
+        width: 80%;
+        top: 18%;
+        right: -100%;
+        transition: 1s;
+    }
+    .bookCustomer.confirmDriver{
+        width: 80%;
+    }
 }
-
+@media only screen and (max-width: 440px) {
+    .bookCustomer{
+        width: 80%;
+        top: 18%;
+        right: -100%;
+        transition: 1s;
+    }
+}
 /* FIND DRIVER */
 #contentFindDriver, #contentRouteDriver{
     width: 100%;
@@ -828,4 +875,32 @@ align-items: center;
     position: absolute;
     left: 0;
     width: 100%;
+}
+
+.btnShowHideForm{
+    position: absolute;
+    top: 14%;
+    right: calc(2% + -2px);
+    color: #fff;
+    border: 1px solid #fff;
+    background: #28a745;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 4vh;
+    transition: 0.4s;
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+}
+.btnShowHideForm.btnShowHideFormConfirm{
+    top: 2%;
+}
+
+.btnShowHideForm:hover {
+    background: #02713b;
+    transition: 0.4s;
 }

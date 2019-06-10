@@ -27,10 +27,6 @@ h2.titleMain {
    border: 1px solid #ced4da;
 }
 
-input[type="file"] {
-   /* display: none; */
-}
-
 .wrapperInfo .info:hover {
    cursor: pointer;
 }
@@ -39,7 +35,6 @@ input[type="file"] {
 .wrapperMain .ct-f-sideBar .r-sideBar {
    position: relative !important;
    width: 100% !important;
-   /* height: 100% !important; */
    margin: 0;
    min-height: 700px;
 }
@@ -55,6 +50,13 @@ input[type="file"] {
    background: #28a745;
    border-bottom: 4px solid #02713b;
    position: relative;
+   transition: 0.4s;
+}
+@media only screen and (max-width: 410px){
+   #topBar {
+      height: 50px;
+      transition: 0.4s;
+   }
 }
 
 #topBar .col-1 {
@@ -78,6 +80,7 @@ input[type="file"] {
 }
 #topBar .menuChoosse ul {
    display: block;
+   padding: 0;
 }
 #topBar .menuChoosse ul .menuChose {
    display: inline-block;
@@ -90,7 +93,7 @@ input[type="file"] {
 
 #topBar .menuChoosse ul .menuChose:hover {
    background: #00791c;
-   padding: 3px 20px;
+   padding: 3px 7px;
    border-radius: 5px;
    color: #fff;
    transition: 0.4s;
@@ -155,11 +158,10 @@ input[type="file"] {
 #sideBar ul li.parent.active {
    background: #003511;
    transition: 1s;
-   /* text-indent: 25px; */
    border-right: 10px solid #28a745;
 }
 #sideBar .wrapperAvtSideBar {
-   width: 40%;
+   width: 140px;
    height: 140px;
    margin: auto;
    border-radius: 50%;
@@ -171,24 +173,13 @@ input[type="file"] {
 }
 #sideBar .wrapperAvtSideBar img {
    margin: auto;
-   /* height: 100%; */
-   /* width: 100%; */
    max-width: initial;
 }
 /* content of driver  =========================================== */
 #content .wrapperImgProfileContent {
    margin: auto;
-   /* height: 460px; */
    overflow: hidden;
    margin-bottom: 20px;
-}
-
-#content .wrapperImgProfileContent .carousel {
-    height: 400px;
-}
-
-#content .wrapperImgProfileContent .carousel .carousel-inner {
-    height: 400px;
 }
 
 #content .wrapperImgProfileContent .carousel .carousel-inner img {
@@ -215,11 +206,10 @@ input[type="file"] {
    color: #01541d;
 }
 .statistical .wrapperRow {
-   /* background: #F44336; */
    margin: 5px 0;
 }
 .statistical .wrapperBlock i {
-   font-size: 3vw;
+   font-size: 8vh;
    color: #01531c;
 }
 .statistical .wrapperBlock p {
@@ -235,17 +225,43 @@ input[type="file"] {
    display: flex;
    justify-content: center;
    align-items: center;
+   transition: 0.4s;
 }
+@media only screen and (max-width: 575px){
+   .statistical .note .wrapperNote {
+      display: block;
+      transition: 0.4s;
+   }
+   .statisticalDriver .imgDriverStatiscal{
+      width: 30%!important;
+      height: 30%!important;
+      margin: auto;
+   }
+}
+
+#sideBarSub{
+   display: none;
+   transition: 0.4s;
+}
+
+@media only screen and (max-width: 767px){
+   #sideBarSub{
+      display: inline;
+      transition: 0.4s;
+   }
+}
+
+
 .statistical .note .check {
-   font-size: 2vw;
+   font-size: 4vh;
    color: #00791c;
 }
 .statistical .note .uncheck {
-   font-size: 2vw;
+   font-size: 4vh;
    color: #dc3545;
 }
 .statistical .note .running {
-   font-size: 2vw;
+   font-size: 4vh;
    background: #00791c;
    color: #00791c;
 }
@@ -266,16 +282,14 @@ input[type="file"] {
 }
 .statistical .imgDriver img {
    padding: 1px;
-
    background: #28a745;
-
    border: 2px solid #003511;
-
-   /* border-radius: 8px; */
-
    height: 48px;
-
    width: 48px;
+}
+
+.statistical .imgDriver img.img-fluid {
+    max-width: 48px;
 }
 
 .statistical .imgDriver {
@@ -294,7 +308,7 @@ input[type="file"] {
    display: flex;
    justify-content: center;
    align-items: center;
-   font-size: 2vw;
+   font-size: 4vh;
    transition: 0.4s;
    color: green;
 }
@@ -333,16 +347,6 @@ input[type="file"] {
 .statisticalDriver .selectSort .form-group {
    margin: 0;
 }
-
-/* .form-group select {
-    border: none;
-    border-bottom: 3px solid #28a745;
-    border-radius: 0;
-    background: none;
-}
-.form-group select:focus {
-    box-shadow: none;
-} */
 .statisticalDriver .search form {
    width: 70%;
    position: absolute;
@@ -366,6 +370,9 @@ input[type="file"] {
    border: 2px solid #28a745;
    border-radius: 5px;
    padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 .statisticalDriver .imgDriverStatiscal img {
    width: 100%;
@@ -387,9 +394,6 @@ input[type="file"] {
 }
 .statisticalDriver .wrapperInfoDriver {
    background: #ececec;
-}
-.filterStatistical {
-   /* margin: auto; */
 }
 
 /* SELECT OPTION */

@@ -7,3 +7,6 @@ $(".close").click(function(){
     $(".wrapper").removeClass("fixed");
 })
 
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+  });

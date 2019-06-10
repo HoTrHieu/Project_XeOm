@@ -44,7 +44,6 @@ componentDidMount(){
     // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
    
 }
-
 getDataXacNhan = (data) =>{
     // if(document.getElementById("input-sdt").value === data){
     //         this.props.history.push
@@ -191,6 +190,7 @@ shouldComponentUpdate(nextProps, nextState) {
 }
 componentWillUpdate(nextProps, nextState) {
     /* console.log("componentWillUpdate:", nextState); */
+    
 }
 componentDidUpdate(prevProps, prevState) {
     /* console.log("componentDidUpdate:", this.state); */
@@ -425,6 +425,18 @@ componentDidMount() {
         input2,
         options
     );
+
+    // show hide form book 
+    var btnShowHideForm = document.getElementById('btnShowHideForm');
+    var bookCustomer = document.getElementById('bookCustomer');
+    btnShowHideForm.addEventListener('click',()=>{
+        if(btnShowHideForm.innerHTML==='<i class="fas fa-eye"></i>'){
+            btnShowHideForm.innerHTML='<i class="fas fa-eye-slash"></i>'
+        }else {
+            btnShowHideForm.innerHTML = '<i class="fas fa-eye"></i>'
+        }
+        bookCustomer.classList.toggle('action_show_hide_form');
+    })
 }
 
 render() {
@@ -440,7 +452,7 @@ render() {
                     {/* map */}
                 </div>
             </div>
-            <div className="bookCustomer">
+            <div className="bookCustomer" id="bookCustomer">
                 <form onSubmit={this.handleSubmit}>
                 <h4 className="titleBook">Thông tin khách hàng</h4>
                 <small style={{ color: "yellow" }}>
@@ -553,6 +565,10 @@ render() {
                 )}
                 {/* bookCustomer */}
                 </form>
+            </div>
+
+            <div className="btnShowHideForm" id="btnShowHideForm" data-toggle="tooltip" title="Đặt xe!">
+                <i className="fas fa-eye"></i>
             </div>
         </div>
     );

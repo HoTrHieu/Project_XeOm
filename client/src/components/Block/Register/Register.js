@@ -1,6 +1,18 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { register } from "../../../actions/UserFunctions";
+const ToaDo = [
+  {"lat": 10.760037, "lng": 106.680085},
+  {"lat": 10.760871, "lng": 106.685633},
+  {"lat": 10.758761, "lng": 106.680575},
+  {"lat": 10.766377, "lng": 106.678608},
+  {"lat": 10.766677, "lng": 106.682893},
+  {"lat": 10.762591, "lng": 106.686628},
+  {"lat": 10.766618, "lng": 106.678209},
+  {"lat": 10.767544, "lng": 106.683677},
+  {"lat": 10.768777, "lng": 106.680895},
+  {"lat": 10.759419, "lng": 106.676036}
+]
 
 class Register extends Component {
   constructor(props) {
@@ -19,6 +31,7 @@ class Register extends Component {
         LoaiTaiKhoan: "TaiXe",
         upImgSingle: false,
         upImg: false,
+        indexRan: Math.floor((Math.random() * 10)),
 
         ErrorHoTen: "",
         ErrorSoDienThoai: "",
@@ -96,6 +109,15 @@ class Register extends Component {
     return false;
   }
 
+  ValidateBienSoXe(number){
+    var regExp = /^([1-9]{1})([0-9]{1})([A-Z0-9]{2})([\-])([0-9]{4,5})$/;
+    var licensePlated = number.match(regExp);
+    if(licensePlated){
+      return true
+    }
+    return false
+  }
+
   onChangeImgSingle(e) {
     this.setState({ upImgSingle : true  });
     this.handleUploadSingleImage();
@@ -106,10 +128,10 @@ class Register extends Component {
     this.handleUploadImage();
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     var self = this;
     e.preventDefault();
-    
+    await this.setState({ indexRan : Math.floor((Math.random() * 10)) });
     /* if(this.state.upImg ===true && this.state.upImgSingle === true){ */
       const thongtin = {
         HoTen: self.state.HoTen,
@@ -119,16 +141,24 @@ class Register extends Component {
         AnhDaiDien: self.state.AnhDaiDien,
         AnhXe: self.state.AnhXe,
         HoatDong: self.state.HoatDong,
+        ToaDoHienTai: ToaDo[this.state.indexRan],
 
         PassWord: self.state.PassWord,
         PassWordConfirm: self.state.PassWordConfirm,
         TinhTrang: self.state.TinhTrang,
         LoaiTaiKhoan: self.state.LoaiTaiKhoan
+
     };
+    console.log(thongtin)
     register(thongtin).then((res) => {
         console.log(res);
         if (!res.data.error) {
-          self.props.history.push(`login`);
+          var r = window.alert("Đăng ký tài khoản thành công! Vui lòng đợi quản trị viên kích hoạt tài khoản. Xin cám ơn!");
+          if (r == true) {
+            self.props.history.push(`login`);
+          } else {
+            self.props.history.push(`login`);
+          }
         } else {
           self.setState({
               ErrorHoTen: "",
@@ -171,6 +201,11 @@ class Register extends Component {
                 ErrorBienSoXe: "Biển số xe không được trống"
               });
           }
+          if(self.ValidateBienSoXe(self.state.BienSoXe)===false){
+            self.setState({
+              ErrorSoDienThoai: "Biển số xe không đúng định dạng. (Gợi ý: 60B3-41578)"
+            });
+          }
           if (res.data.error === "ErrorDiaChi") {
               self.setState({ ErrorDiaChi: "Địa chỉ không được trống" });
           }
@@ -195,7 +230,7 @@ class Register extends Component {
               });
           }
         }
-    });
+    }); 
     /* } */
   }
 
@@ -269,7 +304,7 @@ class Register extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Biển số xe"
+                            placeholder="Biển số xe (Gợi ý: 60B3-51423)"
                             name="BienSoXe"
                             value={this.state.BienSoXe}
                             onChange={this.onChange}
