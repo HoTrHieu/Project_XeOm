@@ -22,4 +22,9 @@ router.get('/getbyphone/:id/:type/:time', controller.GetByPhone)
 router.post('/updateHoatDong/:id',controller.UpdateHoatDong)
 
 router.get('/text-api', controller.text)
+
+router.post("/upload", controller.Upload)
+
+router.post("/uploadsingle",controller.UploadSingle)
+
 module.exports = router;

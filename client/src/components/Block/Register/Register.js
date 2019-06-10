@@ -62,7 +62,7 @@ class Register extends Component {
     for (var i = 0; i < this.uploadInput.files.length; i++) {
         data.append("file", this.uploadInput.files[i]);
     }
-    fetch("http://localhost:8080/upload", {
+    fetch("http://localhost:8080/taixe/upload", {
         method: "POST",
         body: data
     }).then((res) => {
@@ -82,7 +82,7 @@ class Register extends Component {
     data.append("file", this.uploadInputFile.files[0]);
 
     var t;
-    fetch("http://localhost:8080/uploadsingle", {
+    fetch("http://localhost:8080/taixe/uploadsingle", {
         method: "POST",
         body: data
     }).then((res) => {
