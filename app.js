@@ -69,7 +69,7 @@ io.on("connection", socket => {
   //component book
   socket.on("nhan-thong-tin-dat-ve", (data) => {
     
-     
+    //console.log("datanew:",data)
     //truy suat data lay tai xe dang online
     //gui ve tai xe gan nhat
     let indexMm=[];
@@ -88,7 +88,14 @@ io.on("connection", socket => {
     }
     ////////////////////////
     console.log("taixeMin",data.ArrDriver[indexMm[0]])
-    io.sockets.emit("co-nguoi-dat-ve", data )
+
+    let SenDaTa={
+      SDT:data.ArrDriver[indexMm[0]].SoDienThoai,
+      ThongTinKhach:data.thongTinKhach
+    }
+    //do App xử lý link nên chuyển cho App.js trước để chuyển vô link Khach hang
+    //gửi thông tin khach hàng -> App.js --> Tai xe có khoang cach min
+    io.sockets.emit("co-nguoi-dat-ve", SenDaTa )
     let txTemp;
     //for(let i=0;i<indexMm.length;i++){
       //txTemp=data.ArrDriver[indexMm[i]];
@@ -139,6 +146,9 @@ io.on("connection", socket => {
   
   //component comfirm
   socket.on("confirm-ne", data => {
+    //let sen="thong-tin-dat-"+data.SDT;
+    //gửi lại thông tin đến confirm cho tai xe
+
     io.sockets.emit("thong-tin-dat", data)
   })
 

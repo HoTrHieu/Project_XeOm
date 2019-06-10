@@ -81,11 +81,18 @@ class App extends Component {
         console.log(data)
       })
       socket.on("co-nguoi-dat-ve", data => {
+        if(data.SDT === LoaiTaiKhoan){
+          socket.emit("confirm-ne", data)
+          const link = `/confirm`
+          this.props.history.push(link)
+         
+     
+        }
         console.log("hey man ", data)
-        socket.emit("confirm-ne", data)
-        const link = `/confirm`
-
-        this.props.history.push(link)
+        //chuyển du lieu len sover
+        
+        //để nhảy đến trang confirm
+       
 
         // let chapnhandat = this.state.yes
         // socket.emit("chap-nhan-dat-ve", chapnhandat )

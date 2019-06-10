@@ -30,12 +30,16 @@
                     TaiXe:{lat: 10.779691, lng: 106.699073},
                     WayPointT:[],
                     WayPointK:[],
+                    sdt: ""
                 }
                 socket = socketIOClient(this.state.point)
             }
             getData = (data) =>{
+                let tem=data.ThongTinKhach
+                let sodienthoai = data.SDT
                 this.setState({
-                    data
+                    data:tem,
+                    sdt: sodienthoai
                 })
             }
     //     componentDidMount(){
@@ -333,9 +337,7 @@
         return arrayMer;
     }
 
-    async componentDidMount() {
-       
-        await this.initMap();
+    componentWillMount(){
         if (!localStorage.getItem("taikhoan")) {
             console.log("khong ton tai tai khoan")
             
@@ -345,6 +347,19 @@
                   
             }
         }
+    }
+    async componentDidMount() {
+       
+        await this.initMap();
+        // if (!localStorage.getItem("taikhoan")) {
+        //     console.log("khong ton tai tai khoan")
+            
+        //   } else {
+        //       if(jwt(localStorage.getItem("taikhoan")).UserName === this.state.sodienthoai){
+               
+                  
+        //     }
+        // }
         //console.log("Waipointl 2:",this.state.WayPointK)
         //console.log("Waipointl 1:",this.state.WayPointT)
         //console.log("ma",this.state.MTaiXe)

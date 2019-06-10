@@ -108,9 +108,15 @@ GetAllDriver=()=>{
   .then(function (res) {
     // handle success
     // console.log(res.data.taixe)
-    let taixes= res.data.taixe;
+    let arrTemp=[];
+    res.data.taixe.map(item=>{
+        if(item.HoatDong==="Online"){
+            arrTemp.push(item);
+        }
+    })
+    //let taixes= res.data.taixe;
     self.setState({
-        ArrayDriver:taixes
+        ArrayDriver:arrTemp
     })
      
   })
@@ -137,11 +143,12 @@ handleSubmitFindDriver = () => {
     let thongtinchuyendi = {
         ArrDriver,
         ArrKC,
+        thongTinKhach:{
         noidon,
         noiden,
         sodienthoai,
         giatien,
-        sokm
+        sokm}
     }
     localStorage.setItem("sodienthoaiKH", sodienthoai)
     this.socket_DatXe(thongtinchuyendi)
