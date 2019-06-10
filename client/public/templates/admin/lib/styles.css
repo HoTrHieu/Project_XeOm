@@ -39,9 +39,13 @@ input[type="file"] {
 .wrapperMain .ct-f-sideBar .r-sideBar {
    position: relative !important;
    width: 100% !important;
-   height: 100% !important;
+   /* height: 100% !important; */
    margin: 0;
    min-height: 700px;
+}
+
+.statistical {
+    padding-bottom: 30px;
 }
 
 /* Topbar  =========================================== */
@@ -208,20 +212,21 @@ input[type="file"] {
    width: 50%;
    margin: auto;
    border-radius: 50%;
+   color: #01541d;
 }
 .statistical .wrapperRow {
-   background: #e4e4e4;
+   /* background: #F44336; */
    margin: 5px 0;
 }
 .statistical .wrapperBlock i {
    font-size: 3vw;
-   color: #02713b;
+   color: #01531c;
 }
 .statistical .wrapperBlock p {
    margin: 0;
 }
 .statistical .wrapperBlock h3 {
-   color: #dc3545;
+   color: #F44336;
 }
 .statistical .note {
    margin-bottom: 30px;
@@ -392,8 +397,8 @@ input[type="file"] {
 .custom-select {
    position: relative;
    font-family: Arial;
-   background: #28a745;
-   color: #fff;
+   color: #02713b;
+   border: 1px solid #28a745;
 }
 
 .custom-select:focus {
@@ -407,4 +412,13 @@ input[type="file"] {
   color: #fff;
   background-color: #28a745;
   border-color: #158f31;
+}
+
+.viewDetail{
+   color: rgb(0, 0, 201);
+   transition: 0.4s;
+   cursor: pointer;
+}
+.viewDetail:hover{
+   color: red
 }

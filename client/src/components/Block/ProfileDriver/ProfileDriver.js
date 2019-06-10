@@ -21,6 +21,9 @@ componentWillMount() {
         this.getData(username);
     }
 }
+componentDidUpdate(){
+    
+}
 getData = (id) => {
     const link = "http://localhost:8080/taixe/" + id;
     axios
@@ -41,9 +44,18 @@ getData = (id) => {
 };
 
 render() {
-    /* const listImage = this.state.taixe.AnhXe.map((img, key) =>
-<img src={img} alt={key} key={key}/>
-); */
+    const { AnhXe } = this.state.taixe
+    var data = AnhXe + '' 
+    var res = data.split(",")
+    console.log(res);
+    const listImage = res.map((img, key) =>
+        <div className={key===0?"carousel-item active": "carousel-item"} key={key}>
+            <img src={img}
+            alt="anhxe"
+            />
+        </div> 
+    );   
+    
     return (
         <div className="wrapperMain">
         <div className="container-fluid ct-f-sideBar">
@@ -88,8 +100,8 @@ render() {
                     </div>
                     </div>
                     <div className="container-fluid">
-                    <div class="row justify-content-md-center">
-                        <div class="col col-lg-8">
+                    <div className="row justify-content-md-center">
+                        <div className="col col-lg-8">
                             <div className="row">
                                 <div className="col-12">
                                 <div className="form-group">
@@ -193,24 +205,7 @@ render() {
                                     </ul>
                                     {/* The slideshow */}
                                     <div className="carousel-inner">
-                                        <div className="carousel-item active">
-                                            <img
-                                            src="./templates/users/lib/images/Gia-xe-Honda-Vision-thang-5-9-1525418495-315-width500height391.jpg"
-                                            alt="anhxe"
-                                            />
-                                        </div>
-                                        <div className="carousel-item">
-                                            <img
-                                            src="./templates/users/lib/images/Gia-xe-Honda-Vision-thang-5-9-1525418495-315-width500height391.jpg"
-                                            alt="anhxe"
-                                            />
-                                        </div>
-                                        <div className="carousel-item">
-                                            <img
-                                            src="./templates/users/lib/images/Gia-xe-Honda-Vision-thang-5-9-1525418495-315-width500height391.jpg"
-                                            alt="anhxe"
-                                            />
-                                        </div>
+                                        {listImage} 
                                     </div>
                                     {/* Left and right controls */}
                                     <a

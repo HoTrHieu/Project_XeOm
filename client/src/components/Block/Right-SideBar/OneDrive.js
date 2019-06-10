@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Content from "../StatisticalDriver/Content";
 class OneDriver extends Component {
   constructor(props) {
     super(props);
@@ -36,27 +37,6 @@ class OneDriver extends Component {
           // always executed
         });
   };
-  getDataByPhone(phone){
-    const link = "http://localhost:8080/taixe/getbyphone/" + phone;
-    console.log(link)
-    axios
-        .get(link)
-        .then((res) => {
-          const similarPhone = res.data.Similarphone;
-          if(similarPhone!== ''){
-              this.setState({
-                  similarPhone: similarPhone
-              });
-          }
-        })
-        .catch(function(error) {
-          // handle error
-          console.log(error);
-        })
-        .finally(function() {
-          // always executed
-        });
-  }
 
   formatMoney(num) { /* 2000000 => 2.000.000 */
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
@@ -69,15 +49,18 @@ class OneDriver extends Component {
     if(this.state.HoTen === 'none'){
       this.setState({ AnhDaiDien: '', BienSoXe: '', SoDienThoai: '' });
     }
-    this.state.taixes.map((taixe) => {
-      if (taixe.HoTen === this.state.HoTen) {
-        this.setState({ 
-          SoDienThoai : taixe.SoDienThoai, 
-          BienSoXe : taixe.BienSoXe, 
-          AnhDaiDien : taixe.AnhDaiDien  });
-        this.getDataByPhone(taixe.SoDienThoai)
-      }
-    });
+    if(this.state.change === true){
+      this.state.taixes.map((taixe) => {
+        if (taixe.HoTen === this.state.HoTen) {
+          this.setState({ 
+            SoDienThoai : taixe.SoDienThoai, 
+            BienSoXe : taixe.BienSoXe, 
+            AnhDaiDien : taixe.AnhDaiDien  });
+         /*  this.getDataByPhone(taixe.SoDienThoai) */
+          return taixe.SoDienThoai
+        }
+      });
+    }
   };
   render() {
     const { similarPhone } = this.state;
@@ -114,22 +97,6 @@ class OneDriver extends Component {
           </div>
           <div className="container statisticalDriver">
               <div className="row">
-                <div className="col-6 selectSort">
-                    &nbsp;
-                </div>{" "}
-                {/* selectSort */}
-                <div className="col-6 search text-center">
-                    <form className="form-inline md-form form-sm">
-                      <input
-                          className="form-control mr-3 w-75"
-                          type="text"
-                          placeholder="Tìm kiếm"
-                          aria-label="Search"
-                      />
-                      <i className="fas fa-search" aria-hidden="true" />
-                    </form>
-                </div>
-                {/* search */}
               </div>{" "}
               {/* row */}
               {/* {listTaiXe} */}
@@ -166,35 +133,13 @@ class OneDriver extends Component {
                     </div>
                 </div>
               </div>
-              <hr/>
-              {this.state.HoTen === 'none' ? <h6><i style={{color: "red"}}>Vui lòng chọn tài xế</i></h6> : ''}
-              <div className="row listTable">
-                <div className="col-12">
-                    {this.state.taixes.length !== 0 ?   <div className="table-responsive">
-                    <table className="table">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th>STT</th>
-                                <th>Họ Tên</th>
-                                <th>Điện Thoại</th>
-                                <th>Biển Số Xe</th>
-                                <th>Số KM</th>
-                                <th>Số Tiền</th>
-                            </tr>
-                        </thead><tbody>{listDataStatiscal}</tbody></table>
-                    </div>
-                    : <div className="row justify-content-center">
-                    <div className="col-auto">
-                    <h6><i style={{color: 'red'}}>Không có dữ liệu phù hợp</i></h6>
-                    </div>
-                    </div>}
-
-                </div>
-            </div>
+              
+              {this.state.HoTen === 'none' ? <h6><i style={{color: "red"}}>Vui lòng chọn tài xế</i></h6> : <hr/>}
             {/* listTable */}
-          </div>{" "}
-          {/* statisticalDriver */}
+          </div> {/* statisticalDriver */}
+          {this.state.SoDienThoai !== ''? <Content username={this.state.SoDienThoai}></Content> : ""} 
         </div>
+        
     );
   }
 }

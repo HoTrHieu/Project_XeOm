@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"XeOmDB.TaiKhoan"}],"uuid":"dc9b52f8864a4f8d8e8fc7a19e82f8a3"}
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"XeOmDB.TaiKhoan"},{"v":2,"unique":true,"key":{"UserName":1},"name":"UserName_1","ns":"XeOmDB.TaiKhoan","background":true}],"uuid":"a557a8be0f944197b19c03f5214faef0"}

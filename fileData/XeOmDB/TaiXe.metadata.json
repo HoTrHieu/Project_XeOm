@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"XeOmDB.TaiXe"}],"uuid":"f2f98225d3c14f77bd640a78ec10ff2e"}
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"XeOmDB.TaiXe"},{"v":2,"unique":true,"key":{"SoDienThoai":1},"name":"SoDienThoai_1","ns":"XeOmDB.TaiXe","background":true}],"uuid":"bec83e7a789d4697a9833d24455b0011"}

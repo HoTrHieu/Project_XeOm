@@ -13,13 +13,11 @@ router.get('/delete/:id', controller.Delete)
 router.post('/update/:id',  controller.Update)
 
 
-router.get('/getbydate/:time', controller.GetByDate)
+router.get('/getdata/:time', controller.GetData)
 
-router.get('/getbymonth/:time', controller.GetByMonth)
+router.get('/getgroupbyphone/:type/:time', controller.GetGroupByPhone)
 
-router.get('/getbyweek/:time', controller.GetByWeek)
-
-router.get('/getbyphone/:phone', controller.GetByPhone)
+router.get('/getbyphone/:id/:type/:time', controller.GetByPhone)
 
 router.post('/updateHoatDong/:id',controller.UpdateHoatDong)
 

@@ -6,6 +6,8 @@ constructor(props) {
     super(props);
     this.state = {
         similarPhone: [],
+        similarPhoneDriver: [],
+        similarGroup: [],
         filterBy: "date", // select filter change [date, month, week]
         dateYMD: this.getYMD(), // get current date format with "-"" character [2019-06-15]
         dateFilter: '', // get date from input date of filter by date
@@ -86,20 +88,22 @@ async onChange(e) {
             d  = d < 10 ? '0'+ d: d
             var date = y+m+d; 
             this.setState({ errGetData : '' });
-            this.getInfoTaiXeByDate(date); 
+            this.getDataGroup('D', date); 
         }else{
-            this.setState({ errGetData : 'Không đúng định dạng' });
+            console.log('ddd : ' + this.state.dateRes)
+            this.getDataGroup('D', this.state.dateRes)
         }
     }
     else if(this.state.filterBy === 'month'){
-        this.getInfoTaiXeByMonth(this.state.yearFilter  + ((this.state.monthFilter < 10) ? '0' + this.state.monthFilter: this.state.monthFilter))
+        this.getDataGroup('M',this.state.yearFilter  + ((this.state.monthFilter < 10) ? '0' + this.state.monthFilter: this.state.monthFilter)); 
+        /* this.getInfoTaiXeByMonth(this.state.yearFilter  + ((this.state.monthFilter < 10) ? '0' + this.state.monthFilter: this.state.monthFilter)) */
     }else if(this.state.filterBy === 'week'){
-        this.getInfoTaiXeByWeek(this.state.weekYear+''+((this.state.weekMonth < 10) ? ('0' + this.state.weekMonth) : (this.state.weekMonth))+''+this.state.week); 
+        this.getDataGroup('W',this.state.weekYear+''+((this.state.weekMonth < 10) ? ('0' + this.state.weekMonth) : (this.state.weekMonth))+''+this.state.week);
+        /* this.getInfoTaiXeByWeek(this.state.weekYear+''+((this.state.weekMonth < 10) ? ('0' + this.state.weekMonth) : (this.state.weekMonth))+''+this.state.week);  */
     }
 }
-getInfoTaiXeByDate(times) {
-    const link =
-        "http://localhost:8080/taixe/getbydate/" + times;
+getDate(times, type) {
+    let link = 'http://localhost:8080/taixe/getdata/' + type + '&' + times;
     axios
         .get(link)
         .then((res) => {
@@ -117,59 +121,57 @@ getInfoTaiXeByDate(times) {
         // always executed
         });
 }
-getInfoTaiXeByMonth(times) {
-    const link =
-        "http://localhost:8080/taixe/getbymonth/" + times;
+getFilter = (id, type, time) => {
+    const link = `http://localhost:8080/taixe/getbyphone/${id}/${type}/${time}`;
+    console.log(link);
     axios
         .get(link)
         .then((res) => {
         const similarPhone = res.data.Similarphone;
-        if(similarPhone!== ''){
-            this.setState({
-                similarPhone: similarPhone
-            });
-        }
+        this.setState({
+            similarPhoneDriver: similarPhone
+        });
         })
         .catch(function(error) {
         // handle error
+        console.log(error);
         })
         .finally(function() {
         // always executed
         });
-}
-getInfoTaiXeByWeek(times) {
-    const link =
-        "http://localhost:8080/taixe/getbyweek/" + times;
+};
+getDataGroup = (type, time) => {
+    const link = `http://localhost:8080/taixe/getgroupbyphone/${type}/${time}`;
+    console.log(link);
     axios
         .get(link)
         .then((res) => {
-        const similarPhone = res.data.Similarphone;
-        if(similarPhone!== ''){
-            this.setState({
-                similarPhone: similarPhone
-            });
-        }
+        const similarGroup = res.data.Similarphone;
+        this.setState({
+            similarGroup: similarGroup
+        });
         })
         .catch(function(error) {
         // handle error
+        console.log(error);
         })
         .finally(function() {
         // always executed
         });
-}
+};
 render() {
-    const { similarPhone, rangeYear, rangeMonth, rangeWeek } = this.state;
+    const { similarPhone, rangeYear, rangeMonth, rangeWeek, similarGroup } = this.state;
     let listDataStatiscal = "";
-    if (similarPhone !== "") {
-        listDataStatiscal = similarPhone.map((item, key) => (
-        <tr key={key}>
+    if (similarGroup !== "") {
+        listDataStatiscal = similarGroup.map((item, key) => (
+       <tr key={key}>
             <td>{key + 1}</td>
-            <td>{item.SimilarPhone.taixe.HoTen}</td>
-            <td>{item.SimilarPhone.taixe.SoDienThoai}</td>
-            <td>{item.SimilarPhone.taixe.BienSoXe}</td>
-            <td>{item.SimilarPhone.chuyendi.SoKm}</td>
-            <td>{this.formatMoney(item.SimilarPhone.chuyendi.SoTien)}đ</td>
-        </tr>
+            <td>{item.SimilarPhone.taixe._id.HoTen}</td>
+            <td>{item.SimilarPhone.taixe._id.SoDienThoai}</td>
+            <td>{item.SimilarPhone.taixe._id.BienSoXe}</td>
+            <td>{item.SimilarPhone.taixe.totalKmHoanThanh}</td>
+            <td>{item.SimilarPhone.taixe.totalSoTien}đ</td>
+        </tr> 
         ));
     } else {
         this.setState({ errGetData: "Không có dữ liệu phù hợp" });
@@ -193,6 +195,7 @@ render() {
 
     return (
         <div className="col-sm-9 statistical" id="content">
+            
         <div className="container-fluid">
             <div className="row">
                 <div className="col-12">
@@ -319,7 +322,7 @@ render() {
             {/* filterStatistical */}
             <div className="row listTable">
                 <div className="col-12">
-                     {similarPhone.length !== 0 ?   <div className="table-responsive">
+                    {similarGroup.length !== 0 ?   <div className="table-responsive">
                     <table className="table">
                         <thead className="thead-dark">
                             <tr>
