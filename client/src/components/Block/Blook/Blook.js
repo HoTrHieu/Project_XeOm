@@ -41,45 +41,24 @@ constructor(props) {
 componentWillMount() {
 
     this.GetAllDriver();
-    console.log("localstorage", typeof localStorage.getItem("taikhoan"))
+    //console.log("localstorage", typeof localStorage.getItem("taikhoan"))
     if (!localStorage.getItem("taikhoan")) {
-      // console.log("khong ton tai tai khoan")
-      // socket.on("bat-dau-chuyen", data => {
-      //   console.log("chap nhan dat thanh cong")
-      // })
+      
       if(!localStorage.getItem("sodienthoaiKH")){
         console.log("khach hang khong co dat chuyen")
       }else{
-            console.log("vaoguoi Dun");
             socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
-              console.log("MYDT",data)
-              // console.log("thong tin",data)
-              // console.log("sodienthoaikhachhang",localStorage.getItem("sodienthoaiKH"))
               if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
-                
-                  // console.log("SODienT..",data.sdtKhach);
-
-                   this.props.history.push("/find")    
-                   
+                   this.props.history.push("/find")                       
                    setTimeout(() => {
-                    // setInterval(() => {
                       socket.emit("gui-thong-tin-tai-xe", data )
-                    // }, 1000);
                    }, 50);
-                
-                    
-              }
-             
-            })
-
-            
-          
+ 
+              }             
+            })                      
       }
     } else {
       let LoaiTaiKhoan = jwt_decode(localStorage.getItem("taikhoan")).UserName
-      // if(localStorage.getItem("taikhoan"))
-      // console.log(LoaiTaiKhoan)
-      // socket.emit("tai-xe-online", LoaiTaiKhoan)
       socket.emit("tai-xe-online", LoaiTaiKhoan)
       socket.on("list-tai-online", (data) => {
         console.log(data)
@@ -184,7 +163,7 @@ async handleSubmit(event) {
         document.getElementById("location-input-don").value,
         document.getElementById("location-input-den").value
         );
-        console.log("stateOK: " + self.state.existsRound);
+        //console.log("stateOK: " + self.state.existsRound);
     }
 
     //console.log("seeKC:", self.state.ArrayKhoangCach); 
@@ -400,10 +379,7 @@ calculateAndDisplayRouteProps = async (
         // markers for each step.
 
         if (status === "OK") {
-            console.log("ke", "ok");
-            //console.log("ketquaKm",response)
             await self.setState({ existsRound: true });
-            console.log("ke", self.state.existsRound);
             //document.getElementById('warnings-panel').innerHTML ='<b>' + response.routes[0].warnings + '</b>';
             var soKmT = response.routes[0].legs[0].distance.text;
             document.getElementById("output-km").textContent = soKmT;
@@ -547,7 +523,6 @@ componentDidMount() {
 }
 
 render() {
-    console.log("staHT",this.state.ArrayDriver)
     return (
         <div id="book">
             <div className="container-fluid ct-book">

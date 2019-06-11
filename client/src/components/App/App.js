@@ -39,16 +39,16 @@ class App extends Component {
     socket = socketIOClient(this.state.endpont)
   }
 
-  
-  componentWillMount() {
+ 
+componentWillMount() {
 
     console.log("localstorage", typeof localStorage.getItem("taikhoan"))
     if (!localStorage.getItem("taikhoan")) {
-      console.log("khong ton tai tai khoan")
-      socket.on("bat-dau-chuyen", data => {
-        console.log("chap nhan dat thanh cong")
-      })
-      if(!localStorage.getItem("sodienthoaiKH")){
+        //console.log("khong ton tai tai khoan")
+      // socket.on("bat-dau-chuyen", data => {
+      //   console.log("chap nhan dat thanh cong")
+      // })
+      if(!localStorage.getItem("sodienthoaiKH")){ //không ton tai sodt khach
         console.log("khach hang khong co dat chuyen")
       }else{
             console.log("vaoguoi Dun");
@@ -97,11 +97,6 @@ class App extends Component {
      
         }
         console.log("hey man ", data)
-        // chuyển du lieu len sover
-        
-        // để nhảy đến trang confirm
-       
-
         let chapnhandat = this.state.yes
         socket.emit("chap-nhan-dat-ve", chapnhandat )
 
@@ -124,7 +119,7 @@ class App extends Component {
     }
 
    
-
+    
   }
 
   getRole() {

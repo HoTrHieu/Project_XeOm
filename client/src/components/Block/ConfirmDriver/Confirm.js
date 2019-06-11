@@ -54,10 +54,6 @@ getData = (data) => {
         TaiXe: TX
     });
 };
-//     componentDidMount(){
-
-//   }
-// socket_NhanKhach
 socket = () => {};
 onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -89,321 +85,27 @@ handleSubmitRecieve = async () => {
 
     //chay den trang route
     //sau do gui thong tin tài xe qua khach hang bang trang find
-    
+    //gửi len server
     socket.emit("chay-den-tai-xe-xac-nhan", xacnhan); //nguoi dung
-    /*  socket.emit("chay-den-trang-route", chuyendi ) */
-};
-
-initMap = async (DiemA = "", DiemB = "", TaiXe = null) => {
-    var self = this;
-    //console.log("LenMap")
-
-    // Instantiate a directions service.
-    var directionsService = new window.google.maps.DirectionsService();
-
-    // Create a map and center it on Manhattan.
-    map = new window.google.maps.Map(document.getElementById("myMap"), {
-        zoom: 13,
-        center: { lat: TaiXe.lat, lng: TaiXe.lng }
-    });
-
-    // Create a renderer for directions and bind it to the map.
-    var directionsDisplay = new window.google.maps.DirectionsRenderer({
-        map: map,
-        suppressMarkers: true
-    });
-    var directionsDisplay2 = new window.google.maps.DirectionsRenderer({
-        map: map,
-        suppressMarkers: false
-    });
-    // Instantiate an info window to hold step text.
-    var stepDisplay = new window.google.maps.InfoWindow();
-
-
-    //vòng tròn thần thánh
-    var cityCircle = new window.google.maps.Circle({
-        strokeColor: "#FF0000",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#FF0000",
-        fillOpacity: 0.35,
-        map: map,
-        center: TaiXe,
-        radius: 200
-    });
-
-    var icons = new window.google.maps.MarkerImage(
-        // URL
-        "./motorcycle.svg",
-        // (width,height)
-        new window.google.maps.Size(44, 32),
-        // The origin point (x,y)
-        new window.google.maps.Point(0, 0),
-        // The anchor point (x,y)
-        new window.google.maps.Point(22, 32),
-        new window.google.maps.Size(50, 50)
-    );
-    if (directionsDisplay !== null) {
-        var icons = new window.google.maps.MarkerImage(
-        // URL
-        "./motorcycle.svg",
-        // (width,height)
-        new window.google.maps.Size(44, 32),
-        // The origin point (x,y)
-        new window.google.maps.Point(0, 0),
-        // The anchor point (x,y)
-        new window.google.maps.Point(22, 32),
-        new window.google.maps.Size(50, 50)
-        );
-
-        await this.calculateAndDisplayRouteProps(
-        directionsDisplay,
-        directionsService,
-        stepDisplay,
-        map,
-        TaiXe,
-        DiemA,
-        icons
-        );
-        await this.calculateAndDisplayRouteProps(
-        directionsDisplay2,
-        directionsService,
-        stepDisplay,
-        map,
-        DiemA,
-        DiemB
-        );
-    }
-    map.setCenter(TaiXe);
-};
-
-calculateAndDisplayRouteProps = async (
-    directionsDisplay,
-    directionsService,
-    stepDisplay,
-    map,
-    DiemA,
-    DiemB,
-    icons = null
-) => {
-    var self = this;
-    var markerArray = [];
-    let request;
-    if (icons === null) {
-        request = {
-        origin: DiemA, //new window.google.maps.LatLng(DiemA.lat,DiemA.lng),
-        destination: DiemB, //new window.google.maps.LatLng(DiemB.lat,DiemB.lng),
-        travelMode: "DRIVING",
-        unitSystem: window.google.maps.UnitSystem.METRIC
-        };
-    } else {
-        request = {
-        origin: new window.google.maps.LatLng(DiemA.lat, DiemA.lng), //tài xế
-        destination: DiemB, //new window.google.maps.LatLng(DiemB.lat,DiemB.lng),
-        travelMode: "DRIVING",
-        unitSystem: window.google.maps.UnitSystem.METRIC
-        };
-    }
-
-    directionsService.route(request, async function(response, status) {
-        if (status === "OK") {
-        await self.showSteps(response, stepDisplay, map, icons);
-        await directionsDisplay.setDirections(response);
-        if (icons !== null) {
-            var leg = response.routes[0].legs[0];
-            marker = self.makeMarker(leg.start_location, icons, "H1", map);
-            //console.log("setMarket",mar)
-            //markerArray
-            await self.GetWayPoint(response, markerArray);
-            self.setState({
-                //MTaiXe:mar,
-                WayPointT: markerArray
-            });
-        } else {
-            //console.log("timEND",response) end_location
-            let latEnd = response.routes[0].legs[0].end_location.lat();
-            let lngEnd = response.routes[0].legs[0].end_location.lng();
-            let MYEND = { lat: latEnd, lng: lngEnd };
-            await self.GetWayPoint(response, markerArray);
-            self.setState({
-                WayPointK: markerArray,
-                DiemEnd: MYEND
-            });
-        }
-        } else {
-        console.log("khong lay duoc way point", DiemA);
-        //window.alert('Directions request failed due to ' + status);
-        }
-    });
-};
-
-showSteps = async (directionResult, stepDisplay, map, icon = null) => {
-    if (icon !== null) {
-        var myRoute = directionResult.routes[0].legs[0];
-        for (var i = 1; i < myRoute.steps.length; i++) {
-        var marker = new window.google.maps.Marker();
-        marker.setMap(map);
-        marker.setPosition(myRoute.steps[i].start_location);
-        this.attachInstructionText(
-            stepDisplay,
-            marker,
-            myRoute.steps[i].instructions,
-            map
-        );
-        }
-    } else {
-        var myRoute = directionResult.routes[0].legs[0];
-        for (var i = 0; i < myRoute.steps.length; i++) {
-        var marker = new window.google.maps.Marker();
-        marker.setMap(map);
-        marker.setPosition(myRoute.steps[i].start_location);
-        this.attachInstructionText(
-            stepDisplay,
-            marker,
-            myRoute.steps[i].instructions,
-            map
-        );
-        }
-    }
-
-    //console.log(arrayPos);
-};
-
-GetWayPoint = (directionResult, WayPoint) => {
-    var myRoute = directionResult.routes[0].legs[0];
-    for (var i = 0; i < myRoute.steps.length; i++) {
-        WayPoint[i] = {
-        lat: myRoute.steps[i].start_location.lat(),
-        lng: myRoute.steps[i].start_location.lng()
-        };
-        //console.log("myPsiong",myRoute.steps[i].start_location.lat())
+    //Load Chạy
+    let self = this;
+    if (self.state.WayPointK.length !== 0) {
+        let a = 0;
+        let arrayTemp = await self.MerArray(self.state.WayPointT,self.state.WayPointK,self.state.DiemEnd);
+        self.handleMove(arrayTemp, a);
     }
 };
-
-attachInstructionText = (stepDisplay, marker, text, map) => {
-    window.google.maps.event.addListener(marker, "click", function() {
-        // Open an info window when the marker is clicked on, containing the text
-        // of the step.
-        stepDisplay.setContent(text);
-        stepDisplay.open(map, marker);
-    });
-};
-
-async MoveMoTo(next, i) {
-    var self = next;
-    //var index=0
-    //(self.WayPointT || []).map(temp=>(console.log(temp)));
-    //console.log(self.WayPoint.length)
-    //console.log(x)
-    //var i=0;
-    //console.log(self.WayPointT[0].lat)
-    //var i=0
-    //await self.state.MTaiXe.setPosition(self.state.WayPointT[i].lat,self.state.WayPointT[i].lng)
-    //i++;
-    //setTimeout((i)=>this.MoveMoTo(i), 1000);
-}
-
-makeMarker(position, icon, title, map) {
-    var marker = new window.google.maps.Marker({
-        position: position,
-        map: map,
-        icon: icon,
-        title: title
-    });
-    return marker;
-}
-handleMove = async (arrayT, a) => {
-    var self = this;
-
-    //console.log("xuat",arrayT)
-    //console.log("a:",a)
-
-    if (a === arrayT.length - 1) {
-        return;
-    }
-    if (a === 0) {
-        console.log(arrayT);
-        var latlng = { lat: arrayT[0].lat, lng: arrayT[0].lng };
-        //set lại biến position
-        position[0] = latlng.lat;
-        position[1] = latlng.lng;
-        //marker.setTitle("Latitude:"+latlng.lat +" | Longitude:"+latlng.lng)
-    }
-
-    a = a + 1;
-    var result = { lat: arrayT[a].lat, lng: arrayT[a].lng };
-    return self.transition(result, arrayT, a);
-};
-transition(result, arrayT, a) {
-    // var a=1;
-    // while(a < markerArray.length){
-    //     var result={lat:markerArray[a].getPosition().lat(),lng:markerArray[a].getPosition().lng()};
-    //     i = 0;
-    //     deltaLat = (result.lat - position[0])/numDeltas;
-    //     deltaLng = (result.lng - position[1])/numDeltas;
-    //     this.moveMarker();
-    //     a++
-    // }
-
-    i = 0;
-    deltaLat = (result.lat - position[0]) / numDeltas;
-    deltaLng = (result.lng - position[1]) / numDeltas;
-    return this.moveMarker(arrayT, a);
-}
-
-moveMarker = (arrayT, a) => {
-    var self = this;
-    position[0] += deltaLat;
-    position[1] += deltaLng;
-    var latlng = new window.google.maps.LatLng(position[0], position[1]);
-
-    //marker.setTitle('new title');
-    marker.setPosition(latlng);
-
-    if (i !== numDeltas) {
-        i++;
-        //console.log("XuatA:",a);
-        setTimeout(() => this.moveMarker(arrayT, a), 10);
-    } else {
-        //console.log("aMo",a)
-        self.handleMove(arrayT, a);
-    }
-};
-MerArray(arrayT, arrayK, DiemB) {
-    var index = arrayT.length;
-    var arrayMer = arrayT;
-    for (var i = 0; i < arrayK.length; i++) {
-        arrayMer[index++] = arrayK[i];
-    }
-    arrayMer[index++] = DiemB;
-    return arrayMer;
-}
 
 componentWillMount() {
     if (!localStorage.getItem("taikhoan")) {
         console.log("khong ton tai tai khoan");
     } else {
         if (jwt(localStorage.getItem("taikhoan")).LoaiTaiKhoan === "TaiXe") {
-        socket.on("thong-tin-dat", this.getData);
+            socket.on("thong-tin-dat", this.getData);
         }
     }
 }
 componentDidMount() {
-    //this.initMap();
-    console.log("myState", this.state);
-    // if (!localStorage.getItem("taikhoan")) {
-    //     console.log("khong ton tai tai khoan")
-
-    //   } else {
-    //       if(jwt(localStorage.getItem("taikhoan")).UserName === this.state.sodienthoai){
-
-    //     }
-    // }
-    //console.log("Waipointl 2:",this.state.WayPointK)
-    //console.log("Waipointl 1:",this.state.WayPointT)
-    //console.log("ma",this.state.MTaiXe)
-
-    // show hide form book
     var btnShowHideForm = document.getElementById("btnShowHideForm");
     var bookCustomer = document.getElementById("bookCustomer");
     btnShowHideForm.addEventListener("click", () => {
@@ -415,35 +117,17 @@ componentDidMount() {
         bookCustomer.classList.toggle("action_show_hide_form");
     });
 }
-async shouldComponentUpdate(nextProps, nextState) {
-    console.log("nowState", nextState);
-    //console.log('ShowMaker',nextState.MTaiXe)
-    //console.log("shouldComponentUpdate:",nextState.WayPointK)
-    //console.log("shouldComponentUpdate:",nextState.WayPointT)
+shouldComponentUpdate(nextProps, nextState) {
+
     return true;
 }
-async componentWillUpdate(nextProps, nextState) {
-    //if(nextState.WayPointK.length!==0 && nextState.MTaiXe.getPosition().lat() === nextState.WayPointT[0].lat){
-    //    this.MoveMoTo(nextState);
-    //}
-    // console.log("arrayT",nextState.WayPointT);
-    // console.log("arrayK",nextState.WayPointK);
-
-    var self = this;
-    if (nextState.WayPointK.length !== 0) {
-        var a = 0;
-        var arrayTemp = await self.MerArray(
-        nextState.WayPointT,
-        nextState.WayPointK,
-        nextState.DiemEnd
-        );
-        //console.log("arrayM",arrayTemp);
-
-        self.handleMove(arrayTemp, a);
-    }
+componentWillUpdate(nextProps, nextState) {
+   
 }
 
-componentDidUpdate(prevProps, prevState) {}
+componentDidUpdate(prevProps, prevState) {
+
+}
 
 render() {
     console.log("data nek", this.state.data);
@@ -591,6 +275,274 @@ render() {
         </div>
     );
 }
+
+
+initMap = async (DiemA = "", DiemB = "", TaiXe = null) => {
+    var self = this;
+    
+    // Instantiate a directions service.
+    var directionsService = new window.google.maps.DirectionsService();
+
+    // Create a map and center it on Manhattan.
+    map = new window.google.maps.Map(document.getElementById("myMap"), {
+        zoom: 13,
+        center: { lat: TaiXe.lat, lng: TaiXe.lng }
+    });
+
+    // Create a renderer for directions and bind it to the map.
+    var directionsDisplay = new window.google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: true
+    });
+    var directionsDisplay2 = new window.google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: false
+    });
+    // Instantiate an info window to hold step text.
+    var stepDisplay = new window.google.maps.InfoWindow();
+
+
+    //vòng tròn thần thánh
+    var cityCircle = new window.google.maps.Circle({
+        strokeColor: "#FF0000",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#FF0000",
+        fillOpacity: 0.35,
+        map: map,
+        center: TaiXe,
+        radius: 200
+    });
+
+    var icons = new window.google.maps.MarkerImage(
+        // URL
+        "./motorcycle.svg",
+        // (width,height)
+        new window.google.maps.Size(44, 32),
+        // The origin point (x,y)
+        new window.google.maps.Point(0, 0),
+        // The anchor point (x,y)
+        new window.google.maps.Point(22, 32),
+        new window.google.maps.Size(50, 50)
+    );
+    if (directionsDisplay !== null) {
+        var icons = new window.google.maps.MarkerImage(
+        // URL
+        "./motorcycle.svg",
+        // (width,height)
+        new window.google.maps.Size(44, 32),
+        // The origin point (x,y)
+        new window.google.maps.Point(0, 0),
+        // The anchor point (x,y)
+        new window.google.maps.Point(22, 32),
+        new window.google.maps.Size(50, 50)
+        );
+
+        await this.calculateAndDisplayRouteProps(
+        directionsDisplay,
+        directionsService,
+        stepDisplay,
+        map,
+        TaiXe,
+        DiemA,
+        icons
+        );
+        await this.calculateAndDisplayRouteProps(
+        directionsDisplay2,
+        directionsService,
+        stepDisplay,
+        map,
+        DiemA,
+        DiemB
+        );
+    }
+    map.setCenter(TaiXe);
+};
+
+calculateAndDisplayRouteProps = async (
+    directionsDisplay,
+    directionsService,
+    stepDisplay,
+    map,
+    DiemA,
+    DiemB,
+    icons = null
+) => {
+    var self = this;
+    var markerArray = [];
+    let request;
+    if (icons === null) {
+        request = {
+        origin: DiemA, //new window.google.maps.LatLng(DiemA.lat,DiemA.lng),
+        destination: DiemB, //new window.google.maps.LatLng(DiemB.lat,DiemB.lng),
+        travelMode: "DRIVING",
+        unitSystem: window.google.maps.UnitSystem.METRIC
+        };
+    } else {
+        request = {
+        origin: new window.google.maps.LatLng(DiemA.lat, DiemA.lng), //tài xế
+        destination: DiemB, //new window.google.maps.LatLng(DiemB.lat,DiemB.lng),
+        travelMode: "DRIVING",
+        unitSystem: window.google.maps.UnitSystem.METRIC
+        };
+    }
+
+    directionsService.route(request, async function(response, status) {
+        if (status === "OK") {
+        await self.showSteps(response, stepDisplay, map, icons);
+        await directionsDisplay.setDirections(response);
+        if (icons !== null) {
+            var leg = response.routes[0].legs[0];
+            marker = self.makeMarker(leg.start_location, icons, "H1", map);
+            
+            //markerArray
+            await self.GetWayPoint(response, markerArray);
+            self.setState({
+                //MTaiXe:mar,
+                WayPointT: markerArray
+            });
+        } else {
+            
+            let latEnd = response.routes[0].legs[0].end_location.lat();
+            let lngEnd = response.routes[0].legs[0].end_location.lng();
+            let MYEND = { lat: latEnd, lng: lngEnd };
+            await self.GetWayPoint(response, markerArray);
+            self.setState({
+                WayPointK: markerArray,
+                DiemEnd: MYEND
+            });
+        }
+        } else {
+            console.log("khong lay duoc way point", DiemA);
+        //window.alert('Directions request failed due to ' + status);
+        }
+    });
+};
+
+showSteps = async (directionResult, stepDisplay, map, icon = null) => {
+    if (icon !== null) {
+        var myRoute = directionResult.routes[0].legs[0];
+        for (var i = 1; i < myRoute.steps.length; i++) {
+        var marker = new window.google.maps.Marker();
+        marker.setMap(map);
+        marker.setPosition(myRoute.steps[i].start_location);
+        this.attachInstructionText(
+            stepDisplay,
+            marker,
+            myRoute.steps[i].instructions,
+            map
+        );
+        }
+    } else {
+        var myRoute = directionResult.routes[0].legs[0];
+        for (var i = 0; i < myRoute.steps.length; i++) {
+        var marker = new window.google.maps.Marker();
+        marker.setMap(map);
+        marker.setPosition(myRoute.steps[i].start_location);
+        this.attachInstructionText(
+            stepDisplay,
+            marker,
+            myRoute.steps[i].instructions,
+            map
+        );
+        }
+    }
+
+    
+};
+
+GetWayPoint = (directionResult, WayPoint) => {
+    var myRoute = directionResult.routes[0].legs[0];
+    for (var i = 0; i < myRoute.steps.length; i++) {
+        WayPoint[i] = {
+        lat: myRoute.steps[i].start_location.lat(),
+        lng: myRoute.steps[i].start_location.lng()
+        };
+    }
+};
+
+attachInstructionText = (stepDisplay, marker, text, map) => {
+    window.google.maps.event.addListener(marker, "click", function() {
+        // Open an info window when the marker is clicked on, containing the text
+        // of the step.
+        stepDisplay.setContent(text);
+        stepDisplay.open(map, marker);
+    });
+};
+
+makeMarker(position, icon, title, map) {
+    var marker = new window.google.maps.Marker({
+        position: position,
+        map: map,
+        icon: icon,
+        title: title
+    });
+    return marker;
+}
+handleMove = async (arrayT, a) => {
+    var self = this;
+
+    
+
+    if (a === arrayT.length - 1) {
+        return;
+    }
+    if (a === 0) {
+        
+        var latlng = { lat: arrayT[0].lat, lng: arrayT[0].lng };
+        //set lại biến position
+        position[0] = latlng.lat;
+        position[1] = latlng.lng;
+        //marker.setTitle("Latitude:"+latlng.lat +" | Longitude:"+latlng.lng)
+    }
+
+    a = a + 1;
+    var result = { lat: arrayT[a].lat, lng: arrayT[a].lng };
+    return self.transition(result, arrayT, a);
+};
+transition(result, arrayT, a) {
+    // var a=1;
+    // while(a < markerArray.length){
+    //     var result={lat:markerArray[a].getPosition().lat(),lng:markerArray[a].getPosition().lng()};
+    //     i = 0;
+    //     deltaLat = (result.lat - position[0])/numDeltas;
+    //     deltaLng = (result.lng - position[1])/numDeltas;
+    //     this.moveMarker();
+    //     a++
+    // }
+
+    i = 0;
+    deltaLat = (result.lat - position[0]) / numDeltas;
+    deltaLng = (result.lng - position[1]) / numDeltas;
+    return this.moveMarker(arrayT, a);
+}
+
+moveMarker = (arrayT, a) => {
+    var self = this;
+    position[0] += deltaLat;
+    position[1] += deltaLng;
+    var latlng = new window.google.maps.LatLng(position[0], position[1]);
+
+    //marker.setTitle('new title');
+    marker.setPosition(latlng);
+
+    if (i !== numDeltas) {
+        i++;
+        setTimeout(() => this.moveMarker(arrayT, a), 10);
+    } else {
+        self.handleMove(arrayT, a);
+    }
+};
+MerArray(arrayT, arrayK, DiemB) {
+    var index = arrayT.length;
+    var arrayMer = arrayT;
+    for (var i = 0; i < arrayK.length; i++) {
+        arrayMer[index++] = arrayK[i];
+    }
+    arrayMer[index++] = DiemB;
+    return arrayMer;
+}
+
 }
 
 export default Confirm;

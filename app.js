@@ -179,11 +179,13 @@ io.on("connection", socket => {
             anhbactai: taixe.AnhDaiDien,
             hoten: taixe.HoTen,
             sodienthoai: taixe.SoDienThoai,
-            biensoxe: taixe.BienSoXe
+            biensoxe: taixe.BienSoXe,
+            
           },
           sdtKhach: data.sodienthoai
         }
             console.log("THonTTT",thongtin)
+            //truyền thong tin ve cho user: Find
             io.sockets.emit("truyen-den-trang-tai-xe-xac-nhan", thongtin)
      })
   })
