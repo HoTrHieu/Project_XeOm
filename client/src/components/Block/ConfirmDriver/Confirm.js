@@ -89,10 +89,10 @@ handleSubmitRecieve = async () => {
 
     //chay den trang route
     //sau do gui thong tin tài xe qua khach hang bang trang find
+    
     socket.emit("chay-den-tai-xe-xac-nhan", xacnhan); //nguoi dung
     /*  socket.emit("chay-den-trang-route", chuyendi ) */
 };
-//<<<<<<< Updated upstream
 
 initMap = async (DiemA = "", DiemB = "", TaiXe = null) => {
     var self = this;
@@ -118,6 +118,7 @@ initMap = async (DiemA = "", DiemB = "", TaiXe = null) => {
     });
     // Instantiate an info window to hold step text.
     var stepDisplay = new window.google.maps.InfoWindow();
+
 
     //vòng tròn thần thánh
     var cityCircle = new window.google.maps.Circle({
@@ -410,7 +411,7 @@ componentDidMount() {
         btnShowHideForm.innerHTML = '<i class="fas fa-eye-slash"></i>';
         } else {
         btnShowHideForm.innerHTML = '<i class="fas fa-eye"></i>';
-        }
+    }
         bookCustomer.classList.toggle("action_show_hide_form");
     });
 }
@@ -441,6 +442,7 @@ async componentWillUpdate(nextProps, nextState) {
         self.handleMove(arrayTemp, a);
     }
 }
+
 componentDidUpdate(prevProps, prevState) {}
 
 render() {

@@ -89,7 +89,10 @@ class App extends Component {
         if(data.TaiXe.SDT === LoaiTaiKhoan){
         
           this.props.history.push("/confirm")
-          socket.emit("confirm-ne", data)
+          setTimeout(() => {
+            socket.emit("confirm-ne", data)
+          }, 50);
+        
          
      
         }
