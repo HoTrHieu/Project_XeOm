@@ -193,10 +193,10 @@ class App extends Component {
           }
 
         />
-        <Route
+        <Route 
           path="/find"
           component={
-            FindDriver
+            localStorage.getItem("sodienthoaiKH") ? FindDriver:BookPage
           }
         />
         <Route

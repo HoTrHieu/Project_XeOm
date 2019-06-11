@@ -49,7 +49,6 @@
         if (req.files) {
             var file = req.files.file;
             const data = [];
-            console.log(file);
             var time = new Date()
                 .toJSON()
                 .slice(0, 19)
