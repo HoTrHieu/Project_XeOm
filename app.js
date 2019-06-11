@@ -88,11 +88,15 @@ io.on("connection", socket => {
     }
     ////////////////////////
     console.log("taixeMin",data.ArrDriver[indexMm[0]])
-
+    console.log("Gia tri Min",indexMm[0])
     let SenDaTa={
-      SDT:data.ArrDriver[indexMm[0]].SoDienThoai,
+      TaiXe:{
+        SDT:data.ArrDriver[indexMm[0]].SoDienThoai,
+        ToaDo:data.ArrDriver[indexMm[0]].ToaDoHienTai
+      },      
       ThongTinKhach:data.thongTinKhach
     }
+    
     //do App xử lý link nên chuyển cho App.js trước để chuyển vô link Khach hang
     //gửi thông tin khach hàng -> App.js --> Tai xe có khoang cach min
     io.sockets.emit("co-nguoi-dat-ve", SenDaTa )

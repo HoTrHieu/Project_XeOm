@@ -81,7 +81,7 @@ class App extends Component {
         console.log(data)
       })
       socket.on("co-nguoi-dat-ve", data => {
-        if(data.SDT === LoaiTaiKhoan){
+        if(data.TaiXe.SDT === LoaiTaiKhoan){
           socket.emit("confirm-ne", data)
           const link = `/confirm`
           this.props.history.push(link)

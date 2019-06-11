@@ -37,13 +37,13 @@ componentWillMount() {
     this.GetAllDriver();
 }
 
-componentDidMount(){
-    //bắt socket on 
-    // this.GetAllDriver();
-    this.socket_DatXe()
-    // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
+// componentDidMount(){
+//     //bắt socket on 
+//     // this.GetAllDriver();
+//     this.socket_DatXe()
+//     // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
    
-}
+// }
 getDataXacNhan = (data) =>{
     // if(document.getElementById("input-sdt").value === data){
     //         this.props.history.push
@@ -143,14 +143,16 @@ handleSubmitFindDriver = () => {
         ArrDriver,
         ArrKC,
         thongTinKhach:{
-        noidon,
-        noiden,
-        sodienthoai,
-        giatien,
-        sokm}
+            noidon,
+            noiden,
+            sodienthoai,
+            giatien,
+            sokm
+        }
     }
     localStorage.setItem("sodienthoaiKH", sodienthoai)
     this.socket_DatXe(thongtinchuyendi)
+    
 }
 
 
@@ -181,7 +183,7 @@ handleCancel = (event) => {
 };
 
 shouldComponentUpdate(nextProps, nextState) {
-   
+    
     //console.log("shouldComponentUpdate:", nextState.ArrayKhoangCach); 
     
     //console.log("mangPHu",arrayTemp)
@@ -265,7 +267,7 @@ TinhKhoangCach=async(nameDon,ToaDoTX)=>{
             self.setState({
                 ArrayKhoangCach:arrayTemp
             })
-           console.log("Mang",arrayTemp)
+           //console.log("Mang",arrayTemp)
 
         } 
     })
@@ -408,6 +410,13 @@ attachInstructionText = (stepDisplay, marker, text, map) => {
 };
 
 componentDidMount() {
+    
+        //bắt socket on 
+        // this.GetAllDriver();
+    
+        // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
+    
+    
     this.initMap();
 
     var options = {

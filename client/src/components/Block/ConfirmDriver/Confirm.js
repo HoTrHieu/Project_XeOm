@@ -25,21 +25,33 @@
                     sodienthoai:'',
                     sokm: '',
                     giatien:'',
-                    DiemA:{lat:10.773595,lng: 106.694417},
-                    DiemB:{lat:10.762987,lng: 106.682150},
-                    TaiXe:{lat: 10.779691, lng: 106.699073},
+                    DiemA: '',  //{lat:10.773595,lng: 106.694417},
+                    DiemB:'',   //{lat:10.762987,lng: 106.682150},
+                    DiemEnd:null,
+                    TaiXe: {lat: 10.779691, lng: 106.699073}, //giá tri mac dinh
                     WayPointT:[],
                     WayPointK:[],
                     sdt: ""
                 }
                 socket = socketIOClient(this.state.point)
+                this.initMap=this.initMap.bind(this)
             }
             getData = (data) =>{
                 let tem=data.ThongTinKhach
-                let sodienthoai = data.SDT
+                let sodienthoai = data.TaiXe.SDT
+                let DA=data.ThongTinKhach.noidon;
+                let DB=data.ThongTinKhach.noiden;
+                let TX=data.TaiXe.ToaDo;
+                console.log("TenA",DA)
+                console.log("TenB",DB)
+                console.log("TaiXe",TX)
+                this.initMap(DA,DB,TX)
                 this.setState({
                     data:tem,
-                    sdt: sodienthoai
+                    sdt: sodienthoai,
+                    DiemA:DA,
+                    DiemB:DB,
+                    TaiXe:TX
                 })
             }
     //     componentDidMount(){
@@ -85,7 +97,7 @@
 
  
 
-    initMap = async(nameDon='',nameDen='')=> {
+    initMap = async(DiemA='',DiemB='',TaiXe=null)=> {
         var self =this;
         //console.log("LenMap")
         
@@ -95,7 +107,7 @@
         // Create a map and center it on Manhattan.
         map = new window.google.maps.Map(document.getElementById('myMap'), {
             zoom: 13,
-            center: {lat: this.state.TaiXe.lat, lng: this.state.TaiXe.lng}
+            center: {lat: TaiXe.lat, lng: TaiXe.lng}
         });
     
         // Create a renderer for directions and bind it to the map.
@@ -113,7 +125,7 @@
             fillColor: '#FF0000',
             fillOpacity: 0.35,
             map: map,
-            center: self.state.TaiXe,
+            center: TaiXe,
             radius:200
             });
 
@@ -142,25 +154,38 @@
             );
                 
             
-            await this.calculateAndDisplayRouteProps(directionsDisplay, directionsService, stepDisplay, map,self.state.TaiXe,self.state.DiemA,icons);
-            await this.calculateAndDisplayRouteProps(directionsDisplay2, directionsService, stepDisplay, map,self.state.DiemA,self.state.DiemB);
+            await this.calculateAndDisplayRouteProps(directionsDisplay,  directionsService, stepDisplay, map,TaiXe,DiemA,icons);
+            await this.calculateAndDisplayRouteProps(directionsDisplay2, directionsService, stepDisplay, map, DiemA,DiemB);
         }
-        map.setCenter(self.state.TaiXe);
+        map.setCenter(TaiXe);
     }
     
     calculateAndDisplayRouteProps=async(directionsDisplay, directionsService, stepDisplay, map,DiemA,DiemB,icons=null)=>{  
         var self= this;  
         var markerArray=[]
-        var request = {
-            origin: new window.google.maps.LatLng(DiemA.lat,DiemA.lng),
-            destination: new window.google.maps.LatLng(DiemB.lat,DiemB.lng),
-            travelMode: 'DRIVING',
-            unitSystem: window.google.maps.UnitSystem.METRIC
-        }; 
+        let request;
+        if(icons===null)
+        {
+            request = {
+                origin: DiemA,  //new window.google.maps.LatLng(DiemA.lat,DiemA.lng),
+                destination: DiemB, //new window.google.maps.LatLng(DiemB.lat,DiemB.lng),
+                travelMode: 'DRIVING',
+                unitSystem: window.google.maps.UnitSystem.METRIC
+            }; 
+        }
+        else{
+            request = {
+                origin: new window.google.maps.LatLng(DiemA.lat, DiemA.lng),//tài xế
+                destination: DiemB, //new window.google.maps.LatLng(DiemB.lat,DiemB.lng),
+                travelMode: 'DRIVING',
+                unitSystem: window.google.maps.UnitSystem.METRIC
+            }; 
+        }
+        
     
         directionsService.route(request,async function(response, status) {
             if (status === 'OK') {      
-
+                
                 await self.showSteps(response, stepDisplay, map,icons)
                 await directionsDisplay.setDirections(response); 
                 if(icons!==null){
@@ -175,13 +200,18 @@
                     })
                 }
                 else{
+                    //console.log("timEND",response) end_location
+                    let latEnd=response.routes[0].legs[0].end_location.lat();
+                    let lngEnd=response.routes[0].legs[0].end_location.lng();
+                    let MYEND={lat:latEnd , lng: lngEnd}
                     await self.GetWayPoint(response,markerArray);
                     self.setState({
-                        WayPointK:markerArray
+                        WayPointK:markerArray,
+                        DiemEnd:MYEND
                     })
                 }
             } else {
-                console.log("khong lay duoc way point")
+                console.log("khong lay duoc way point",DiemA)
                     //window.alert('Directions request failed due to ' + status);
             }
             
@@ -268,7 +298,6 @@
         //console.log("a:",a)
 
         if(a===arrayT.length-1){
-            console.log("end:",a)
             return;
         }
         if(a===0){
@@ -277,7 +306,7 @@
             //set lại biến position
             position[0]=latlng.lat;
             position[1]=latlng.lng;
-            marker.setTitle("Latitude:"+latlng.lat +" | Longitude:"+latlng.lng)
+            //marker.setTitle("Latitude:"+latlng.lat +" | Longitude:"+latlng.lng)
         }
         
             a=a+1 
@@ -314,7 +343,7 @@
         position[1] += deltaLng;
         var latlng = new window.google.maps.LatLng(position[0], position[1]);
         
-        marker.setTitle('new title');
+        //marker.setTitle('new title');
         marker.setPosition(latlng);
         
         if(i !== numDeltas){
@@ -348,9 +377,9 @@
             }
         }
     }
-    async componentDidMount() {
-       
-        await this.initMap();
+    componentDidMount() {
+        //this.initMap();
+        console.log("myState",this.state)
         // if (!localStorage.getItem("taikhoan")) {
         //     console.log("khong ton tai tai khoan")
             
@@ -376,7 +405,8 @@
             bookCustomer.classList.toggle('action_show_hide_form');
         })
     }
-    shouldComponentUpdate(nextProps, nextState) {
+    async shouldComponentUpdate(nextProps, nextState) {
+        console.log("nowState",nextState)
         //console.log('ShowMaker',nextState.MTaiXe)
         //console.log("shouldComponentUpdate:",nextState.WayPointK)
         //console.log("shouldComponentUpdate:",nextState.WayPointT)
@@ -392,13 +422,17 @@
         var self=this;
         if(nextState.WayPointK.length!==0){
             var a=0
-            var arrayTemp=await self.MerArray(nextState.WayPointT,nextState.WayPointK,nextState.DiemB)
-            console.log("arrayM",arrayTemp);
+            var arrayTemp=await self.MerArray(nextState.WayPointT,nextState.WayPointK,nextState.DiemEnd)
+            //console.log("arrayM",arrayTemp);
 
             self.handleMove(arrayTemp,a)
         }
     }
+    componentDidUpdate(prevProps, prevState) {
+        
+    }
     
+
     
 render() {
     console.log("data nek",this.state.data)
