@@ -58,23 +58,26 @@ class Register extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
   handleUploadImage(ev) {
-    const data = new FormData();
-    for (var i = 0; i < this.uploadInput.files.length; i++) {
-        data.append("file", this.uploadInput.files[i]);
-    }
-    fetch("http://localhost:8080/taixe/upload", {
-        method: "POST",
-        body: data
-    }).then((res) => {
-        res.text().then((body) => {
-          const data = JSON.parse(body);
-          this.setState({
-              AnhXe: data.map((obj) => "http://localhost:8080/" + obj)
+    if(this.uploadInput.files.length <= 3 && this.uploadInput.files.length>=2){
+      const data = new FormData();
+      for (var i = 0; i < this.uploadInput.files.length; i++) {
+          data.append("file", this.uploadInput.files[i]);
+      }
+      fetch("http://localhost:8080/taixe/upload", {
+          method: "POST",
+          body: data
+      }).then((res) => {
+          res.text().then((body) => {
+            const data = JSON.parse(body);
+            this.setState({
+                AnhXe: data.map((obj) => "http://localhost:8080/" + obj)
+            });
           });
-        });
-    }).catch(err=>{
-      return false
-    });
+      }).catch(err=>{
+        return false
+      });
+    }
+    
   }
 
   handleUploadSingleImage(ev) {
@@ -123,8 +126,8 @@ class Register extends Component {
     this.handleUploadSingleImage();
   }
 
-  onChangeImg(e) {
-    this.setState({ upImg: true  });
+  async onChangeImg(e) {
+    await this.setState({ upImg: true  });
     this.handleUploadImage();
   }
 
@@ -150,7 +153,19 @@ class Register extends Component {
 
     };
     console.log(thongtin)
-    register(thongtin).then((res) => {
+    if(self.ValidateUSPhoneNumber(self.state.SoDienThoai)===false){
+      self.setState({
+        ErrorSoDienThoai: "Số điện thoại không đúng định dạng. (Gợi ý: 0962815653)"
+      });
+    } 
+    if(self.ValidateBienSoXe(self.state.BienSoXe)===false){
+      self.setState({
+        ErrorSoDienThoai: "Biển số xe không đúng định dạng. (Gợi ý: 60B3-41578)"
+      });
+    }
+
+    if(this.ValidateUSPhoneNumber(this.state.SoDienThoai) && this.ValidateBienSoXe(this.state.BienSoXe)){
+      register(thongtin).then((res) => {
         console.log(res);
         if (!res.data.error) {
           var r = window.alert("Đăng ký tài khoản thành công! Vui lòng đợi quản trị viên kích hoạt tài khoản. Xin cám ơn!");
@@ -186,11 +201,6 @@ class Register extends Component {
               LengthSDT: "Số điện thoại tối thiểu 10 số"
             });
           }
-          if(self.ValidateUSPhoneNumber(self.state.SoDienThoai)===false){
-            self.setState({
-              ErrorSoDienThoai: "Số điện thoại không đúng định dạng. (Gợi ý: 0962815653)"
-            });
-          }
           if (res.data.error === "exists") {
               self.setState({
                 ErrorSoDienThoai: "Số điện thoại đã được sử dụng"
@@ -201,11 +211,7 @@ class Register extends Component {
                 ErrorBienSoXe: "Biển số xe không được trống"
               });
           }
-          if(self.ValidateBienSoXe(self.state.BienSoXe)===false){
-            self.setState({
-              ErrorSoDienThoai: "Biển số xe không đúng định dạng. (Gợi ý: 60B3-41578)"
-            });
-          }
+         
           if (res.data.error === "ErrorDiaChi") {
               self.setState({ ErrorDiaChi: "Địa chỉ không được trống" });
           }
@@ -213,7 +219,7 @@ class Register extends Component {
           self.setState({ ErrorAnhDaiDien: "Ảnh đại diện không được trống" });
           }
           if(res.data.error === 'ErrorAnhXe'){
-            self.setState({ ErrorAnhXe: "Ảnh xe không được trống hoặc ít nhất 2 tấm" });
+            self.setState({ ErrorAnhXe: "Ảnh xe không được trống; tối thiểu 2 tấm, tối đa 3 tấm" });
           }
           if (res.data.error === "ErrorPassWord") {
               self.setState({ ErrorPassWord: "Mật khẩu không được trống" });
@@ -231,6 +237,8 @@ class Register extends Component {
           }
         }
     }); 
+    }
+    
     /* } */
   }
 
