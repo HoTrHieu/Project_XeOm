@@ -4,30 +4,30 @@ import axios from "axios"
 let socket
 
 
-var numDeltas = 100;
-var delay = 100; //milliseconds
-var i = 0;
-var deltaLat;
-var deltaLng;
-var position = []; //set điểm bắt đầu
-var map;
+let numDeltas = 100;
+let delay = 100; //milliseconds
+let i = 0;
+let deltaLat;
+let deltaLng;
+let position = []; //set điểm bắt đầu
+let map;
 //var MymarkerArray = [];
 var marker;
 class Find extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            DiemA: "Trường Đại học Khoa học Tự nhiên Tp. HCM, Đường Nguyễn Văn Cừ, phường 4, Quận 5, Hồ Chí Minh, Việt Nam",
-            DiemB: "Bến Thành Market, Lê Lợi, Bến Thành, Quận 1, Hồ Chí Minh, Việt Nam",
-            TaiXe: { lat: 10.760269, lng: 106.681192},
+            DiemA: "",
+            DiemB: "",
+            TaiXe: {},
             DiemEnd: null,
             WayPointT: [],
             WayPointK: [],
             point: "http://localhost:8080/",
-            taixe: {}
+            TTtaixe: {}
         };
         socket = socketClient(this.state.point)
-        // truyen-from-confirm-to-find
+        
 
     }
 
@@ -41,15 +41,19 @@ class Find extends Component {
     componentWillMount() {
         socket.on("truyen-from-confirm-to-find", data=>{
             this.setState({
-                taixe: data.taixe
+                DiemA: data.noiDon,
+                DiemB: data.noiDen,
+                TaiXe: data.taixe.toaDo,
+                TTtaixe:data.taixe
             })
+            this.initMap(data.noiDon,data.noiDen,data.taixe.toaDo);
          })
     }
     
     
     componentDidMount() {
         
-        this.initMap(this.state.DiemA,this.state.DiemB,this.state.TaiXe);
+        
 
        
 
@@ -88,7 +92,7 @@ class Find extends Component {
         // hoten: taixe.HoTen,
         //         sodienthoai: taixe.SoDienThoai,
         //         biensoxe: taixe.BienSoXe
-        const { hoten, sodienthoai, biensoxe, anhbactai } = this.state.taixe
+        const { hoten, sodienthoai, biensoxe, anhbactai } = this.state.TTtaixe
         return (
             <div id="contentFindDriver">
                 <div id="myMap">
@@ -436,7 +440,7 @@ moveMarker = (arrayT, a) => {
     var self = this;
     position[0] += deltaLat;
     position[1] += deltaLng;
-    var latlng = new window.google.maps.LatLng(position[0], position[1]);
+    let latlng = new window.google.maps.LatLng(position[0], position[1]);
 
     //marker.setTitle('new title');
     marker.setPosition(latlng);

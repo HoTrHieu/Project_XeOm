@@ -40,10 +40,11 @@ class App extends Component {
   }
 
  
-componentWillMount() {
+componentDidMount() {
 
+    
     console.log("localstorage", typeof localStorage.getItem("taikhoan"))
-    if (!localStorage.getItem("taikhoan")) {
+    if (!localStorage.getItem("taikhoan")) {  //khong co tai khoan
         //console.log("khong ton tai tai khoan")
       // socket.on("bat-dau-chuyen", data => {
       //   console.log("chap nhan dat thanh cong")
@@ -52,26 +53,27 @@ componentWillMount() {
         console.log("khach hang khong co dat chuyen")
       }else{
             console.log("vaoguoi Dun");
-            socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
-              console.log("MYDT",data)
-              console.log("thong tin",data)
-              console.log("sodienthoaikhachhang",localStorage.getItem("sodienthoaiKH"))
-              if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
+            // socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+            //   //console.log("xac NhanDT",data)
+            //   //console.log("MYDT",data)
+            //   console.log("thong tin",data)
+            //   //console.log("sodienthoaikhachhang",localStorage.getItem("sodienthoaiKH"))
+            //   if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
                 
-                  console.log("SODienT..",data.sdtKhach);
+            //       console.log("SODienT..",data.sdtKhach);
 
-                   this.props.history.push("/find")    
+            //        this.props.history.push("/find")    
                    
-                   setTimeout(() => {
-                    // setInterval(() => {
-                      socket.emit("gui-thong-tin-tai-xe", data )
-                    // }, 1000);
-                   }, 50);
+                   
+            //         // setInterval(() => {
+            //           socket.emit("gui-thong-tin-tai-xe", data )
+            //         // }, 1000);
+                   
                 
                     
-              }
+            //   }
              
-            })
+            // })
 
             
           
@@ -109,11 +111,11 @@ componentWillMount() {
        
       })
       // chap nhan dat ve
-      socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
-        
-          socket.emit("truyen-den-trang-xac-nhan-khach-hang", data)
+      // socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+      //     console.log("xac NhanDT",data)
+      //     socket.emit("truyen-den-trang-xac-nhan-khach-hang", data)
           
-      })
+      // })
 
 
     }
@@ -135,7 +137,7 @@ componentWillMount() {
   
   render() {
 
-    console.log(this.state.link)
+    //console.log(this.state.link)
 
     // tai-xe-nhan-chuyendi-(ConfirmDriver)
     // khi 2 thang dong y (Router-Driver)

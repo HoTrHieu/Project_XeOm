@@ -171,23 +171,29 @@ io.on("connection", socket => {
   })
 
   //component book khach hang
-  socket.on("chay-den-tai-xe-xac-nhan", data=>{
-    
-     TaiXe.findOne({ SoDienThoai: data.phonedriver }).then(taixe=>{
-        let thongtin ={
+  socket.on("chay-den-tai-xe-xac-nhan",async data=>{
+    let thongtin = null;
+    await TaiXe.findOne({ SoDienThoai: data.phonedriver }).then(taixe=>{
+        thongtin ={
           taixe: {
             anhbactai: taixe.AnhDaiDien,
             hoten: taixe.HoTen,
             sodienthoai: taixe.SoDienThoai,
             biensoxe: taixe.BienSoXe,
-            
+            toaDo: taixe.ToaDoHienTai
           },
-          sdtKhach: data.sodienthoai
+          sdtKhach: data.sodienthoai,
+          noiDon: data.noidon,
+          noiDen: data.noiden
         }
-            console.log("THonTTT",thongtin)
+            //console.log("THonTTT",thongtin)
             //truyền thong tin ve cho user: Find
-            io.sockets.emit("truyen-den-trang-tai-xe-xac-nhan", thongtin)
+            
      })
+     if(thongtin!==null){
+      console.log("dalen")
+      io.sockets.emit("truyen-den-trang-tai-xe-xac-nhan", thongtin)
+     }
   })
 
   //nhận từ hach hang to route

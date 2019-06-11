@@ -42,64 +42,65 @@ componentWillMount() {
 
     this.GetAllDriver();
     //console.log("localstorage", typeof localStorage.getItem("taikhoan"))
-    if (!localStorage.getItem("taikhoan")) {
+    
+    // if (!localStorage.getItem("taikhoan")) {
       
-      if(!localStorage.getItem("sodienthoaiKH")){
-        console.log("khach hang khong co dat chuyen")
-      }else{
-            socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
-              if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
-                   this.props.history.push("/find")                       
-                   setTimeout(() => {
-                      socket.emit("gui-thong-tin-tai-xe", data )
-                   }, 50);
+    //   if(!localStorage.getItem("sodienthoaiKH")){
+    //     console.log("khach hang khong co dat chuyen")
+    //   }else{
+    //         socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+    //           if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
+    //                this.props.history.push("/find")                       
+    //                setTimeout(() => {
+    //                   socket.emit("gui-thong-tin-tai-xe", data )
+    //                }, 50);
  
-              }             
-            })                      
-      }
-    } else {
-      let LoaiTaiKhoan = jwt_decode(localStorage.getItem("taikhoan")).UserName
-      socket.emit("tai-xe-online", LoaiTaiKhoan)
-      socket.on("list-tai-online", (data) => {
-        console.log(data)
-      })
-      socket.on("co-nguoi-dat-ve", data => {
-        if(data.TaiXe.SDT === LoaiTaiKhoan){
+    //           }             
+    //         })                      
+    //   }
+    // } else {
+    //   let LoaiTaiKhoan = jwt_decode(localStorage.getItem("taikhoan")).UserName
+    //   socket.emit("tai-xe-online", LoaiTaiKhoan)
+    //   socket.on("list-tai-online", (data) => {
+    //     console.log(data)
+    //   })
+    //   socket.on("co-nguoi-dat-ve", data => {
+    //     if(data.TaiXe.SDT === LoaiTaiKhoan){
         
-          this.props.history.push("/confirm")
-            setTimeout(() => {
-                socket.emit("confirm-ne", data)
-            }, 50);
+    //       this.props.history.push("/confirm")
+    //         setTimeout(() => {
+    //             socket.emit("confirm-ne", data)
+    //         }, 50);
           
          
      
-        }
-        console.log("hey man ", data)
-        //chuyển du lieu len sover
+    //     }
+    //     console.log("hey man ", data)
+    //     //chuyển du lieu len sover
         
-        //để nhảy đến trang confirm
+    //     //để nhảy đến trang confirm
        
 
-        // let chapnhandat = this.state.yes
-        // socket.emit("chap-nhan-dat-ve", chapnhandat )
+    //     // let chapnhandat = this.state.yes
+    //     // socket.emit("chap-nhan-dat-ve", chapnhandat )
 
-      })
-      socket.on("tai-xe-load-route", data=>{
-        if(jwt_decode(localStorage.getItem("taikhoan")).UserName === data.phonedriver){
-          socket.emit("truyen-data-route", data)
-          this.props.history.push("/router")
-        }
+    //   })
+    //   socket.on("tai-xe-load-route", data=>{
+    //     if(jwt_decode(localStorage.getItem("taikhoan")).UserName === data.phonedriver){
+    //       socket.emit("truyen-data-route", data)
+    //       this.props.history.push("/router")
+    //     }
        
-      })
-      //chap nhan dat ve
-      // socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+    //   })
+    //   //chap nhan dat ve
+    //   // socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
         
-      //     socket.emit("truyen-den-trang-xac-nhan-khach-hang", data)
+    //   //     socket.emit("truyen-den-trang-xac-nhan-khach-hang", data)
           
-      // })
+    //   // })
 
 
-    }
+    // }
 
    
 
@@ -484,7 +485,14 @@ attachInstructionText = (stepDisplay, marker, text, map) => {
 };
 
 componentDidMount() {
-    
+    socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+        console.log("thong tin",data)
+        if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
+            console.log("SODienT..",data.sdtKhach);
+             this.props.history.push("/find")    
+            socket.emit("gui-thong-tin-tai-xe", data )
+        }
+      })
         //bắt socket on 
         // this.GetAllDriver();
     

@@ -80,9 +80,11 @@ handleSubmitRecieve = async () => {
     };
     let xacnhan = {
         sodienthoai,
-        phonedriver
+        phonedriver,
+        noidon,
+        noiden
     };
-
+    
     //chay den trang route
     //sau do gui thong tin tài xe qua khach hang bang trang find
     //gửi len server
@@ -130,7 +132,7 @@ componentDidUpdate(prevProps, prevState) {
 }
 
 render() {
-    console.log("data nek", this.state.data);
+    //console.log("data nek", this.state.data);
     const { giatien, noidon, noiden, sodienthoai, sokm } = this.state.data;
     return (
         <div id="confirmDriver">
