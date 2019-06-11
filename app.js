@@ -70,6 +70,7 @@ io.on("connection", socket => {
   socket.on("nhan-thong-tin-dat-ve", (data) => {
     
     //console.log("datanew:",data)
+    console.log("MangDriver",data.ArrDriver)
     //truy suat data lay tai xe dang online
     //gui ve tai xe gan nhat
     let indexMm=[];
@@ -86,9 +87,15 @@ io.on("connection", socket => {
     for(let j=0;j<arrayMm.length;j++){
       indexMm[j]=data.ArrKC.indexOf(arrayMm[j]);
     }
+    //console.log("MangArrKC",data.ArrDriver[indexMm[0]].SoDienThoai)
+
+    
+    // console.log("xuat SDT",data.ArrDriver)
+    // console.log("Gia tri Min",indexMm[0])
+
     ////////////////////////
-    console.log("taixeMin",data.ArrDriver[indexMm[0]])
-    console.log("Gia tri Min",indexMm[0])
+    //console.log("xuat SDT",data.ArrDriver[indexMm[0]].SoDienThoai)
+    //console.log("Gia tri Min",indexMm[0])
     let SenDaTa={
       TaiXe:{
         SDT:data.ArrDriver[indexMm[0]].SoDienThoai,
@@ -96,7 +103,7 @@ io.on("connection", socket => {
       },      
       ThongTinKhach:data.thongTinKhach
     }
-    
+
     //do App xử lý link nên chuyển cho App.js trước để chuyển vô link Khach hang
     //gửi thông tin khach hàng -> App.js --> Tai xe có khoang cach min
     io.sockets.emit("co-nguoi-dat-ve", SenDaTa )
@@ -165,6 +172,7 @@ io.on("connection", socket => {
 
   //component book khach hang
   socket.on("chay-den-tai-xe-xac-nhan", data=>{
+    
      TaiXe.findOne({ SoDienThoai: data.phonedriver }).then(taixe=>{
         let thongtin ={
           taixe: {
@@ -175,6 +183,7 @@ io.on("connection", socket => {
           },
           sdtKhach: data.sodienthoai
         }
+            console.log("THonTTT",thongtin)
             io.sockets.emit("truyen-den-trang-tai-xe-xac-nhan", thongtin)
      })
   })

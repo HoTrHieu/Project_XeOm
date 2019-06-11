@@ -39,29 +39,34 @@ class App extends Component {
     socket = socketIOClient(this.state.endpont)
   }
 
-  componentDidMount() {
+  
+  componentWillMount() {
 
     console.log("localstorage", typeof localStorage.getItem("taikhoan"))
     if (!localStorage.getItem("taikhoan")) {
-      // console.log("khong ton tai tai khoan")
-      // socket.on("bat-dau-chuyen", data => {
-      //   console.log("chap nhan dat thanh cong")
-      // })
+      console.log("khong ton tai tai khoan")
+      socket.on("bat-dau-chuyen", data => {
+        console.log("chap nhan dat thanh cong")
+      })
       if(!localStorage.getItem("sodienthoaiKH")){
         console.log("khach hang khong co dat chuyen")
       }else{
+            console.log("vaoguoi Dun");
             socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+              console.log("MYDT",data)
+              console.log("thong tin",data)
               console.log("sodienthoaikhachhang",localStorage.getItem("sodienthoaiKH"))
               if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
                 
-               
+                  console.log("SODienT..",data.sdtKhach);
+
                    this.props.history.push("/find")    
                    
                    setTimeout(() => {
                     // setInterval(() => {
                       socket.emit("gui-thong-tin-tai-xe", data )
                     // }, 1000);
-                   }, 500);
+                   }, 50);
                 
                     
               }
@@ -73,29 +78,29 @@ class App extends Component {
       }
     } else {
       let LoaiTaiKhoan = jwt_decode(localStorage.getItem("taikhoan")).UserName
-      // if(localStorage.getItem("taikhoan"))
-      // console.log(LoaiTaiKhoan)
-      // socket.emit("tai-xe-online", LoaiTaiKhoan)
+      if(localStorage.getItem("taikhoan"))
+      console.log(LoaiTaiKhoan)
+      socket.emit("tai-xe-online", LoaiTaiKhoan)
       socket.emit("tai-xe-online", LoaiTaiKhoan)
       socket.on("list-tai-online", (data) => {
         console.log(data)
       })
       socket.on("co-nguoi-dat-ve", data => {
         if(data.TaiXe.SDT === LoaiTaiKhoan){
+        
+          this.props.history.push("/confirm")
           socket.emit("confirm-ne", data)
-          const link = `/confirm`
-          this.props.history.push(link)
          
      
         }
         console.log("hey man ", data)
-        //chuyển du lieu len sover
+        // chuyển du lieu len sover
         
-        //để nhảy đến trang confirm
+        // để nhảy đến trang confirm
        
 
-        // let chapnhandat = this.state.yes
-        // socket.emit("chap-nhan-dat-ve", chapnhandat )
+        let chapnhandat = this.state.yes
+        socket.emit("chap-nhan-dat-ve", chapnhandat )
 
       })
       socket.on("tai-xe-load-route", data=>{
@@ -105,12 +110,12 @@ class App extends Component {
         }
        
       })
-      //chap nhan dat ve
-      // socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+      // chap nhan dat ve
+      socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
         
-      //     socket.emit("truyen-den-trang-xac-nhan-khach-hang", data)
+          socket.emit("truyen-den-trang-xac-nhan-khach-hang", data)
           
-      // })
+      })
 
 
     }

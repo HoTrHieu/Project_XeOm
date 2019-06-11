@@ -16,7 +16,7 @@
     var marker;
     class Confirm extends Component {
         constructor(props){
-            super(props)
+            super(props) 
                 this.state = {
                     point: "http://localhost:8080/",
                     data : {},
@@ -33,8 +33,9 @@
                     WayPointK:[],
                     sdt: ""
                 }
+                this.getData=this.getData.bind(this)
                 socket = socketIOClient(this.state.point)
-                this.initMap=this.initMap.bind(this)
+                //this.initMap=this.initMap.bind(this)
             }
             getData = (data) =>{
                 let tem=data.ThongTinKhach
@@ -42,10 +43,11 @@
                 let DA=data.ThongTinKhach.noidon;
                 let DB=data.ThongTinKhach.noiden;
                 let TX=data.TaiXe.ToaDo;
+                //console.log("DataNe",data)
                 console.log("TenA",DA)
-                console.log("TenB",DB)
-                console.log("TaiXe",TX)
-                this.initMap(DA,DB,TX)
+                //console.log("TenB",DB)
+                //console.log("TaiXe",TX)
+                this.initMap(data.ThongTinKhach.noidon,data.ThongTinKhach.noiden,data.TaiXe.ToaDo)
                 this.setState({
                     data:tem,
                     sdt: sodienthoai,
@@ -67,9 +69,12 @@
       }
       handleSubmitUnRecieve = ()=>{
           let username  = jwt(localStorage.getItem("taikhoan")).UserName
-          socket.emit("taixe-huy-chuyen", username)
+        setTimeout(() => {
+            socket.emit("taixe-huy-chuyen", username)
+        }, 50);
+         
       }
-      handleSubmitRecieve = ()=>{
+      handleSubmitRecieve =async ()=>{
           // truyen thong tin chuyen di
           const {giatien, noidon, noiden, sodienthoai, sokm } = this.state.data
           //sodienthoaikhach, sodienthoaitaixe, noidon, noidi, sdt, sotien,tinhtrang
@@ -87,10 +92,26 @@
           let xacnhan = {
               sodienthoai, phonedriver
           }
+
+          //console.log("XacNH",xacnhan)
            //chay den trang route 
-            //sau do gui thong tin tài xe qua khach hang bang trang find
-              socket.emit("chay-den-tai-xe-xac-nhan", xacnhan) //nguoi dung
-              socket.emit("chay-den-trang-route", chuyendi )
+            //sau do gui thong tin tài xe qua khach hang bang trang 
+            setTimeout(() => {
+                socket.emit("chay-den-tai-xe-xac-nhan", xacnhan)
+            }, 50);
+           //nguoi dung
+            //socket.emit("chay-den-trang-route", chuyendi )
+
+          
+
+            // let self=this;
+            // if(self.state.WayPointK.length!==0){
+            //     let a=0
+            //     let arrayTemp=await self.MerArray(self.state.WayPointT,self.state.WayPointK,self.state.DiemEnd)
+            //     //console.log("arrayM",arrayTemp);
+
+            //     self.handleMove(arrayTemp,a)
+            // }
       }
 //<<<<<<< Updated upstream
 
@@ -419,14 +440,7 @@
         // console.log("arrayT",nextState.WayPointT);
         // console.log("arrayK",nextState.WayPointK);
 
-        var self=this;
-        if(nextState.WayPointK.length!==0){
-            var a=0
-            var arrayTemp=await self.MerArray(nextState.WayPointT,nextState.WayPointK,nextState.DiemEnd)
-            //console.log("arrayM",arrayTemp);
-
-            self.handleMove(arrayTemp,a)
-        }
+        
     }
     componentDidUpdate(prevProps, prevState) {
         
