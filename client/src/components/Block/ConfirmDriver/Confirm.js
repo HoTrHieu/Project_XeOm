@@ -22,8 +22,8 @@ constructor(props) {
         noidon: "",
         noiden: "",
         sodienthoai: "",
-        sokm: "",
-        giatien: "",
+        sokm: 0,
+        giatien: 0,
         DiemA: "", //{lat:10.773595,lng: 106.694417},
         DiemB: "", //{lat:10.762987,lng: 106.682150},
         DiemEnd: null,
@@ -31,7 +31,8 @@ constructor(props) {
         WayPointT: [],
         WayPointK: [],
         sdt: "",
-        clickReceive: false
+        clickReceive: false,
+        btnHoanThanh:false
     };
     socket = socketIOClient(this.state.point);
     this.initMap = this.initMap.bind(this);
@@ -62,40 +63,48 @@ handleSubmitUnRecieve = () => {
     let username = jwt(localStorage.getItem("taikhoan")).UserName;
     socket.emit("taixe-huy-chuyen", username);
 };
+handleComfirm=async()=>{
+    
+}
 handleSubmitRecieve = async () => {
+    let self=this;
     await this.setState({ clickReceive: true });
     // truyen thong tin chuyen di
     const { giatien, noidon, noiden, sodienthoai, sokm } = this.state.data;
     //sodienthoaikhach, sodienthoaitaixe, noidon, noidi, sdt, sotien,tinhtrang
     let phonedriver = jwt(localStorage.getItem("taikhoan")).UserName;
 
+   
+
     let chuyendi = {
         sodienthoai,
         phonedriver,
         noidon,
         noiden,
-        sokm,
-        giatien,
+        sokm:self.state.sokm,
+        giatien:self.state.giatien,
         tinhtrang: "NhanKhach"
     };
-    let xacnhan = {
-        sodienthoai,
-        phonedriver,
-        noidon,
-        noiden
-    };
     
+
     //chay den trang route
     //sau do gui thong tin tài xe qua khach hang bang trang find
     //gửi len server
-    socket.emit("chay-den-tai-xe-xac-nhan", xacnhan); //nguoi dung
+    socket.emit("chay-den-tai-xe-xac-nhan", chuyendi); //nguoi dung
     //Load Chạy
-    let self = this;
+    
     if (self.state.WayPointK.length !== 0) {
         let a = 0;
         let arrayTemp = await self.MerArray(self.state.WayPointT,self.state.WayPointK,self.state.DiemEnd);
         self.handleMove(arrayTemp, a);
     }
+
+
+    //lưu DB
+    // fetch("http://localhost:8080/chuyendi/add",{
+    //     method:'post',
+    //     body:chuyendi
+    // })
 };
 
 componentWillMount() {
@@ -252,7 +261,7 @@ render() {
                 ) : (
                     <div className="row">
                     <div className="col-12">
-                        <button
+                       {this.state.btnHoanThanh===false? <button 
                             type="button"
                             className="btn btn-danger btn-block btnCancel btn-block"
                             name
@@ -260,7 +269,17 @@ render() {
                         >
                             Huỷ Chuyến&nbsp;
                             <i className="far fa-check-circle" />
-                        </button>
+                        </button> :
+                        <button 
+                        type="button"
+                        className="btn btn-danger btn-block btnCancel btn-block"
+                        name
+                        id
+                    >
+                        Xác Nhận Hoàn Thành&nbsp;
+                        <i className="far fa-check-circle" />
+                    </button>
+                }
                     </div>
                     </div>
                 )}
@@ -404,14 +423,23 @@ calculateAndDisplayRouteProps = async (
                 WayPointT: markerArray
             });
         } else {
+            //xử lý so km va tien
             
+            
+            let temp = response.routes[0].legs[0].distance.value;
+            let Skm = (temp / 1000).toFixed(1);
+            let Gtien = Skm * 2000;
+
+
             let latEnd = response.routes[0].legs[0].end_location.lat();
             let lngEnd = response.routes[0].legs[0].end_location.lng();
             let MYEND = { lat: latEnd, lng: lngEnd };
             await self.GetWayPoint(response, markerArray);
             self.setState({
                 WayPointK: markerArray,
-                DiemEnd: MYEND
+                DiemEnd: MYEND,
+                sokm: Skm,
+                giatien: Gtien
             });
         }
         } else {
@@ -487,6 +515,9 @@ handleMove = async (arrayT, a) => {
     
 
     if (a === arrayT.length - 1) {
+        this.setState({
+            btnHoanThanh:true
+        })
         return;
     }
     if (a === 0) {

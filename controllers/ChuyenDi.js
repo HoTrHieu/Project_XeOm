@@ -3,13 +3,13 @@
 const ChuyenDi = require('../models/ChuyenDi')
 
 module.exports.AddChuyenDi = async (req,res)=>{ //add 
-    
-   const {SDTKhach,SDTTaiXe,DiaDiemDon,DiaDiemDi,SoKm,SoTien,TinhTrang} = req.body
-   const chuyendi = new ChuyenDi({SDTKhach,SDTTaiXe,DiaDiemDon,DiaDiemDi,SoKm,SoTien,TinhTrang})
-   const new_chuyendi= await chuyendi.save()
-   res.json({
-       new_chuyendi
-   })
+    console.log("XuatNhanChuyen",req.body);
+//    const {SDTKhach,SDTTaiXe,DiaDiemDon,DiaDiemDi,SoKm,SoTien,TinhTrang} = req.body
+//    const chuyendi = new ChuyenDi({SDTKhach,SDTTaiXe,DiaDiemDon,DiaDiemDi,SoKm,SoTien,TinhTrang})
+//    const new_chuyendi= await chuyendi.save()
+//    res.json({
+//        new_chuyendi
+//    })
 }
 module.exports.GetAllChuyenDi = async (req, res)=>{  //GetAllChuyenDi
    

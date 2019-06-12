@@ -6,7 +6,7 @@ const ChuyenDi = new Schema({
     SDTKhach: {type: String, required: true, trim: true},
     SDTTaiXe: {type: String, required: true, trim: true},
     DiaDiemDon: {type: String, required: true, trim: true},
-    DiaDiemDi: {type: String, required: true, trim: true},
+    DiaDiemDen: {type: String, required: true, trim: true},
     SoKm: Number, 
     SoTien: Number,
     TinhTrang:{

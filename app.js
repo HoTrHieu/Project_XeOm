@@ -17,6 +17,7 @@ const controllerTaiKhoan = require("./controllers/TaiKhoan")
 const controllerChuyenDi = require("./controllers/ChuyenDi")
 const controllerTaiXe = require("./controllers/TaiXe")
 const TaiXe = require("./models/TaiXe")
+const ChuyenDi = require("./models/ChuyenDi")
 
 const axios = require("axios")
 /* var indexRouter = require('./routes/index'); */
@@ -193,7 +194,36 @@ io.on("connection", socket => {
      if(thongtin!==null){
       console.log("dalen")
       io.sockets.emit("truyen-den-trang-tai-xe-xac-nhan", thongtin)
-     }
+
+      const ChuyenDiDB = {
+        SDTKhach: data.sodienthoai,
+        SDTTaiXe: data.phonedriver,
+        DiaDiemDon: data.noidon,
+        DiaDiemDen: data.noiden,
+        SoKm: data.sokm,
+        SoTien: data.giatien,
+        TinhTrang: {
+          status:data.tinhtrang,
+          time: Date.now()
+        }
+        
+      }
+      
+      const chuyendi = new ChuyenDi(ChuyenDiDB)
+      chuyendi.save((error, result) => {
+          if(error) {console.log("LuuFail",error)}
+          console.log("KET Qua Insert",{ChuyenDiDB: result})
+      })
+
+      
+    }
+
+
+
+
+
+
+     
   })
 
   //nhận từ hach hang to route
