@@ -67,8 +67,9 @@ handleComfirm=async()=>{
         id:this.state.id,
         TinhTrang: "HoanThanh"
     }
-    console.log("ThongTinCDGui",senData)
+    //console.log("ThongTinCDGui",senData)
     socket.emit("truyen-update-chuyen-di", senData);
+    //this.props.history.push("/profile")  
 
 }
 handleSubmitRecieve = async () => {

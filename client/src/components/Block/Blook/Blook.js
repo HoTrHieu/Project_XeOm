@@ -41,82 +41,13 @@ constructor(props) {
 componentWillMount() {
 
     this.GetAllDriver();
-    //console.log("localstorage", typeof localStorage.getItem("taikhoan"))
-    
-    // if (!localStorage.getItem("taikhoan")) {
-      
-    //   if(!localStorage.getItem("sodienthoaiKH")){
-    //     console.log("khach hang khong co dat chuyen")
-    //   }else{
-    //         socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
-    //           if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
-    //                this.props.history.push("/find")                       
-    //                setTimeout(() => {
-    //                   socket.emit("gui-thong-tin-tai-xe", data )
-    //                }, 50);
- 
-    //           }             
-    //         })                      
-    //   }
-    // } else {
-    //   let LoaiTaiKhoan = jwt_decode(localStorage.getItem("taikhoan")).UserName
-    //   socket.emit("tai-xe-online", LoaiTaiKhoan)
-    //   socket.on("list-tai-online", (data) => {
-    //     console.log(data)
-    //   })
-    //   socket.on("co-nguoi-dat-ve", data => {
-    //     if(data.TaiXe.SDT === LoaiTaiKhoan){
-        
-    //       this.props.history.push("/confirm")
-    //         setTimeout(() => {
-    //             socket.emit("confirm-ne", data)
-    //         }, 50);
-          
-         
-     
-    //     }
-    //     console.log("hey man ", data)
-    //     //chuyển du lieu len sover
-        
-    //     //để nhảy đến trang confirm
-       
-
-    //     // let chapnhandat = this.state.yes
-    //     // socket.emit("chap-nhan-dat-ve", chapnhandat )
-
-    //   })
-    //   socket.on("tai-xe-load-route", data=>{
-    //     if(jwt_decode(localStorage.getItem("taikhoan")).UserName === data.phonedriver){
-    //       socket.emit("truyen-data-route", data)
-    //       this.props.history.push("/router")
-    //     }
-       
-    //   })
-    //   //chap nhan dat ve
-    //   // socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
-        
-    //   //     socket.emit("truyen-den-trang-xac-nhan-khach-hang", data)
-          
-    //   // })
-
-
-    // }
-
    
-
-  }
-
-// componentDidMount(){
-//     //bắt socket on 
-//     // this.GetAllDriver();
-//     this.socket_DatXe()
-//     // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
    
-// }
+}
+
+
 getDataXacNhan = (data) =>{
-    // if(document.getElementById("input-sdt").value === data){
-    //         this.props.history.push
-    // }
+    
 }
 
 
@@ -287,6 +218,188 @@ handleInputChange = (event) => {
     //     [event.target.name]: event.target.value
     // })
 };
+
+
+componentDidMount() {
+    socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+        console.log("thong tin",data)
+        if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
+            console.log("SODienT..",data.sdtKhach);
+             this.props.history.push("/find")    
+            socket.emit("gui-thong-tin-tai-xe", data )
+        }
+      })
+        //bắt socket on 
+        // this.GetAllDriver();
+    
+        // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
+    
+    
+    this.initMap();
+
+    var options = {
+        types: [],
+        componentRestrictions: {country: 'VN'}
+    };
+    var input1 = document.getElementById("location-input-don");
+    var autocomplete1 = new window.google.maps.places.Autocomplete(
+        input1,
+        options
+    );
+
+    var input2 = document.getElementById("location-input-den");
+    var autocomplete2 = new window.google.maps.places.Autocomplete(
+        input2,
+        options
+    );
+
+    // show hide form book 
+    var btnShowHideForm = document.getElementById('btnShowHideForm');
+    var bookCustomer = document.getElementById('bookCustomer');
+    btnShowHideForm.addEventListener('click',()=>{
+        if(btnShowHideForm.innerHTML==='<i class="fas fa-eye"></i>'){
+            btnShowHideForm.innerHTML='<i class="fas fa-eye-slash"></i>'
+        }else {
+            btnShowHideForm.innerHTML = '<i class="fas fa-eye"></i>'
+        }
+        bookCustomer.classList.toggle('action_show_hide_form');
+    })
+}
+
+render() {
+    return (
+        <div id="book">
+            <div className="container-fluid ct-book">
+                <div className="row r-book">
+                    <div className="col-12 map" id="myMap">
+                        <div style={{ width: `100%`, height: `100%` }} >
+                        </div>
+                    </div>
+                    {/* map */}
+                </div>
+            </div>
+            <div className="bookCustomer" id="bookCustomer">
+                <form onSubmit={this.handleSubmit}>
+                <h4 className="titleBook">Thông tin khách hàng</h4>
+                <small style={{ color: "yellow" }}>
+                    <i>
+                        {this.state.requireInputDon !== ""
+                            ? this.state.requireInputDon
+                            : ""}
+                    </i>
+                </small>
+                <div className="form-group location-input">
+                    <input
+                        ref="inputDon"
+                        type="text"
+                        name="DiemDon"
+                        id="location-input-don"
+                        className="form-control"
+                        placeholder="Địa điểm đón"
+                        aria-describedby="helpId"
+                    />
+                </div>
+                <small style={{ color: "yellow" }}>
+                    <i>
+                        {this.state.requireInputDen !== ""
+                            ? this.state.requireInputDen
+                            : ""}
+                    </i>
+                </small>
+                <div className="form-group location-input">
+                    <input
+                        ref="inputDen"
+                        type="text"
+                        name="DiemDen"
+                        id="location-input-den"
+                        className="form-control"
+                        placeholder="Địa điểm đến"
+                        aria-describedby="helpId"
+                    />
+                </div>
+                <small style={{ color: "yellow" }}>
+                    <i>
+                        {this.state.requireInputSDT !== ""
+                            ? this.state.requireInputSDT
+                            : ""}
+                    </i>
+                </small>
+                <div className="form-group">
+                    <input
+                        onChange={this.handleInputChange}
+                        ref="inputSDT"
+                        type="number"
+                        name="SDT"
+                        id="input-sdt"
+                        className="form-control"
+                        placeholder="Số điện thoại"
+                        aria-describedby="helpId"
+                    />
+                </div>
+                <div className="form-group text-center">
+                    <p style={{ color: "yellow", fontWeight: "bold" }}>
+                        Số km dự tính :{" "}
+                        <span id="output-km" style={{ fontSize: "18px" }}>
+                            {this.state.soKM}0 km
+                        </span>
+                    </p>
+                </div>
+                <div className="form-group text-center">
+                    <p style={{ color: "yellow", fontWeight: "bold" }}>
+                        Số tiền dự tính :{" "}
+                        <span
+                            id="output-tien"
+                            style={{ fontSize: "18px" }}
+                        >
+                            0 đ
+                        </span>
+                    </p>
+                </div>
+
+                {this.state.existsRound === false ? (
+                    <div className="form-group text-center">
+                        <button
+                            name=""
+                            className="btn btn-success btnRegister btn-block"
+                            type="submit"
+                        >
+                            Xem Lộ Trình &nbsp;&nbsp;
+                            <i className="fas fa-motorcycle" />
+                        </button>{" "}
+                    </div>
+                ) : (
+                    <div className="form-group text-center">
+                        <button
+                            onClick={this.handleCancel}
+                            name=""
+                            className="btn btn-danger btnCancel"
+                        >
+                            Huỷ &nbsp;&nbsp;
+                            <i className="fas fa-motorcycle" />
+                        </button>{" "}
+                        &nbsp;{" "}
+                        {this.state.submitDriver === false? <button
+                            onClick={this.handleSubmitFindDriver}
+                            name=""
+                            className="btn btn-success btnFindDriver"
+                        >
+                            Đặt xe &nbsp;&nbsp;
+                            <i className="fas fa-motorcycle" />
+                        </button> : ""}
+                        
+                    </div>
+                )}
+                {/* bookCustomer */}
+                </form>
+            </div>
+
+            <div className="btnShowHideForm" id="btnShowHideForm" data-toggle="tooltip" title="Đặt xe!">
+                <i className="fas fa-eye"></i>
+            </div>
+        </div>
+    );
+}
+
 
 initMap = (nameDon = "", nameDen = "") => {
     var markerArray = [];
@@ -484,185 +597,6 @@ attachInstructionText = (stepDisplay, marker, text, map) => {
     });
 };
 
-componentDidMount() {
-    socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
-        console.log("thong tin",data)
-        if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
-            console.log("SODienT..",data.sdtKhach);
-             this.props.history.push("/find")    
-            socket.emit("gui-thong-tin-tai-xe", data )
-        }
-      })
-        //bắt socket on 
-        // this.GetAllDriver();
-    
-        // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
-    
-    
-    this.initMap();
-
-    var options = {
-        types: [],
-        componentRestrictions: {country: 'VN'}
-    };
-    var input1 = document.getElementById("location-input-don");
-    var autocomplete1 = new window.google.maps.places.Autocomplete(
-        input1,
-        options
-    );
-
-    var input2 = document.getElementById("location-input-den");
-    var autocomplete2 = new window.google.maps.places.Autocomplete(
-        input2,
-        options
-    );
-
-    // show hide form book 
-    var btnShowHideForm = document.getElementById('btnShowHideForm');
-    var bookCustomer = document.getElementById('bookCustomer');
-    btnShowHideForm.addEventListener('click',()=>{
-        if(btnShowHideForm.innerHTML==='<i class="fas fa-eye"></i>'){
-            btnShowHideForm.innerHTML='<i class="fas fa-eye-slash"></i>'
-        }else {
-            btnShowHideForm.innerHTML = '<i class="fas fa-eye"></i>'
-        }
-        bookCustomer.classList.toggle('action_show_hide_form');
-    })
-}
-
-render() {
-    return (
-        <div id="book">
-            <div className="container-fluid ct-book">
-                <div className="row r-book">
-                    <div className="col-12 map" id="myMap">
-                        <div style={{ width: `100%`, height: `100%` }} >
-                        </div>
-                    </div>
-                    {/* map */}
-                </div>
-            </div>
-            <div className="bookCustomer" id="bookCustomer">
-                <form onSubmit={this.handleSubmit}>
-                <h4 className="titleBook">Thông tin khách hàng</h4>
-                <small style={{ color: "yellow" }}>
-                    <i>
-                        {this.state.requireInputDon !== ""
-                            ? this.state.requireInputDon
-                            : ""}
-                    </i>
-                </small>
-                <div className="form-group location-input">
-                    <input
-                        ref="inputDon"
-                        type="text"
-                        name="DiemDon"
-                        id="location-input-don"
-                        className="form-control"
-                        placeholder="Địa điểm đón"
-                        aria-describedby="helpId"
-                    />
-                </div>
-                <small style={{ color: "yellow" }}>
-                    <i>
-                        {this.state.requireInputDen !== ""
-                            ? this.state.requireInputDen
-                            : ""}
-                    </i>
-                </small>
-                <div className="form-group location-input">
-                    <input
-                        ref="inputDen"
-                        type="text"
-                        name="DiemDen"
-                        id="location-input-den"
-                        className="form-control"
-                        placeholder="Địa điểm đến"
-                        aria-describedby="helpId"
-                    />
-                </div>
-                <small style={{ color: "yellow" }}>
-                    <i>
-                        {this.state.requireInputSDT !== ""
-                            ? this.state.requireInputSDT
-                            : ""}
-                    </i>
-                </small>
-                <div className="form-group">
-                    <input
-                        onChange={this.handleInputChange}
-                        ref="inputSDT"
-                        type="number"
-                        name="SDT"
-                        id="input-sdt"
-                        className="form-control"
-                        placeholder="Số điện thoại"
-                        aria-describedby="helpId"
-                    />
-                </div>
-                <div className="form-group text-center">
-                    <p style={{ color: "yellow", fontWeight: "bold" }}>
-                        Số km dự tính :{" "}
-                        <span id="output-km" style={{ fontSize: "18px" }}>
-                            {this.state.soKM}0 km
-                        </span>
-                    </p>
-                </div>
-                <div className="form-group text-center">
-                    <p style={{ color: "yellow", fontWeight: "bold" }}>
-                        Số tiền dự tính :{" "}
-                        <span
-                            id="output-tien"
-                            style={{ fontSize: "18px" }}
-                        >
-                            0 đ
-                        </span>
-                    </p>
-                </div>
-
-                {this.state.existsRound === false ? (
-                    <div className="form-group text-center">
-                        <button
-                            name=""
-                            className="btn btn-success btnRegister btn-block"
-                            type="submit"
-                        >
-                            Xem Lộ Trình &nbsp;&nbsp;
-                            <i className="fas fa-motorcycle" />
-                        </button>{" "}
-                    </div>
-                ) : (
-                    <div className="form-group text-center">
-                        <button
-                            onClick={this.handleCancel}
-                            name=""
-                            className="btn btn-danger btnCancel"
-                        >
-                            Huỷ &nbsp;&nbsp;
-                            <i className="fas fa-motorcycle" />
-                        </button>{" "}
-                        &nbsp;{" "}
-                        {this.state.submitDriver === false? <button
-                            onClick={this.handleSubmitFindDriver}
-                            name=""
-                            className="btn btn-success btnFindDriver"
-                        >
-                            Đặt xe &nbsp;&nbsp;
-                            <i className="fas fa-motorcycle" />
-                        </button> : ""}
-                        
-                    </div>
-                )}
-                {/* bookCustomer */}
-                </form>
-            </div>
-
-            <div className="btnShowHideForm" id="btnShowHideForm" data-toggle="tooltip" title="Đặt xe!">
-                <i className="fas fa-eye"></i>
-            </div>
-        </div>
-    );
-}
 }
 
 export default withRouter(Blook)
