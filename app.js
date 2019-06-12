@@ -212,7 +212,8 @@ io.on("connection", socket => {
       const chuyendi = new ChuyenDi(ChuyenDiDB)
       chuyendi.save((error, result) => {
           if(error) {console.log("LuuFail",error)}
-          console.log("KET Qua Insert",{ChuyenDiDB: result})
+          //console.log("KET Qua Insert",{ChuyenDiDB: result._id})
+          io.sockets.emit("truyen-id-chuyen-di",result._id)
       })
 
       
@@ -226,6 +227,19 @@ io.on("connection", socket => {
      
   })
 
+  socket.on("truyen-update-chuyen-di",async data=>{
+    //console.log("NhanUpdate",data);//ObjectId
+    let id = data.id;
+    let TinhT ={
+       status : data.TinhTrang,
+       time : Date.now()
+    } 
+    //await ChuyenDi.update({_id:id}, {$set:{TinhTrang : TinhT}}, {upsert: true})
+    const chuyendi = await ChuyenDi.findOne({_id:id})
+    chuyendi.TinhTrang = TinhT;
+    await chuyendi.save();
+    //console.log("HoanThanh",uChuyenDi)
+  })
   //nhận từ hach hang to route
   socket.on("truyen-data-route", data=>{
     io.sockets.emit("route-nhan-data", data)

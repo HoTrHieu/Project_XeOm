@@ -31,6 +31,7 @@ constructor(props) {
         WayPointT: [],
         WayPointK: [],
         sdt: "",
+        id:'',
         clickReceive: false,
         btnHoanThanh:false
     };
@@ -43,9 +44,7 @@ getData = (data) => {
     let DA = data.ThongTinKhach.noidon;
     let DB = data.ThongTinKhach.noiden;
     let TX = data.TaiXe.ToaDo;
-    console.log("TenA", DA);
-    console.log("TenB", DB);
-    console.log("TaiXe", TX);
+    
     this.initMap(DA, DB, TX);
     this.setState({
         data: tem,
@@ -64,7 +63,13 @@ handleSubmitUnRecieve = () => {
     socket.emit("taixe-huy-chuyen", username);
 };
 handleComfirm=async()=>{
-    
+    let senData={
+        id:this.state.id,
+        TinhTrang: "HoanThanh"
+    }
+    console.log("ThongTinCDGui",senData)
+    socket.emit("truyen-update-chuyen-di", senData);
+
 }
 handleSubmitRecieve = async () => {
     let self=this;
@@ -90,7 +95,7 @@ handleSubmitRecieve = async () => {
     //chay den trang route
     //sau do gui thong tin tài xe qua khach hang bang trang find
     //gửi len server
-    socket.emit("chay-den-tai-xe-xac-nhan", chuyendi); //nguoi dung
+    await socket.emit("chay-den-tai-xe-xac-nhan", chuyendi); //nguoi dung
     //Load Chạy
     
     if (self.state.WayPointK.length !== 0) {
@@ -99,7 +104,13 @@ handleSubmitRecieve = async () => {
         self.handleMove(arrayTemp, a);
     }
 
-
+    
+    socket.on("truyen-id-chuyen-di",data=>{
+        console.log("NhanIDCD",data)
+        self.setState({
+            id:data
+        })
+    })
     //lưu DB
     // fetch("http://localhost:8080/chuyendi/add",{
     //     method:'post',
@@ -115,8 +126,10 @@ componentWillMount() {
             socket.on("thong-tin-dat", this.getData);
         }
     }
+
 }
 componentDidMount() {
+    //nhận id chuyen đi
     var btnShowHideForm = document.getElementById("btnShowHideForm");
     var bookCustomer = document.getElementById("bookCustomer");
     btnShowHideForm.addEventListener("click", () => {
@@ -271,6 +284,7 @@ render() {
                             <i className="far fa-check-circle" />
                         </button> :
                         <button 
+                        onClick={this.handleComfirm}
                         type="button"
                         className="btn btn-danger btn-block btnCancel btn-block"
                         name
