@@ -13,7 +13,7 @@
 ---
 #### Link Project: https://github.com/HoTrHieu/Project_XeOm 
 ---
-#### Link Demo Youtube:  https://www.youtube.com/watch?v=7UGUMBw0A8o&feature=youtu.be&fbclid=IwAR1a7qxrGgYI8JytrRfxo4SjhdSLD20BwoQkNXT88bFS212xBttyPoYAmzQ 
+#### Link Demo Youtube: https://www.youtube.com/watch?v=7UGUMBw0A8o&feature=youtu.be 
 ---
 ### Tài liệu tham khảo
 
