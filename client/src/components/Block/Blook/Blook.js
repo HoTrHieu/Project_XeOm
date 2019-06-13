@@ -7,7 +7,9 @@ import jwt_decode from "jwt-decode";
 
 
 let socket
- let arrayTemp=[]
+let arrayTemp=[]
+let directionsDisplay;
+let map;
 class Blook extends Component {
 constructor(props) {
     super(props);
@@ -34,24 +36,50 @@ constructor(props) {
      this.TinhKhoangCach=this.TinhKhoangCach.bind(this);
 }
 
-// componentWillMount() {
-//     this.GetAllDriver();
-// }\
-
 componentWillMount() {
-
     this.GetAllDriver();
-   
-   
 }
-
-
-getDataXacNhan = (data) =>{
+componentDidMount() {
+    socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
+        console.log("thong tin",data)
+        if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
+            console.log("SODienT..",data.sdtKhach);
+             this.props.history.push("/find")    
+            socket.emit("gui-thong-tin-tai-xe", data )
+        }
+      })
+        
     
+    this.initMap();
+
+    var options = {
+        types: [],
+        componentRestrictions: {country: 'VN'}
+    };
+    var input1 = document.getElementById("location-input-don");
+    var autocomplete1 = new window.google.maps.places.Autocomplete(
+        input1,
+        options
+    );
+
+    var input2 = document.getElementById("location-input-den");
+    var autocomplete2 = new window.google.maps.places.Autocomplete(
+        input2,
+        options
+    );
+
+    // show hide form book 
+    var btnShowHideForm = document.getElementById('btnShowHideForm');
+    var bookCustomer = document.getElementById('bookCustomer');
+    btnShowHideForm.addEventListener('click',()=>{
+        if(btnShowHideForm.innerHTML==='<i class="fas fa-eye"></i>'){
+            btnShowHideForm.innerHTML='<i class="fas fa-eye-slash"></i>'
+        }else {
+            btnShowHideForm.innerHTML = '<i class="fas fa-eye"></i>'
+        }
+        bookCustomer.classList.toggle('action_show_hide_form');
+    })
 }
-
-
-
 async handleSubmit(event) {
     event.preventDefault();
     var self = this;
@@ -101,6 +129,7 @@ async handleSubmit(event) {
     //console.log("seeKC:", self.state.ArrayKhoangCach); 
 
 }
+
 GetAllDriver=()=>{
     var self=this
     Axios.get('http://localhost:8080/taixe')
@@ -161,18 +190,6 @@ handleSubmitFindDriver = () => {
     
 }
 
-
-
-// socket_DatXe = (data) => {
-//     // gửi 2 lần do gửi chậm
-//     // socket.emit("nhan-thong-tin-dat-ve", data)
-//     // setTimeout(() => {
-//         socket.emit("nhan-thong-tin-dat-ve", data)
-//     // }, 500);
-    
-// }
-
-
 ValidateUSPhoneNumber(phoneNumber) {
     var regExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4,5})$/;
     var phone = phoneNumber.match(regExp);
@@ -189,82 +206,11 @@ handleCancel = (event) => {
     document.getElementById("location-input-den").value = "";
     document.getElementById("output-km").textContent = "0 km";
     document.getElementById("output-tien").textContent = "0 đ";
-};
-
-shouldComponentUpdate(nextProps, nextState) {
-    
-    //console.log("shouldComponentUpdate:", nextState.ArrayKhoangCach); 
-    
-    //console.log("mangPHu",arrayTemp)
-    //console.log("amngPhu",nextState.ArrayKhoangCach.length)
-    return true;
-}
-componentWillUpdate(nextProps, nextState) {
-    /* console.log("componentWillUpdate:", nextState); */
-    
-}
-componentDidUpdate(prevProps, prevState) {
-    /* console.log("componentDidUpdate:", this.state); */
-}
-handleInputChange = (event) => {
-    //event.preventDefault();
-    // var target= event.target;
-    // var name = target.name;
-    // var value =target.value;
-    //  this.setState({
-    //     [name]: value
-    // })
-    //  this.setState({
-    //     [event.target.name]: event.target.value
-    // })
-};
-
-
-componentDidMount() {
-    socket.on("truyen-den-trang-tai-xe-xac-nhan", data=>{
-        console.log("thong tin",data)
-        if(localStorage.getItem("sodienthoaiKH") === data.sdtKhach){
-            console.log("SODienT..",data.sdtKhach);
-             this.props.history.push("/find")    
-            socket.emit("gui-thong-tin-tai-xe", data )
-        }
-      })
-        //bắt socket on 
-        // this.GetAllDriver();
-    
-        // socket.on("truyen-den-trang-tai-xe-xac-nhan",this.getDataXacNhan)
-    
-    
+    //directionsDisplay.setDirections({ routes: [] });
     this.initMap();
+};
 
-    var options = {
-        types: [],
-        componentRestrictions: {country: 'VN'}
-    };
-    var input1 = document.getElementById("location-input-don");
-    var autocomplete1 = new window.google.maps.places.Autocomplete(
-        input1,
-        options
-    );
 
-    var input2 = document.getElementById("location-input-den");
-    var autocomplete2 = new window.google.maps.places.Autocomplete(
-        input2,
-        options
-    );
-
-    // show hide form book 
-    var btnShowHideForm = document.getElementById('btnShowHideForm');
-    var bookCustomer = document.getElementById('bookCustomer');
-    btnShowHideForm.addEventListener('click',()=>{
-        if(btnShowHideForm.innerHTML==='<i class="fas fa-eye"></i>'){
-            btnShowHideForm.innerHTML='<i class="fas fa-eye-slash"></i>'
-        }else {
-            btnShowHideForm.innerHTML = '<i class="fas fa-eye"></i>'
-        }
-        bookCustomer.classList.toggle('action_show_hide_form');
-    })
-}
 
 render() {
     return (
@@ -407,13 +353,13 @@ initMap = (nameDon = "", nameDen = "") => {
     var directionsService = new window.google.maps.DirectionsService();
 
     // Create a map and center it on Manhattan.
-    var map = new window.google.maps.Map(document.getElementById("myMap"), {
+    map = new window.google.maps.Map(document.getElementById("myMap"), {
         zoom: 13,
         center: { lat: 10.762622, lng: 106.660172 }
     });
 
     // Create a renderer for directions and bind it to the map.
-    var directionsDisplay = new window.google.maps.DirectionsRenderer({
+    directionsDisplay = new window.google.maps.DirectionsRenderer({
         map: map
     });
 
@@ -525,35 +471,7 @@ calculateAndDisplayRouteProps = async (
             
             self.state.ArrayDriver.map(async (item)=>{
                 await self.TinhKhoangCach(nameDon,item.ToaDoHienTai).value
-                //arrayTemp.push(xxx);
-                //console.log("item nha",xxx)
-                
              })
-
-            // let mangt=[];
-            // for(var x=0;x<self.state.ArrayDriver.length;x++){
-            //     var requestKC = {
-            //         origin: nameDon,
-            //         destination: new window.google.maps.LatLng(self.state.ArrayDriver[x].ToaDoHienTai.lat, self.state.ArrayDriver[x].ToaDoHienTai.lng),
-            //         travelMode: "DRIVING",
-            //         unitSystem: window.google.maps.UnitSystem.METRIC
-            //     };
-            //     var direction = new window.google.maps.DirectionsService();
-            //     direction.route(request, function(res, statu) {
-                    
-            //         if (statu === "OK") {
-            //             let sss = res.routes[0].legs[0].distance.value;
-            //             console.log("SSSS",sss)
-            //             mangt.push(sss);
-            //             console.log("myarray",mangt)
-            //         } 
-            //     })
-            // }
-            
-            ///
-        
-           
-            //console.log("amngPhu",arrayTemp)
             
         } else {
         /* document.getElementById("location-input-don").value = "";

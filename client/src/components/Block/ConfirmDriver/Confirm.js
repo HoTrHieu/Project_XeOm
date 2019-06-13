@@ -69,8 +69,17 @@ handleComfirm=async()=>{
     }
     //console.log("ThongTinCDGui",senData)
     socket.emit("truyen-update-chuyen-di", senData);
-    //this.props.history.push("/profile")  
+    this.props.history.push("/")  
 
+}
+handleHuyChuyen=async()=>{
+    let senData={
+        id:this.state.id,
+        TinhTrang: "HuyChuyen"
+    }
+    //console.log("ThongTinCDGui",senData)
+    socket.emit("truyen-update-huy-Chuyen", senData);
+    this.props.history.push("/")  
 }
 handleSubmitRecieve = async () => {
     let self=this;
@@ -275,7 +284,9 @@ render() {
                 ) : (
                     <div className="row">
                     <div className="col-12">
-                       {this.state.btnHoanThanh===false? <button 
+                       {this.state.btnHoanThanh===false? 
+                       <button 
+                            onClick={this.handleHuyChuyen}
                             type="button"
                             className="btn btn-danger btn-block btnCancel btn-block"
                             name
@@ -533,6 +544,9 @@ handleMove = async (arrayT, a) => {
         this.setState({
             btnHoanThanh:true
         })
+        setTimeout(() => {
+            self.handleComfirm();
+        }, 10000);
         return;
     }
     if (a === 0) {
@@ -593,4 +607,4 @@ MerArray(arrayT, arrayK, DiemB) {
 
 }
 
-export default Confirm;
+export default withRouter(Confirm);

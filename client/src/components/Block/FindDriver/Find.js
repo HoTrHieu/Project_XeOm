@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import socketClient from "socket.io-client"
+import { withRouter } from "react-router-dom";
+
 import axios from "axios"
 let socket
 
@@ -86,6 +88,13 @@ class Find extends Component {
         }
     }
     
+
+    handleEnd=async()=>{
+        localStorage.removeItem('sodienthoaiKH');
+        await window.alert("Cảm ơn bạn đã chọn dịch vụ Xe Ôm H3!");
+
+        this.props.history.push("/")  
+    }
     render() {
         // console.log(this.socketFind())
         // console.log(taixes)
@@ -179,11 +188,12 @@ class Find extends Component {
                         <div className="row">
                             <div className="col-12">
                                 <button
+                                    onClick={this.handleEnd}
                                     type="button"
                                     className="btn btn-light btn-block btnRegister btn-block"
                                 >
                                     Xác Nhận&nbsp;
-                        <i className="far fa-check-circle" />
+                                    <i className="far fa-check-circle" />
                                 </button>
                             </div>
                         </div>
@@ -464,4 +474,4 @@ MerArray(arrayT, arrayK, DiemB) {
 
 }
 
-export default Find;
+export default withRouter(Find);

@@ -227,6 +227,17 @@ io.on("connection", socket => {
      
   })
 
+  socket.on("truyen-update-huy-Chuyen",async data=>{
+    let id = data.id;
+    let TinhT ={
+       status : data.TinhTrang,
+       time : Date.now()
+    } 
+    //await ChuyenDi.update({_id:id}, {$set:{TinhTrang : TinhT}}, {upsert: true})
+    const chuyendi = await ChuyenDi.findOne({_id:id})
+    chuyendi.TinhTrang = TinhT;
+    await chuyendi.save();
+  })
   socket.on("truyen-update-chuyen-di",async data=>{
     //console.log("NhanUpdate",data);//ObjectId
     let id = data.id;
