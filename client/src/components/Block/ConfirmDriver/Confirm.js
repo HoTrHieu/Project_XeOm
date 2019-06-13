@@ -69,7 +69,9 @@ handleComfirm=async()=>{
     }
     //console.log("ThongTinCDGui",senData)
     socket.emit("truyen-update-chuyen-di", senData);
+    await window.alert("Chuyến Đi Thành Công H3er!");
     this.props.history.push("/")  
+
 
 }
 handleHuyChuyen=async()=>{
@@ -79,6 +81,7 @@ handleHuyChuyen=async()=>{
     }
     //console.log("ThongTinCDGui",senData)
     socket.emit("truyen-update-huy-Chuyen", senData);
+    await window.alert("Bác Tài Đã Hũy Chuyến H3er!");
     this.props.history.push("/")  
 }
 handleSubmitRecieve = async () => {
