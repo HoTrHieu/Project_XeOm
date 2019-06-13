@@ -59,7 +59,7 @@ render() {
                                 </div>
                             </div>
                         </div>
-                    <Content username={this.state.username}></Content>
+                    <Content show="false"></Content>
                 </div>
             </div>
         </div>

@@ -10,3 +10,7 @@ $(".close").click(function(){
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
   });
+
+  /* $(window).unload(function(){
+    localStorage.clear();
+  }); */
