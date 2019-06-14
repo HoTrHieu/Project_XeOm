@@ -79,6 +79,7 @@ componentDidMount() {
         }
         bookCustomer.classList.toggle('action_show_hide_form');
     })
+
 }
 async handleSubmit(event) {
     event.preventDefault();
@@ -128,6 +129,10 @@ async handleSubmit(event) {
 
     //console.log("seeKC:", self.state.ArrayKhoangCach); 
 
+}
+shouldComponentUpdate(nextProps, nextState) {
+    console.log("MangTaiXe",nextState.ArrayDriver)
+    return true;
 }
 
 GetAllDriver=()=>{
@@ -186,8 +191,11 @@ handleSubmitFindDriver = () => {
         //chuyen du lieu den app.js ->
         socket.emit("nhan-thong-tin-dat-ve", thongtinchuyendi)
     }
-    
-    
+    else{
+        window.alert("H3er Đang Bận. Vui lòng chờ vài phút sau rồi đặt lại!");
+        this.deleteAllCookies();
+        this.props.history.push("/")  
+    }
 }
 
 ValidateUSPhoneNumber(phoneNumber) {
@@ -209,6 +217,16 @@ handleCancel = (event) => {
     //directionsDisplay.setDirections({ routes: [] });
     this.initMap();
 };
+deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires="+Date.now().toString;
+    }
+}
 
 
 

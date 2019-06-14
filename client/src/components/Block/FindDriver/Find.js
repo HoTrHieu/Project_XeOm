@@ -34,6 +34,17 @@ class Find extends Component {
 
     }
 
+    deleteAllCookies() {
+        var cookies = document.cookie.split(";");
+    
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires="+Date.now().toString;
+        }
+    }
+
 
    shouldComponentUpdate(nextProps, nextState) {
        
@@ -89,7 +100,7 @@ class Find extends Component {
     handleEnd=async()=>{
         localStorage.removeItem('sodienthoaiKH');
         await window.alert("Cảm ơn bạn đã chọn dịch vụ Xe Ôm H3!");
-
+        this.deleteAllCookies();
         this.props.history.push("/")  
     }
     render() {
@@ -319,6 +330,7 @@ calculateAndDisplayRouteProps = async (
         await directionsDisplay.setDirections(response);
         if (icons !== null) {
             var leg = response.routes[0].legs[0];
+            console.log("kiemtraToaDo",leg.start_location)
             marker = self.makeMarker(leg.start_location, icons, "H1", map);
             
             //markerArray

@@ -19,9 +19,21 @@ class TopBar extends Component {
     logOut_socketIO = (username) =>{
         socket.emit("logout-tai-khoan", username)
     }
+
+    deleteAllCookies() {
+        var cookies = document.cookie.split(";");
+    
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires="+Date.now().toString;
+        }
+    }
     logOut(e){
        
         e.preventDefault();
+        this.deleteAllCookies();
         this.logOut_socketIO(jwt_decode(localStorage.getItem("taikhoan")).UserName)
         localStorage.removeItem('taikhoan');
         

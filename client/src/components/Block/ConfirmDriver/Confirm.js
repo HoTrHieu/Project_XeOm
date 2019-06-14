@@ -60,10 +60,14 @@ socket = () => {};
 onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
 };
-handleSubmitUnRecieve = () => {
+handleSubmitUnRecieve =async () => {
+
     let username = jwt(localStorage.getItem("taikhoan")).UserName;
-    socket.emit("taixe-huy-chuyen", username);
+    await socket.emit("taixe-huy-chuyen", username);
+    this.props.history.push("/") 
+    this.deleteAllCookies();
 };
+
 handleComfirm=async()=>{
     Clicked=1;
     let senData={
@@ -74,7 +78,7 @@ handleComfirm=async()=>{
     socket.emit("truyen-update-chuyen-di", senData);
     await window.alert("Chuyến Đi Thành Công H3er!");
     this.props.history.push("/")  
-
+    this.deleteAllCookies();
 
 }
 handleHuyChuyen=async()=>{
@@ -86,6 +90,7 @@ handleHuyChuyen=async()=>{
     socket.emit("truyen-update-huy-Chuyen", senData);
     await window.alert("Bác Tài Đã Hũy Chuyến H3er!");
     this.props.history.push("/")  
+    this.deleteAllCookies();
 }
 handleSubmitRecieve = async () => {
     let self=this;
@@ -168,6 +173,16 @@ componentWillUpdate(nextProps, nextState) {
 
 componentDidUpdate(prevProps, prevState) {
 
+}
+deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires="+Date.now().toString;
+    }
 }
 
 render() {
