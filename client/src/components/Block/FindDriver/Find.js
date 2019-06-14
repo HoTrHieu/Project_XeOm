@@ -330,8 +330,11 @@ calculateAndDisplayRouteProps = async (
         await directionsDisplay.setDirections(response);
         if (icons !== null) {
             var leg = response.routes[0].legs[0];
-            console.log("kiemtraToaDo",leg.start_location)
-            marker = self.makeMarker(leg.start_location, icons, "H1", map);
+
+            let mlat=leg.start_location.lat()
+            let mlng=leg.start_location.lng()
+            let pos = new window.google.maps.LatLng(mlat, mlng);
+            marker = self.makeMarker(pos, icons, "H1", map);
             
             //markerArray
             await self.GetWayPoint(response, markerArray);
