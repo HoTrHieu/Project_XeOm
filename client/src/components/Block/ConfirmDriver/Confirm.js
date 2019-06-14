@@ -13,6 +13,8 @@ var position = []; //set điểm bắt đầu
 var map;
 //var MymarkerArray = [];
 var marker;
+
+let Clicked=0;
 class Confirm extends Component {
 constructor(props) {
     super(props);
@@ -63,6 +65,7 @@ handleSubmitUnRecieve = () => {
     socket.emit("taixe-huy-chuyen", username);
 };
 handleComfirm=async()=>{
+    Clicked=1;
     let senData={
         id:this.state.id,
         TinhTrang: "HoanThanh"
@@ -153,6 +156,7 @@ componentDidMount() {
     }
         bookCustomer.classList.toggle("action_show_hide_form");
     });
+    Clicked=0;
 }
 shouldComponentUpdate(nextProps, nextState) {
 
@@ -548,8 +552,10 @@ handleMove = async (arrayT, a) => {
             btnHoanThanh:true
         })
         setTimeout(() => {
-            self.handleComfirm();
-        }, 10000);
+            if(Clicked===0){
+                self.handleComfirm();
+            }
+        }, 3000);
         return;
     }
     if (a === 0) {

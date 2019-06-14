@@ -15,6 +15,7 @@ let position = []; //set điểm bắt đầu
 let map;
 //var MymarkerArray = [];
 var marker;
+let Clicked=0;
 class Find extends Component {
     constructor(props) {
         super(props);
@@ -54,11 +55,6 @@ class Find extends Component {
     
     
     componentDidMount() {
-        
-        
-
-       
-
           // show hide form book 
         var btnShowHideForm = document.getElementById('btnShowHideForm');
         var bookCustomer = document.getElementById('bookCustomer');
@@ -70,6 +66,7 @@ class Find extends Component {
             }
             bookCustomer.classList.toggle('action_show_hide_form');
         })
+        Clicked=0;
     }
 
     componentWillUpdate() {
@@ -414,6 +411,12 @@ handleMove = async (arrayT, a) => {
     
 
     if (a === arrayT.length - 1) {
+        setTimeout(() => {
+            if(Clicked===0)
+            {
+                self.handleEnd();
+            }
+        }, 3000);
         return;
     }
     if (a === 0) {
