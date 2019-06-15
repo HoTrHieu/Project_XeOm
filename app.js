@@ -195,7 +195,9 @@ io.on("connection", socket => {
       console.log("dalen")
       io.sockets.emit("truyen-den-trang-tai-xe-xac-nhan", thongtin)
 
-      let currenttime = new Date().toJSON();
+      let time = new Date().toJSON();
+      console.log(time);
+
       const ChuyenDiDB = {
         SDTKhach: data.sodienthoai,
         SDTTaiXe: data.phonedriver,
@@ -205,7 +207,7 @@ io.on("connection", socket => {
         SoTien: data.giatien,
         TinhTrang: {
           status:data.tinhtrang,
-          time: currenttime
+          time: time
         }
         
       }

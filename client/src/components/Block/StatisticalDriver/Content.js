@@ -233,17 +233,20 @@ class Content extends Component {
 
     render() {
         const { similarPhone, rangeYear, rangeMonth, rangeWeek } = this.state;
-        let totalKmDay = 0;
+        let totalKmDay = 0.0;
         let totalComplete = 0;
         let totalCancel = 0;
         let totalMoneyDay = 0;
 
         similarPhone.map((item, key) => {
-            totalKmDay += item.SimilarPhone.chuyendi.TinhTrang['status'] !== 'Huy' ? item.SimilarPhone.chuyendi.SoKm : 0;
-            totalMoneyDay += item.SimilarPhone.chuyendi.TinhTrang['status'] !== 'Huy' ? item.SimilarPhone.chuyendi.SoTien : 0;
-            totalCancel += item.SimilarPhone.chuyendi.TinhTrang['status'] === 'Huy' ? 1 : 0;
+            totalKmDay += item.SimilarPhone.chuyendi.TinhTrang['status'] === 'HoanThanh' ? (item.SimilarPhone.chuyendi.SoKm) : 0;
+            
+            console.log('KieuDuLieu', typeof item.SimilarPhone.chuyendi.SoKm)
+            totalMoneyDay += item.SimilarPhone.chuyendi.TinhTrang['status'] !== 'HuyChuyen' ? item.SimilarPhone.chuyendi.SoTien : 0;
+            totalCancel += item.SimilarPhone.chuyendi.TinhTrang['status'] === 'HuyChuyen' ? 1 : 0;
             totalComplete += item.SimilarPhone.chuyendi.TinhTrang['status'] === 'HoanThanh' ? 1 : 0
         });
+        totalKmDay = parseFloat(totalKmDay).toFixed(1);
 
         const listTaiXe = this.state.taixes.map((taixe, key) => (
             <option value={taixe.HoTen} key={key}>
@@ -257,10 +260,10 @@ class Content extends Component {
                     <td>{key + 1}</td>
                     <td>{item.SimilarPhone.chuyendi.DiaDiemDon}</td>
                     <td>{item.SimilarPhone.chuyendi.DiaDiemDen}</td>
-                    <td>{item.SimilarPhone.chuyendi.TinhTrang.status === 'Huy' ? 'Huỷ' : 'Hoàn Thành'}</td>
+                    <td>{item.SimilarPhone.chuyendi.TinhTrang.status === 'HuyChuyen' ? 'Huỷ' : 'Hoàn Thành'}</td>
                     <td>{(item.SimilarPhone.chuyendi.TinhTrang.time + '').substr(0, 10)}</td>
-                    <td>{item.SimilarPhone.chuyendi.TinhTrang['status'] !== 'Huy' ? item.SimilarPhone.chuyendi.SoKm : 0}</td>
-                    <td>{this.formatMoney(item.SimilarPhone.chuyendi.TinhTrang['status'] !== 'Huy' ? item.SimilarPhone.chuyendi.SoTien : 0)}</td>
+                    <td>{item.SimilarPhone.chuyendi.TinhTrang['status'] !== 'HuyChuyen' ? item.SimilarPhone.chuyendi.SoKm : 0}</td>
+                    <td>{this.formatMoney(item.SimilarPhone.chuyendi.TinhTrang['status'] !== 'HuyChuyen' ? item.SimilarPhone.chuyendi.SoTien : 0)}</td>
                 </tr>
             ));
         } else {

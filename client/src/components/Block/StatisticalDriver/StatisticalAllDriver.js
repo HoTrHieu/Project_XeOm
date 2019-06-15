@@ -9,6 +9,7 @@ class StatisticalAllDriver extends Component {
             similarPhone: [],
             similarPhoneDriver: [],
             similarGroup: [],
+            similarPhoneData: [],
             filterBy: "date", // select filter change [date, month, week]
             dateYMD: this.getYMD(), // get current date format with "-"" character [2019-06-15]
             dateFilter: '', // get date from input date of filter by date
@@ -49,11 +50,19 @@ class StatisticalAllDriver extends Component {
 
     getYMDNotSpace() { /* 20190606 */
         var offset = +7;
-        var today = new Date(new Date().getTime() + offset * 3600 * 1000).toJSON()
-        var dd = today.substr(8, 2).length < 2 ? '0' + today.substr(8, 2) : today.substr(8, 2)
-        var mm = today.substr(5, 2).length < 2 ? '0' + today.substr(5, 2) : today.substr(5, 2)
+        var today = new Date(
+            new Date().getTime() + offset * 3600 * 1000
+        ).toJSON();
+        var dd =
+            today.substr(8, 2).length < 2
+                ? "0" + today.substr(8, 2)
+                : today.substr(8, 2);
+        var mm =
+            today.substr(5, 2).length < 2
+                ? "0" + today.substr(5, 2)
+                : today.substr(5, 2);
         var yyyy = today.substr(0, 4);
-        return yyyy + '' + mm + '' + dd;
+        return yyyy + "" + mm + "" + dd;
     }
 
     setRangeYear() { /* [2000,2001,2002,2003,...,current year] */
@@ -71,13 +80,6 @@ class StatisticalAllDriver extends Component {
         return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     }
 
-    componentDidMount() {
-        this.getDate();
-        this.setRangeYear();
-        console.log("dateRes : " +this.state.dateRes)
-        this.getDataGroup('D', this.state.dateRes)
-    }
-
     async onChange(e) {
         await this.setState({
             [e.target.name]: e.target.value, change: true
@@ -91,34 +93,49 @@ class StatisticalAllDriver extends Component {
                 d = d < 10 ? '0' + d : d
                 var date = y + m + d;
                 this.setState({ errGetData: '' });
-                this.getDataGroup('D', date);  // call function getDataGroup type D (day) and get by day/month/year
+                this.getData('D', date);  // call function getDataGroup type D (day) and get by day/month/year
             } else {
                 // if input datelFilter === null (eq: mm/dd/yyyy)
                 // display format error
                 this.setState({ errGetData: "Không đúng định dạng" });
+                this.getData('D', this.state.dateRes);
             }
         }
         else if (this.state.filterBy === 'month') { // check if view by month
             // this.state.monthFilter : if month < 10 then month = "0" + month
             // call function getDataGroup type M (month) and get by month/year
-            this.getDataGroup('M', this.state.yearFilter + ((this.state.monthFilter < 10) ? '0' + this.state.monthFilter : this.state.monthFilter));
+            this.getData('M', this.state.yearFilter + ((this.state.monthFilter < 10) ? '0' + this.state.monthFilter : this.state.monthFilter));
         } else if (this.state.filterBy === 'week') { // check if view by week
             // this.state.monthFilter : if month < 10 then month = "0" + month
             // call function getDataGroup type W (week) and get by week/month/year
-            this.getDataGroup('W', this.state.weekYear + '' + ((this.state.weekMonth < 10) ? ('0' + this.state.weekMonth) : (this.state.weekMonth)) + '' + this.state.week);
+            this.getData('W', this.state.weekYear + '' + ((this.state.weekMonth < 10) ? ('0' + this.state.weekMonth) : (this.state.weekMonth)) + '' + this.state.week);
         }
     }
 
-    getDate(times, type) { // get data chuyendi depend on type (D, M, W) and info time of type
-        let link = 'http://localhost:8080/taixe/getdata/' + type + '&' + times;
+    getData(type, time) { // get data chuyendi depend on type (D, M, W) and info time of type
+        const link = `http://localhost:8080/taixe/getdata/${type}/${time}`;
+        console.log(link)
         axios
             .get(link)
             .then((res) => {
                 const similarPhone = res.data.Similarphone;
                 if (similarPhone !== '') {
-                    this.setState({
-                        similarPhone: similarPhone
-                    });
+                    var listPhone = []
+                    var data = {}
+                    similarPhone.map((item, key) => {
+                        const {chuyendi, taixe} = item.SimilarPhone;
+                        data = {SDTTaiXe: chuyendi.SDTTaiXe, HoTen: taixe.HoTen, BienSoXe: taixe.BienSoXe, SoKm: chuyendi.SoKm, SoTien: chuyendi.SoTien}
+                        if(listPhone.findIndex(i => i.SDTTaiXe === chuyendi.SDTTaiXe)<0){
+                            listPhone.push(data)
+                        }else{
+                            const index = listPhone.findIndex(i => i.SDTTaiXe === chuyendi.SDTTaiXe)
+                            listPhone[index].SoKm = listPhone[index].SoKm + chuyendi.SoKm 
+                            listPhone[index].SoTien = listPhone[index].SoTien + chuyendi.SoTien 
+                            
+                        }
+                    })
+                    console.log(listPhone)
+                    this.setState({ similarPhoneData : listPhone })
                 }
             })
             .catch(function (error) {
@@ -169,18 +186,27 @@ class StatisticalAllDriver extends Component {
                 // always executed
             });
     };
+
+
+    componentDidMount() {
+        this.setRangeYear();
+        console.log("dateRes : " +this.state.dateRes)
+        this.getData('D', this.state.dateRes)
+    }
+
     render() {
-        const { rangeYear, rangeMonth, rangeWeek, similarGroup } = this.state;
+        console.log(this.state.similarPhoneData)
+        const { rangeYear, rangeMonth, rangeWeek, similarPhoneData } = this.state;
         let listDataStatiscal = "";
-        if (similarGroup !== "") {
-            listDataStatiscal = similarGroup.map((item, key) => (
+        if (similarPhoneData !== "") {
+            listDataStatiscal = similarPhoneData.map((item, key) => (
                 <tr key={key}>
                     <td>{key + 1}</td>
-                    <td>{item.SimilarPhone.taixe._id.HoTen}</td>
-                    <td>{item.SimilarPhone.taixe._id.SoDienThoai}</td>
-                    <td>{item.SimilarPhone.taixe._id.BienSoXe}</td>
-                    <td>{item.SimilarPhone.taixe.totalKmHoanThanh}</td>
-                    <td>{item.SimilarPhone.taixe.totalSoTien}đ</td>
+                    <td>{item.HoTen}</td>
+                    <td>{item.SDTTaiXe}</td>
+                    <td>{item.BienSoXe}</td>
+                    <td>{item.SoKm}</td>
+                    <td>{item.SoTien}đ</td>
                 </tr>
             ));
         } else {
@@ -333,7 +359,7 @@ class StatisticalAllDriver extends Component {
                     {/* filterStatistical */}
                     <div className="row listTable">
                         <div className="col-12">
-                            {similarGroup.length !== 0 ? <div className="table-responsive">
+                            {similarPhoneData.length !== 0 ? <div className="table-responsive">
                                 <table className="table">
                                     <thead className="thead-dark">
                                         <tr>

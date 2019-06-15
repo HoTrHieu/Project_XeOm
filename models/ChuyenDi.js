@@ -11,7 +11,7 @@ const ChuyenDi = new Schema({
     SoTien: Number,
     TinhTrang:{
         status: {type: String, required: true, trim: true },
-        time: {type: Date, default: Date.now}
+        time: {type: Date}
     }
 })
 

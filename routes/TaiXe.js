@@ -13,7 +13,7 @@ router.get('/delete/:id', controller.Delete)
 router.post('/update/:id',  controller.Update)
 
 
-router.get('/getdata/:time', controller.GetData)
+router.get('/getdata/:type/:time', controller.GetData)
 
 router.get('/getgroupbyphone/:type/:time', controller.GetGroupByPhone)
 
